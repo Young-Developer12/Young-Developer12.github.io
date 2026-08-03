@@ -1,0 +1,185 @@
+<head>
+    <meta charset="utf-8">
+    <title>MODERN HUD</title>
+    <meta http-equiv='X-UA=Compatible' content='ie=edge'>
+    <link rel="stylesheet" href="css/hud.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="modern-cefstudio-speed" id="modern-cefstudio-speed" style="visibility: hidden;">
+        <div class="speed-bg">
+            <svg class="speed" xmlns="http://www.w3.org/2000/svg" viewBox="12 0 200 167" stroke-linecap="round">
+                <path class="speed-meter-bg" d="M41 149.5a77 77 0 1 1 117.93 0" fill="none" stroke-dasharray="4" />
+                <path id="speed-meter" class="speed-meter" d="M41 149.5a77 77 0 1 1 117.93 0" fill="none" style="stroke-dasharray: 624.295, 504.295; stroke-dashoffset: 625;" />
+            </svg>
+            <div class="speed-content">
+                <div id="speed-count" class="speed-count">200</div>
+                <div class="speed-kmh">КМ/Ч</div>
+            </div>
+            <div class="arrow-icon">
+                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="17" height="10" viewBox="0 0 17 12" fill="none">
+                    <path id="left-arrow" class="left-arrow-anim" d="M6.09319 12V7.2H16.9634L17 4.788H6.09319V0L0 6L6.09319 12Z" fill="white" />
+                </svg>
+                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="17" height="10" viewBox="0 0 17 12" fill="none">
+                    <path id="right-arrow" class="right-arrow-anim" d="M10.9068 -5.32684e-07L10.9068 4.8L0.0365607 4.8L4.1858e-07 7.212L10.9068 7.212L10.9068 12L17 6L10.9068 -5.32684e-07Z" fill="white" />
+                </svg>
+            </div>
+            <div class="indicator-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="143" height="17" viewBox="0 0 143 24" fill="none">
+                    <path id="remen-icon" d="M9.4449 0C10.6682 0 11.6491 1.08 11.6491 2.4C11.6491 3.732 10.6682 4.8 9.4449 4.8C8.86031 4.8 8.29967 4.54714 7.88631 4.09706C7.47294 3.64697 7.24072 3.03652 7.24072 2.4C7.24072 1.76348 7.47294 1.15303 7.88631 0.702944C8.29967 0.252856 8.86031 0 9.4449 0ZM9.87471 15.348C11.6821 15.348 13.2581 15.468 14.5586 15.648C14.6247 12.384 14.3602 9.504 13.8532 8.4C13.71 8.076 13.5116 7.8 13.3022 7.56L4.40835 15.864C5.90719 15.6 7.79176 15.348 9.87471 15.348ZM4.44142 18C4.58469 20.088 4.87123 22.2 5.33411 24H7.61543C7.29582 22.944 7.06439 21.708 6.88805 20.4C6.88805 20.4 9.4449 19.872 12.0017 20.4C11.8254 21.708 11.594 22.944 11.2744 24H13.5557C14.0406 22.14 14.3271 19.932 14.4704 17.748C13.203 17.58 11.6491 17.448 9.87471 17.448C7.74768 17.448 5.89617 17.7 4.44142 18ZM9.4449 6C9.4449 6 6.13863 6 5.03654 8.4C4.66183 9.216 4.41937 10.98 4.34223 13.152L11.5609 6.408C10.4698 6 9.4449 6 9.4449 6ZM16.6856 4.404L15.4292 2.808L11.5609 6.42C12.1671 6.648 12.8063 7.008 13.3022 7.56L16.6856 4.404ZM19 16.596C18.9008 16.56 17.3138 15.996 14.5586 15.648C14.5476 16.332 14.5145 17.04 14.4704 17.748C16.9501 18.084 18.3718 18.6 18.3939 18.6L19 16.596ZM4.34223 13.152L0 17.208L0.980859 18.984C1.0029 18.972 2.28132 18.432 4.44142 18C4.32019 16.308 4.28712 14.64 4.34223 13.152Z" fill="white" fill-opacity="0.35" />
+                    <path id="door-icon" d="M55.1579 13.7778H52.3158V15.5556H55.1579V13.7778ZM58 20H40V11.1111L47.5789 4H57.0526C57.3039 4 57.5449 4.09365 57.7225 4.26035C57.9002 4.42705 58 4.65314 58 4.88889V20ZM48.3653 5.77778L42.6811 11.1111H56.1053V5.77778H48.3653Z" fill="white" fill-opacity="0.35" />
+                    <path id="lights-icon" d="M90.597 4C86.4179 4 86.4179 19 90.597 19C94.7761 19 100 16.1875 100 11.5C100 6.8125 94.7761 4 90.597 4ZM90.7015 16.9167C90.2836 16.5 89.5522 14.625 89.5522 11.5C89.5522 8.375 90.2836 6.5 90.7015 6.08333C93.7313 6.1875 97.9104 8.0625 97.9104 11.5C97.9104 14.9375 93.6269 16.8125 90.7015 16.9167ZM85.3731 9.9375C85.3731 10.4583 85.2687 10.9792 85.2687 11.5C85.2687 11.7083 85.2687 11.9167 85.2687 12.125L79.5224 13.5833L79 11.6042L85.3731 9.9375ZM79.1045 6.29167L86.8358 4.3125C86.6269 4.625 86.4179 5.04167 86.3134 5.5625C86.209 5.875 86.1045 6.29167 86 6.70833L79.6269 8.27083L79.1045 6.29167ZM85.5821 15.1458C85.6866 15.875 85.8955 16.6042 86.1045 17.125L79.5224 18.7917L79 16.8125L85.5821 15.1458Z" fill="white" fill-opacity="0.31" />
+                    <path id="engine-icon" d="M127 5V6.75H130V8.5H127L125 10.25V12.875H123V10.25H121V17.25H123V14.625H125V17.25H128L130 19H138V15.5H140V18.125H143V9.375H140V12H138V8.5H132V6.75H135V5H127Z" fill="white" fill-opacity="0.35" />
+                </svg>
+            </div>
+            <div class="odometr-block">
+                <div id="speed-odometer" class="speed-odometer">000001</div>
+                <svg class="odometr-icon" xmlns="http://www.w3.org/2000/svg" width="44" height="2" viewBox="0 0 44 2" fill="none">
+                    <path d="M1 1H43" stroke="white" stroke-opacity="0.26" stroke-width="2" stroke-linecap="round" />
+                </svg>
+            </div>
+            <div class="info-block">
+                <div id="speed-fuel" class="fuel-count">
+                    <svg class="fuel-icon" width="11" height="20" viewBox="0 0 17 20" fill="none">
+                        <path d="M0 0H3C3.28 0 3.53 0.115789 3.71 0.305263L5.79 2.50526L6.59 1.67368C7 1.26316 7.5 1.05263 8 1.05263H14C14.5 1.05263 15 1.26316 15.41 1.67368L16.41 2.72632C16.8 3.1579 17 3.68421 17 4.21053V17.8947C17 18.4531 16.7893 18.9886 16.4142 19.3834C16.0391 19.7782 15.5304 20 15 20H5C4.46957 20 3.96086 19.7782 3.58579 19.3834C3.21071 18.9886 3 18.4531 3 17.8947V11.5789V10.5263V6.31579C3 5.78947 3.2 5.26316 3.59 4.83158L4.38 3.98947L2.59 2.10526H0V0ZM8 3.15789V5.26316H14V3.15789H8ZM8.41 9.47368L6.41 7.36842H5V8.85263L7 10.9579V14.3053L5 16.4105V17.8947H6.41L8.41 15.7895H11.59L13.59 17.8947H15V16.4105L13 14.3053V10.9579L15 8.85263V7.36842H13.59L11.59 9.47368H8.41ZM9 11.5789H11V13.6842H9V11.5789Z" fill="#383838" />
+                    </svg>
+                    0л
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modern-cefstudio" class="modern-cefstudio" style="visibility: visible; ">
+        <div class="top-logo-block">
+            <img class="server-logo" src="icon/logotype.png">
+            <div class="time-block">
+                <div class="time">
+                    <svg class="time-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <circle cx="7" cy="7" r="6.5" stroke="white" />
+                        <path d="M9 9L7 7" stroke="white" stroke-linecap="round" />
+                        <path d="M7.5 4C7.5 3.72386 7.27614 3.5 7 3.5C6.72386 3.5 6.5 3.72386 6.5 4L7.5 4ZM6.5 4L6.5 7L7.5 7L7.5 4L6.5 4Z" fill="white" />
+                    </svg>
+                    <div id="time">23:00</div>
+                </div>
+                <div class="data">
+                    <div id="data">27.12.2023</div>
+                </div>
+            </div>
+            <div class="player-info-block">
+                <div id="s1" class="player-nick">-</div>
+                <div id="s2" class="player-id">-</div>
+            </div>
+        </div>
+        <div class="weapon-block">
+            <div id="weapon">
+                <svg class="weapon-png" style="top: -17px; right: -16px;" xmlns="http://www.w3.org/2000/svg" width="85" height="85" viewBox="0 0 97 97" fill="none">
+                    <circle cx="48.5" cy="48.5" r="48.25" fill="black" fill-opacity="0.23" stroke="url(#paint0_linear_43_39)" stroke-width="0.5" />
+                    <defs>
+                        <linearGradient id="paint0_linear_43_39" x1="48.5" y1="0" x2="48.5" y2="97" gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="white" />
+                            <stop offset="1" stop-color="white" stop-opacity="0" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <img id="weapon_id" class="weapon-png" src="icon/weapon/gun_0.png" width="55" alt="gun">
+                <div id="weapon_ammo" class="weapon-ammo"></div>
+            </div>
+        </div>
+        <div class="progress-bar-block">
+            <div id="health-bar">
+                <img class="bar-icon" src="icon/hp.svg">
+                <div id="b1" class="bar-indicator">0</div>
+            </div>
+            <div id="armour-bar">
+                <img class="bar-icon" src="icon/armour.svg">
+                <div id="b3" class="bar-indicator">0</div>
+            </div>
+        </div>
+        <div class="money-block">
+            <div id="s3" class="money"><img src="icon/cash.svg" style="width: 23px; margin-top: -5px; margin-right: 8px;">15 249 724</div>
+        </div>
+    </div>
+    <style>
+body { background: transparent; color: transparent; overflow: hidden; user-select: none; overflow-y: hidden; overflow-x: hidden; }
+</style>
+<script>
+document.ondragstart = test;
+document.onselectstart = test;
+document.oncontextmenu = test;
+document.oncontextmenu;
+function test() {
+    return false;
+}
+cef.emit("game:hud:setComponentVisible", "interface", false);
+cef.emit("game:data:pollPlayerStats", true, 50);
+cef.on("game:data:playerStats", (hp, max_hp, arm, breath, wanted, weapon, ammo, max_ammo, money, speed) => {
+    document.getElementById('b1').innerHTML = Math.round(hp);
+    document.getElementById('b3').innerHTML = Math.round(arm);
+    document.getElementById('s3').innerHTML = `<img src="icon/cash.svg" style="width: 23px; margin-top: -5px; margin-right: 8px;">${formatt(money)}`;
+
+    var weaponID = weapon;
+    var weaponAmmo = '';
+
+    if (weaponID !== '0') {
+        weaponAmmo = `${ammo}/${(max_ammo - ammo)}`;
+    }
+
+    speed_count = Math.round(speed * 1.4);
+   document.getElementById("speed-count").innerHTML = `${speed_count}`;
+
+    let meter_count = 838 + (speed * 3.77);
+    document.getElementById("speed-meter").style = `stroke-dasharray: 838; stroke-dashoffset: -${meter_count};`;
+
+    document.getElementById('weapon_id').src = `icon/weapon/gun_${weaponID}.png`;
+    document.getElementById('weapon_ammo').innerHTML = weaponAmmo;
+});
+
+function formatt(i) {
+    var text_fmt = `${i}`;
+    var text_tmp = text_fmt;
+    var text_len = text_fmt.length;
+
+    var dots_count = 0;
+
+    for (var idx = 0; idx < (text_len - 1); idx++) {
+        if (text_tmp[idx] == '.') {
+            continue;
+        }
+
+        if (((text_len - (idx + 1)) % 3) == 0) {
+            dots_count++;
+
+            text_tmp = text_tmp.slice(0, idx + dots_count) + '.' + text_tmp.slice(idx + dots_count);
+        }
+    }
+
+    return text_tmp;
+}
+cef.on("modern:hud:visible", (type) => {
+    if (type == 0) {
+        document.getElementById('modern-cefstudio').style.visibility = 'hidden';
+        is_open_hud = true;
+    }
+    if (type == 1) {
+        document.getElementById('modern-cefstudio').style.visibility = 'visible';
+        is_open_hud = false;
+    }
+});
+
+cef.on("modern:hud:update", (b1, s1, s2) => {
+    document.getElementById('b2').innerHTML = Math.round(b1);
+    document.getElementById('s1').innerHTML = `${s1}`;
+    document.getElementById('s2').innerHTML = `${s2}`;
+});
+
+cef.on("modern:speed:visible", () => {
+    document.getElementById('modern-cefstudio-speed').style.visibility = 'visible';
+});
+
+cef.on("modern:speed:hidden", () => {
+    document.getElementById('modern-cefstudio-speed').style.visibility = 'hidden';
+});
+
+</script>
+    <script src="js/time.js"></script>
+    <script src="js/script.js"></script>
+</body>

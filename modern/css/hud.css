@@ -1,0 +1,480 @@
+@font-face {
+    font-family: 'Outfit-Light';
+    src: local('Outfit-Light'), url('Outfit-Light.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'proximanova_bold';
+    src: local('proximanova_bold'), url('proximanova_bold.otf') format('truetype');
+}
+@font-face {
+    font-family: 'Montserrat-BoldItalic';
+    src: local('Montserrat-BoldItalic'), url('Montserrat-BoldItalic.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Montserrat-SemiBoldItalic';
+    src: local('Montserrat-SemiBoldItalic'), url('Montserrat-SemiBoldItalic.ttf') format('truetype');
+}
+
+.modern-cefstudio {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.modern-cefstudio .top-logo-block .server-logo {
+    position:absolute;
+    width: 260px;
+    flex-shrink: 0;
+    top: 0;
+    right: 0;
+}
+
+.modern-cefstudio .time-block .data {
+    position: absolute;
+    margin: 60px 120px;
+    top: 0;
+    right: 0;
+    width: 200px;
+    color: #FFF;
+    text-align: left;
+    font-family: Outfit-Light;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 107.5%;
+}
+.modern-cefstudio .time-block .time {
+    position: absolute;
+    margin: 21px 100px;
+    top: 0;
+    right: 0;
+    width: 200px;
+    color: #FFF;
+    text-align: left;
+    font-family: Outfit-Light;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 107.5%;
+}
+
+.modern-cefstudio .time-block .time .time-icon {
+    position: relative;
+    top: 18px;
+    right: 20px;
+    width: 14px;
+}
+
+.modern-cefstudio .player-info-block {
+    position: relative;
+    top: 0px;
+    right: 210px;
+}
+
+.modern-cefstudio .player-info-block .player-nick {
+    position: relative;
+    text-align: right;
+    margin: 15px 0;
+    width: 180px;
+    top: 35px;
+    right: 190px;
+    color: #FFF;
+    font-family: Outfit-Light;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 107.5%;
+}
+
+.modern-cefstudio .player-info-block .player-id {
+    position: relative;
+    top: 0;
+    right: 0;
+    width: 35px;
+    height: 22px;
+    border-radius: 5px;
+    background: #FFF;
+    box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.66);
+    font-size: 15px;
+    font-family: Outfit-Light;
+    text-align: center;
+    padding: 0.4px 4.8px;
+    color: #000;
+}
+
+.modern-cefstudio .progress-bar-block {
+    position: absolute;
+    margin: 25px -30px;
+    display: flex;
+}
+.modern-cefstudio .progress-bar-block .bar-icon {
+    display: inline-block;
+    position: relative;
+    width: 40px;
+    margin: 11px;
+}
+
+.modern-cefstudio .progress-bar-block .bar-indicator {
+    position: relative;
+    top: -5px;
+    right: 0;
+    color: #FFF;
+    text-align: center;
+    font-family: Outfit-Light;
+    font-size: 15px;
+    line-height: normal;
+}
+
+.modern-cefstudio .weapon-block {
+    position: absolute;
+    right: 5px;
+    margin: -80px 16px;
+}
+.modern-cefstudio .weapon-block .weapon-png {
+    position: absolute;
+    margin: 125px 240px;
+    top: 0;
+    right: 0;
+}
+.modern-cefstudio .weapon-block .weapon-ammo {
+    position: relative;
+    margin: 195px 217px;
+    top: 0;
+    right: 0;
+    width: 100px;
+    color: #fff;
+    font-family: Outfit-Light;
+    font-weight: 600;
+    text-align: center;
+    font-size: 14px;
+}
+.modern-cefstudio .weapon-block .weapon-ammo-icon {
+    position: fixed;
+    margin-top: 0px;
+    right: 269px;
+    width: 15px;
+}
+
+.modern-cefstudio .money {
+    position: absolute;
+    margin: 200px 35px;
+    width: 200px;
+    top: 0;
+    right: 0;
+    color: #64DF46;
+    text-align: right;
+    font-family: proximanova_bold;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+@media screen and (max-width: 2560px) {
+.modern-cefstudio-speed {
+    position: absolute;
+    bottom: 0.5vh;
+    right: 1vh;
+    width: 280px;
+}
+.modern-cefstudio-speed .speed-bg {
+    position: absolute;
+    bottom: 28px;
+    right: 28px;
+    width: 220px;
+    height: 220px;
+    border-radius: 270px;
+    border: 3px solid rgba(255, 255, 255, 0.60);
+    background: rgba(0, 0, 0, 0.46);
+    box-shadow: 0px 0px 121.6px 20px #000000c9;
+    -webkit-box-shadow: 0px 0px 121.6px 20px #000000c9;
+    -moz-box-shadow: 0px 0px 121.6px 20px #000000c9;
+}
+
+.modern-cefstudio-speed .speed-bg .speed {
+  position: absolute;
+  bottom: 5.1px;
+  right: -62.5px;
+  width: 320px;
+  height: unset;
+  transform: rotate(-0.05turn);
+}
+
+.modern-cefstudio-speed .speed-bg .speed path {
+  will-change: auto;
+  stroke-width: 0.2vh;
+  stroke-miterlimit: round;
+  -webkit-transition: stroke-dashoffset 450ms ease-in-out;
+  transition: stroke-dashoffset 450ms ease-in-out;
+}
+.modern-cefstudio-speed .speed-bg .speed path.speed-meter-bg {
+  stroke-width: 0.1vh;
+  stroke: #FFF;
+}
+.modern-cefstudio-speed .speed-bg .speed path.speed-meter {
+    stroke: #0085FF;
+}
+
+.modern-cefstudio-speed .speed-bg .speed-content {
+    display: inline-block;
+    position: relative;
+    margin-top: 20px;
+    bottom: 0;
+    right: -30px;
+    width: 150px;
+    text-align: center;
+    font-size: 4.5vh;
+    color: #ffffff;
+    font-family: Montserrat-BoldItalic;
+    font-weight: 800;
+}
+
+.modern-cefstudio-speed .speed-bg .speed-content .speed-count {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    text-shadow: 40px 18px 0px rgba(206,89,55,0), -7px 5px 1px rgba(0,0,0,0.11);
+
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.modern-cefstudio-speed .speed-bg .speed-content .speed-kmh {
+    font-size: 13px;
+    font-style: italic;
+    font-weight: 600;
+    line-height: normal;
+    text-align: center;
+    margin-top: -0.6vh;
+    letter-spacing: 1.6px;
+}
+
+.modern-cefstudio-speed .speed-bg .arrow-icon {
+    position: relative;
+    bottom: 38px;
+    right: -36px;
+    width: 150px;
+}
+
+.modern-cefstudio-speed .speed-bg .arrow-icon .arrow {
+   margin: 25px;
+   
+}
+
+@keyframes arrow {
+  100%,
+  0% {
+    fill: #00FF66;
+  }
+  50% {
+    fill: white;
+  }
+}
+
+.modern-cefstudio-speed .speed-bg .indicator-icon {
+    position: relative;
+    bottom: 50px;
+    right: -2.2vh;
+}
+
+.modern-cefstudio-speed .speed-bg .odometr-block .speed-odometer {
+    position: relative;
+    bottom: 41px;
+    right: -29px;
+    width: 150px;
+    color: #FFF;
+    text-align: center;
+    font-family: Montserrat-SemiBoldItalic;
+    font-size: 15px;
+    font-style: italic;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 1.28px;
+}
+
+.modern-cefstudio-speed .speed-bg .odometr-block .odometr-icon {
+    position: relative;
+    bottom: 37px;
+    right: -29px;
+    width: 150px;
+}
+
+.modern-cefstudio-speed .speed-bg .info-block {
+    position: absolute;
+    bottom: -10px;
+    right: 79px;
+    width: 60px;
+    height: 25px;
+    border-radius: 5px;
+    background: #FFF;
+}
+.modern-cefstudio-speed .speed-bg .info-block .fuel-icon {
+    margin: 2.5px 1.5px;
+}
+.modern-cefstudio-speed .speed-bg .info-block .fuel-count {
+    color: #383838;
+    width: 55px;
+    text-align: center;
+    font-family: Montserrat-SemiBoldItalic;
+    font-size: 11.5px;
+    font-style: italic;
+    font-weight: 600;
+    line-height: normal;
+}
+}
+
+@media screen and (max-width: 2000px) {
+.modern-cefstudio-speed {
+    position: absolute;
+    bottom: 0.5vh;
+    right: 1vh;
+    width: 280px;
+}
+
+
+.modern-cefstudio-speed .speed-bg {
+    position: absolute;
+    bottom: 28px;
+    right: 28px;
+    width: 190px;
+    height: 190px;
+    border-radius: 270px;
+    border: 3px solid rgba(255, 255, 255, 0.60);
+    background: rgba(0, 0, 0, 0.46);
+    box-shadow: 0px 0px 121.6px 20px #000000c9;
+    -webkit-box-shadow: 0px 0px 121.6px 20px #000000c9;
+    -moz-box-shadow: 0px 0px 121.6px 20px #000000c9;
+}
+
+.modern-cefstudio-speed .speed-bg .speed {
+  position: absolute;
+  bottom: 5.3px;
+  right: -51.7px;
+  width: 270px;
+  height: unset;
+  transform: rotate(-0.05turn);
+}
+
+.modern-cefstudio-speed .speed-bg .speed path {
+  will-change: auto;
+  stroke-width: 0.2vh;
+  stroke-miterlimit: round;
+  -webkit-transition: stroke-dashoffset 450ms ease-in-out;
+  transition: stroke-dashoffset 450ms ease-in-out;
+}
+.modern-cefstudio-speed .speed-bg .speed path.speed-meter-bg {
+  stroke-width: 0.1vh;
+  stroke: #FFF;
+}
+.modern-cefstudio-speed .speed-bg .speed path.speed-meter {
+    stroke: #0085FF;
+}
+
+.modern-cefstudio-speed .speed-bg .speed-content {
+    display: inline-block;
+    position: relative;
+    margin-top: 20px;
+    bottom: 0;
+    right: -16.5px;
+    width: 150px;
+    text-align: center;
+    font-size: 4.5vh;
+    color: #ffffff;
+    font-family: Montserrat-BoldItalic;
+    font-weight: 800;
+}
+
+.modern-cefstudio-speed .speed-bg .speed-content .speed-count {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    text-shadow: 40px 18px 0px rgba(206,89,55,0), -7px 5px 1px rgba(0,0,0,0.11);
+
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.modern-cefstudio-speed .speed-bg .speed-content .speed-kmh {
+    font-size: 12px;
+    font-style: italic;
+    font-weight: 600;
+    line-height: normal;
+    text-align: center;
+    margin-top: -0.6vh;
+    letter-spacing: 1.6px;
+}
+
+.modern-cefstudio-speed .speed-bg .arrow-icon {
+    position: relative;
+    bottom: 38px;
+    right: -22px;
+    width: 150px;
+}
+
+.modern-cefstudio-speed .speed-bg .arrow-icon .arrow {
+   margin: 25px;
+   
+}
+
+@keyframes arrow {
+  100%,
+  0% {
+    fill: #00FF66;
+  }
+  50% {
+    fill: white;
+  }
+}
+
+.modern-cefstudio-speed .speed-bg .indicator-icon {
+    position: relative;
+    bottom: 50px;
+    right: -2.2vh;
+}
+
+.modern-cefstudio-speed .speed-bg .odometr-block .speed-odometer {
+    position: relative;
+    bottom: 42px;
+    right: -17px;
+    width: 150px;
+    color: #FFF;
+    text-align: center;
+    font-family: Montserrat-SemiBoldItalic;
+    font-size: 15px;
+    font-style: italic;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 1.28px;
+}
+
+.modern-cefstudio-speed .speed-bg .odometr-block .odometr-icon {
+    position: relative;
+    bottom: 38px;
+    right: -16px;
+    width: 150px;
+}
+
+.modern-cefstudio-speed .speed-bg .info-block {
+    position: absolute;
+    bottom: -10px;
+    right: 62.5px;
+    width: 60px;
+    height: 25px;
+    border-radius: 5px;
+    background: #FFF;
+}
+.modern-cefstudio-speed .speed-bg .info-block .fuel-icon {
+    margin: 2.5px 1.5px;
+}
+.modern-cefstudio-speed .speed-bg .info-block .fuel-count {
+    color: #383838;
+    width: 55px;
+    text-align: center;
+    font-family: Montserrat-SemiBoldItalic;
+    font-size: 11.5px;
+    font-style: italic;
+    font-weight: 600;
+    line-height: normal;
+}
+}
