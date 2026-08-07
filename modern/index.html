@@ -16,7 +16,6 @@
             background: transparent !important;
             font-family: 'Montserrat', sans-serif;
         }
-        [v-cloak] { display: none !important; }
 
         /* ===== HUD CONTAINER ===== */
         .classic-hud {
@@ -24,6 +23,10 @@
             width: 100vw;
             height: 100vh;
             pointer-events: none;
+            display: none; /* Скрыт по умолчанию */
+        }
+        .classic-hud.active {
+            display: block;
         }
 
         /* ===== TOP RIGHT BLOCK ===== */
@@ -110,9 +113,10 @@
             width: 10vh;
             height: auto;
             filter: drop-shadow(0 0 6px rgba(0,0,0,0.6));
+            display: none;
         }
         .ammo-block {
-            display: flex;
+            display: none;
             align-items: baseline;
             gap: 0.2vh;
             background: rgba(0,0,0,0.35);
@@ -288,16 +292,16 @@
 </head>
 <body>
 
-<div class="classic-hud" v-if="active" v-cloak>
+<div id="hud" class="classic-hud">
     <!-- TOP RIGHT -->
     <div class="top-right-block">
 
         <!-- INFO -->
         <div class="info-container">
-            <div class="info-style"><span>{{ time }}</span></div>
-            <div class="info-style"><span>{{ date }}</span></div>
-            <div class="info-style"><span>{{ player }}</span></div>
-            <div class="info-style info-style-id"><span>{{ playerid }}</span></div>
+            <div class="info-style"><span id="time">00:00:00</span></div>
+            <div class="info-style"><span id="date">01.01.24</span></div>
+            <div class="info-style"><span id="player">Player</span></div>
+            <div class="info-style info-style-id"><span id="playerid">0</span></div>
         </div>
 
         <!-- LOGOTYPE -->
@@ -305,10 +309,10 @@
 
         <!-- WEAPON -->
         <div class="weapon-container">
-            <img v-if="weapon && !weapon.includes('gun_0.png')" class="weapon-icon" :src="weapon" alt="weapon">
-            <div class="ammo-block" v-if="weapon && !weapon.includes('gun_0.png') && !weapon.includes('gun_1.png') && !weapon.includes('gun_2.png') && !weapon.includes('gun_3.png') && !weapon.includes('gun_4.png') && !weapon.includes('gun_5.png') && !weapon.includes('gun_6.png') && !weapon.includes('gun_7.png') && !weapon.includes('gun_8.png') && !weapon.includes('gun_10.png') && !weapon.includes('gun_14.png') && !weapon.includes('gun_15.png') && !weapon.includes('gun_46.png')">
-                <span class="ammo">{{ ammo }}/</span>
-                <span class="max-ammo">{{ maxammo }}</span>
+            <img id="weapon-icon" class="weapon-icon" src="images/gun/gun_0.png" alt="weapon">
+            <div id="ammo-block" class="ammo-block">
+                <span id="ammo" class="ammo">0</span>
+                <span id="maxammo" class="max-ammo">0</span>
             </div>
         </div>
 
@@ -316,13 +320,13 @@
         <div class="right-indicator-container">
             <!-- Armour -->
             <div class="right-indicator-block">
-                <p v-if="armour !== 0" class="progress-indicator">{{ armour }}</p>
-                <img class="right-indicator-icon" :src="armour !== 0 ? 'images/arm_active.svg' : 'images/arm_noactive.svg'" alt="armour">
+                <p id="armour-text" class="progress-indicator"></p>
+                <img id="armour-icon" class="right-indicator-icon" src="images/arm_noactive.svg" alt="armour">
             </div>
 
             <!-- Health -->
             <div class="right-indicator-block">
-                <p class="circle-progress-indicator">{{ health }}</p>
+                <p id="health-text" class="circle-progress-indicator">100</p>
                 <svg viewBox="0 0 100 100" stroke-linecap="round" style="transform: rotate(-90deg);">
                     <circle class="circle-progress-bg" cx="50" cy="50" r="40" fill="rgba(0,0,0,0.4)" />
                     <circle id="circle-health" class="circle-progress" cx="50" cy="50" r="40" fill="none" />
@@ -332,19 +336,19 @@
 
             <!-- Handcuffs -->
             <div class="right-indicator-block">
-                <p v-if="handcuffs !== 0" class="progress-indicator">{{ handcuffs }}</p>
-                <img class="right-indicator-icon" :src="handcuffs !== 0 ? 'images/handcuffs_active.svg' : 'images/handcuffs_noactive.svg'" alt="handcuffs">
+                <p id="handcuffs-text" class="progress-indicator"></p>
+                <img id="handcuffs-icon" class="right-indicator-icon" src="images/handcuffs_noactive.svg" alt="handcuffs">
             </div>
         </div>
 
         <!-- CASH -->
         <div class="cash-container">
             <div class="cash-block">
-                <div class="cash">{{ format(money) }}</div>
+                <div id="money" class="cash">0</div>
                 <img src="images/wallet.svg" alt="wallet" style="bottom:0.3vh;">
             </div>
             <div class="cash-block">
-                <div class="cash">{{ format(card) }}</div>
+                <div id="card" class="cash">0</div>
                 <img src="images/card.svg" alt="card" style="bottom:0.1vh;">
             </div>
         </div>
@@ -354,172 +358,218 @@
     <div class="city-street-block">
         <img src="images/location.svg" alt="loc">
         <div class="city-street-name">
-            <div class="city-name">{{ city }}</div>
-            <div class="street-name">{{ street }}</div>
+            <div id="city" class="city-name">г.Арзамас</div>
+            <div id="street" class="street-name">ул.Пушкина 52</div>
         </div>
     </div>
 </div>
 
-<!-- ===== VUE ===== -->
-<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+<!-- ============================================================ -->
+<!-- СКРИПТ: ЧИСТЫЙ JS, БЕЗ VUE -->
+<!-- ============================================================ -->
 <script>
     // ============================================================
-    //  CRMP / SAMPA CEF Bridge
+    // 1. ПОВОРОТНИКИ (Q / E) — оставляем как в вашем примере
     // ============================================================
-    
-    // Заглушка для тестирования (если CEF нет)
-    if (typeof cef === 'undefined') {
-        window.cef = {
-            emit: function() { console.log('[CEF] emit', arguments); },
-            on: function(event, cb) {
-                console.log('[CEF] on', event);
-                if (event === 'classic:hud:active') {
-                    setTimeout(function() { cb(true); }, 300);
-                }
-                if (event === 'classic:hud:location') {
-                    setTimeout(function() { cb('г.Арзамас', 'ул.Пушкина 52'); }, 400);
-                }
-                if (event === 'classic:hud:update') {
-                    setTimeout(function() { cb(1500, 4200, 'Mironchik_Dev', 7); }, 500);
-                }
-                if (event === 'game:hud:update') {
-                    setTimeout(function() { cb(75, 42, 'images/gun/gun_23.png', 30, 12, 0, 1000, 0); }, 600);
-                }
-            }
-        };
-    }
+    var left_arrow = false;
+    var right_arrow = false;
 
-    // ============================================================
-    //  VUE APP
-    // ============================================================
-    var CEFSTUDIO = new Vue({
-        el: '.classic-hud',
-        data: {
-            active: false,
-            date: '05.05.24',
-            time: '20:33:43',
-            player: 'Mironchik_Dev',
-            playerid: 0,
-            weapon: 'images/gun/gun_0.png',
-            ammo: 0,
-            maxammo: 0,
-            armour: 0,
-            health: 0,
-            handcuffs: 0,
-            money: 0,
-            card: 0,
-            city: 'г.Арзамас',
-            street: 'ул.Пушкина 52'
-        },
-        mounted: function() {
-            var self = this;
-
-            // ===== F7 TOGGLE =====
-            window.addEventListener('keydown', function(event) {
-                if (event.key === 'F7') {
-                    self.active = !self.active;
-                    if (typeof cef !== 'undefined') {
-                        cef.emit('game:hud:setComponentVisible', 'radar', self.active);
-                    }
-                    console.log('[HUD] toggled:', self.active);
-                }
-            });
-
-            // ===== ПОДПИСКА НА CEF СОБЫТИЯ =====
-            if (typeof cef !== 'undefined') {
-                // Включение/выключение HUD
-                cef.on('classic:hud:active', function(t) {
-                    self.active = t;
-                    console.log('[CEF] classic:hud:active', t);
-                });
-
-                // Обновление локации
-                cef.on('classic:hud:location', function(city, street) {
-                    if (self.active) {
-                        self.city = city;
-                        self.street = street;
-                        console.log('[CEF] location updated:', city, street);
-                    }
-                });
-
-                // Обновление игрока и денег
-                cef.on('classic:hud:update', function(money, card, player, playerid) {
-                    if (self.active) {
-                        self.money = money;
-                        self.card = card;
-                        self.player = player;
-                        self.playerid = playerid;
-                        console.log('[CEF] update:', money, card, player, playerid);
-                    }
-                });
-
-                // Основное обновление
-                cef.on('game:hud:update', function(health, armour, weapon, ammo, maxammo, handcuffs, money, card) {
-                    if (self.active) {
-                        self.updateHealth(health);
-                        self.armour = armour;
-                        self.weapon = weapon;
-                        self.ammo = ammo;
-                        self.maxammo = maxammo;
-                        self.handcuffs = handcuffs;
-                        self.money = money;
-                        self.card = card;
-                        console.log('[CEF] game:hud:update');
-                    }
-                });
-            }
-
-            // ===== ТАЙМЕР ВРЕМЕНИ =====
-            setInterval(function() {
-                if (self.active) {
-                    var d = new Date();
-                    self.time = String(d.getHours()).padStart(2,'0') + ':' +
-                               String(d.getMinutes()).padStart(2,'0') + ':' +
-                               String(d.getSeconds()).padStart(2,'0');
-                    var day = String(d.getDate()).padStart(2,'0');
-                    var mon = String(d.getMonth()+1).padStart(2,'0');
-                    self.date = day + '.' + mon + '.' + String(d.getFullYear()).slice(2);
-                }
-            }, 1000);
-
-            console.log('[HUD] Ready, press F7 to toggle');
-        },
-        methods: {
-            visible: function(status) {
-                this.active = status;
-            },
-            format: function(val) {
-                if (val === undefined || val === null) return '0';
-                var s = String(val).replace(/,/g,'');
-                var len = s.length;
-                var dots = 0;
-                for (var i = 0; i < len; i++) {
-                    if ((len - i) % 3 === 0 && i > 0) {
-                        s = s.slice(0, i + dots) + ',' + s.slice(i + dots);
-                        dots++;
-                    }
-                }
-                return s;
-            },
-            updateHealth: function(val) {
-                this.health = Math.round(Math.max(0, Math.min(100, val)));
-                var circle = document.getElementById('circle-health');
-                if (circle) {
-                    var circumference = 251;
-                    var progress = this.health;
-                    var offset = circumference - (progress / 100) * circumference;
-                    circle.style.strokeDashoffset = offset;
-                }
+    document.addEventListener('keyup', function (event) {
+        if (event.keyCode === 81) { // Q
+            if (left_arrow == false) {
+                document.getElementById("left-arrow").style = "animation: arrow 0.6s infinite;";
+                document.getElementById("right-arrow").style = "animation: 0; animation-delay: 0;";
+                left_arrow = true;
+                right_arrow = false;
+            } else {
+                document.getElementById("left-arrow").style = "animation: 0; animation-delay: 0;";
+                document.getElementById("right-arrow").style = "animation: 0; animation-delay: 0;";
+                left_arrow = false;
+                right_arrow = false;
             }
         }
     });
 
-    window.CEFSTUDIO = CEFSTUDIO;
-    window.setHealth = function(val) {
-        if (CEFSTUDIO) CEFSTUDIO.updateHealth(val);
-    };
+    document.addEventListener('keyup', function (event) {
+        if (event.keyCode === 69) { // E
+            if (right_arrow == false) {
+                document.getElementById("right-arrow").style = "animation: arrow 0.6s infinite;";
+                document.getElementById("left-arrow").style = "animation: 0; animation-delay: 0;";
+                right_arrow = true;
+                left_arrow = false;
+            } else {
+                document.getElementById("right-arrow").style = "animation: 0; animation-delay: 0;";
+                document.getElementById("left-arrow").style = "animation: 0; animation-delay: 0;";
+                right_arrow = false;
+                left_arrow = false;
+            }
+        }
+    });
 
-    console.log('[HUD] Ready');
+    // ============================================================
+    // 2. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+    // ============================================================
+    function formatNumber(val) {
+        if (val === undefined || val === null) return '0';
+        var s = String(val).replace(/,/g,'');
+        var len = s.length;
+        var dots = 0;
+        for (var i = 0; i < len; i++) {
+            if ((len - i) % 3 === 0 && i > 0) {
+                s = s.slice(0, i + dots) + ',' + s.slice(i + dots);
+                dots++;
+            }
+        }
+        return s;
+    }
+
+    function updateHealthCircle(val) {
+        var circle = document.getElementById('circle-health');
+        if (circle) {
+            var circumference = 251;
+            var progress = Math.max(0, Math.min(100, val));
+            var offset = circumference - (progress / 100) * circumference;
+            circle.style.strokeDashoffset = offset;
+        }
+    }
+
+    // ============================================================
+    // 3. ТАЙМЕР ВРЕМЕНИ (реальное время)
+    // ============================================================
+    setInterval(function() {
+        var d = new Date();
+        document.getElementById('time').innerText = 
+            String(d.getHours()).padStart(2,'0') + ':' +
+            String(d.getMinutes()).padStart(2,'0') + ':' +
+            String(d.getSeconds()).padStart(2,'0');
+        document.getElementById('date').innerText = 
+            String(d.getDate()).padStart(2,'0') + '.' +
+            String(d.getMonth()+1).padStart(2,'0') + '.' +
+            String(d.getFullYear()).slice(2);
+    }, 1000);
+
+    // ============================================================
+    // 4. ПОДКЛЮЧЕНИЕ CEF СОБЫТИЙ (как в вашем примере)
+    // ============================================================
+    if (typeof cef !== 'undefined') {
+        // Показать/скрыть HUD
+        cef.on('classic:hud:active', function(active) {
+            document.getElementById('hud').className = active ? 'classic-hud active' : 'classic-hud';
+        });
+
+        // Локация
+        cef.on('classic:hud:location', function(city, street) {
+            document.getElementById('city').innerText = city || 'г.Арзамас';
+            document.getElementById('street').innerText = street || 'ул.Пушкина 52';
+        });
+
+        // Обновление денег и инфо
+        cef.on('classic:hud:update', function(money, card, player, playerid) {
+            document.getElementById('money').innerText = formatNumber(money);
+            document.getElementById('card').innerText = formatNumber(card);
+            document.getElementById('player').innerText = player || 'Player';
+            document.getElementById('playerid').innerText = playerid || 0;
+        });
+
+        // Основное обновление (здоровье, броня, оружие)
+        cef.on('game:hud:update', function(health, armour, weapon, ammo, maxammo, handcuffs, money, card) {
+            // Здоровье
+            document.getElementById('health-text').innerText = Math.round(health);
+            updateHealthCircle(health);
+
+            // Броня
+            if (armour > 0) {
+                document.getElementById('armour-text').innerText = Math.round(armour);
+                document.getElementById('armour-icon').src = 'images/arm_active.svg';
+            } else {
+                document.getElementById('armour-text').innerText = '';
+                document.getElementById('armour-icon').src = 'images/arm_noactive.svg';
+            }
+
+            // Оружие
+            var weaponIcon = document.getElementById('weapon-icon');
+            var ammoBlock = document.getElementById('ammo-block');
+            if (weapon && !weapon.includes('gun_0.png') && !weapon.includes('gun_1.png')) {
+                weaponIcon.src = weapon;
+                weaponIcon.style.display = 'block';
+                ammoBlock.style.display = 'flex';
+                document.getElementById('ammo').innerText = ammo || 0;
+                document.getElementById('maxammo').innerText = maxammo || 0;
+            } else {
+                weaponIcon.style.display = 'none';
+                ammoBlock.style.display = 'none';
+            }
+
+            // Наручники
+            if (handcuffs > 0) {
+                document.getElementById('handcuffs-text').innerText = handcuffs;
+                document.getElementById('handcuffs-icon').src = 'images/handcuffs_active.svg';
+            } else {
+                document.getElementById('handcuffs-text').innerText = '';
+                document.getElementById('handcuffs-icon').src = 'images/handcuffs_noactive.svg';
+            }
+
+            // Деньги (если не пришли отдельно)
+            if (money !== undefined) {
+                document.getElementById('money').innerText = formatNumber(money);
+            }
+            if (card !== undefined) {
+                document.getElementById('card').innerText = formatNumber(card);
+            }
+        });
+
+        // Отдельные обновления (если нужны)
+        cef.on('hud:update:money', function(money) {
+            document.getElementById('money').innerText = formatNumber(money);
+        });
+        cef.on('hud:update:bank', function(card) {
+            document.getElementById('card').innerText = formatNumber(card);
+        });
+        cef.on('hud:update:playerinfo', function(player, playerid) {
+            document.getElementById('player').innerText = player || 'Player';
+            document.getElementById('playerid').innerText = playerid || 0;
+        });
+        cef.on('hud:update:health', function(health) {
+            document.getElementById('health-text').innerText = Math.round(health);
+            updateHealthCircle(health);
+        });
+        cef.on('hud:update:armor', function(armor) {
+            if (armor > 0) {
+                document.getElementById('armour-text').innerText = Math.round(armor);
+                document.getElementById('armour-icon').src = 'images/arm_active.svg';
+            } else {
+                document.getElementById('armour-text').innerText = '';
+                document.getElementById('armour-icon').src = 'images/arm_noactive.svg';
+            }
+        });
+        cef.on('hud:update:weapon', function(weapon, ammo, maxammo) {
+            var weaponIcon = document.getElementById('weapon-icon');
+            var ammoBlock = document.getElementById('ammo-block');
+            if (weapon && !weapon.includes('gun_0.png') && !weapon.includes('gun_1.png')) {
+                weaponIcon.src = weapon;
+                weaponIcon.style.display = 'block';
+                ammoBlock.style.display = 'flex';
+                document.getElementById('ammo').innerText = ammo || 0;
+                document.getElementById('maxammo').innerText = maxammo || 0;
+            } else {
+                weaponIcon.style.display = 'none';
+                ammoBlock.style.display = 'none';
+            }
+        });
+    }
+
+    // F7 — переключение HUD
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'F7') {
+            var hud = document.getElementById('hud');
+            hud.className = hud.className.includes('active') ? 'classic-hud' : 'classic-hud active';
+            if (typeof cef !== 'undefined') {
+                cef.emit('game:hud:setComponentVisible', 'radar', hud.className.includes('active'));
+            }
+        }
+    });
+
+    console.log('[HUD] Ready, press F7 to toggle');
 </script>
 </body>
 </html>
