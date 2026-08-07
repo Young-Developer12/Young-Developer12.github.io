@@ -1,16 +1,24 @@
-// ====== ПОВОРОТНИКИ (клавиши Q и E) ======
+// ============================================================
+// interface.hud.js — Полный HUD (Машина + Персонаж)
+// ============================================================
+
+// ----- ПОВОРОТНИКИ (Q / E) -----
+var all_arrow = false;
 var left_arrow = false;
 var right_arrow = false;
 
 document.addEventListener('keyup', function (event) {
-    if (event.keyCode === 81) { // Q
-        if (!left_arrow) {
-            document.getElementById("left-arrow").style = "animation: arrow 0.6s infinite;";
+    if (event.keyCode === 81) { // Q — левый поворотник
+        if (left_arrow == false) {
+            var arrow = document.getElementById("left-arrow");
+            arrow.style = "animation: arrow 0.6s infinite;";
             document.getElementById("right-arrow").style = "animation: 0; animation-delay: 0;";
             left_arrow = true;
             right_arrow = false;
-        } else {
-            document.getElementById("left-arrow").style = "animation: 0; animation-delay: 0;";
+        }
+        else if (left_arrow == true) {
+            var arrow = document.getElementById("left-arrow");
+            arrow.style = "animation: 0; animation-delay: 0;";
             document.getElementById("right-arrow").style = "animation: 0; animation-delay: 0;";
             left_arrow = false;
             right_arrow = false;
@@ -19,14 +27,17 @@ document.addEventListener('keyup', function (event) {
 });
 
 document.addEventListener('keyup', function (event) {
-    if (event.keyCode === 69) { // E
-        if (!right_arrow) {
-            document.getElementById("right-arrow").style = "animation: arrow 0.6s infinite;";
+    if (event.keyCode === 69) { // E — правый поворотник
+        if (right_arrow == false) {
+            var arrow = document.getElementById("right-arrow");
+            arrow.style = "animation: arrow 0.6s infinite;";
             document.getElementById("left-arrow").style = "animation: 0; animation-delay: 0;";
             right_arrow = true;
             left_arrow = false;
-        } else {
-            document.getElementById("right-arrow").style = "animation: 0; animation-delay: 0;";
+        }
+        else if (right_arrow == true) {
+            var arrow = document.getElementById("right-arrow");
+            arrow.style = "animation: 0; animation-delay: 0;";
             document.getElementById("left-arrow").style = "animation: 0; animation-delay: 0;";
             right_arrow = false;
             left_arrow = false;
@@ -34,7 +45,7 @@ document.addEventListener('keyup', function (event) {
     }
 });
 
-// ====== ПРИЁМ ДАННЫХ ОТ ИГРЫ (CEF) ======
+// ----- МАШИННЫЕ ДАННЫЕ (CEF) -----
 cef.on("modern:speed:arrow", (type) => {
     if (type == 0) {
         document.getElementById("left-arrow").style = "animation: 0; animation-delay: 0;";
@@ -58,40 +69,90 @@ cef.on("modern:speed:update", (odometer_val, gas_val) => {
         ${Math.round(gas_val)} л.`;
 });
 
+// ----- ИНФОРМАЦИЯ ОБ ИГРОКЕ (CEF) -----
 cef.on('hud:update:playerinfo', (playername, playerid) => {
-    // Находим элемент ника и вставляем значение
-    if (document.getElementById('s1')) {
-        document.getElementById('s1').innerText = playername;
+    if(document.getElementById('s1')) {
+        document.getElementById('s1').innerText = `${playername}`;
     }
-    // Находим элемент ID и вставляем значение
-    if (document.getElementById('s2')) {
-        document.getElementById('s2').innerText = playerid;
+    if(document.getElementById('s2')) {
+        document.getElementById('s2').innerText = `${playerid}`;
     }
 });
 
-// ====== ЧАСЫ И ДАТА (реальное время) ======
-let data = document.getElementById('data');
-let time = document.getElementById('time');
+// Деньги (наличные)
+cef.on('hud:update:money', (cash) => {
+    if (document.getElementById('money')) {
+        document.getElementById('money').innerText = `${cash} $`;
+    }
+});
 
-function zero_first_format(value) {
+// Здоровье
+cef.on('hud:update:health', (health) => {
+    if (document.getElementById('health')) {
+        document.getElementById('health').innerText = `${Math.round(health)}%`;
+    }
+    if (document.getElementById('health-bar')) {
+        document.getElementById('health-bar').style.width = `${health}%`;
+    }
+});
+
+// Броня
+cef.on('hud:update:armor', (armor) => {
+    if (document.getElementById('armor')) {
+        document.getElementById('armor').innerText = `${Math.round(armor)}%`;
+    }
+    if (document.getElementById('armor-bar')) {
+        document.getElementById('armor-bar').style.width = `${armor}%`;
+    }
+});
+
+// Голод
+cef.on('hud:update:hunger', (hunger) => {
+    if (document.getElementById('hunger')) {
+        document.getElementById('hunger').innerText = `${Math.round(hunger)}%`;
+    }
+    if (document.getElementById('hunger-bar')) {
+        document.getElementById('hunger-bar').style.width = `${hunger}%`;
+    }
+});
+
+// Жажда
+cef.on('hud:update:thirst', (thirst) => {
+    if (document.getElementById('thirst')) {
+        document.getElementById('thirst').innerText = `${Math.round(thirst)}%`;
+    }
+    if (document.getElementById('thirst-bar')) {
+        document.getElementById('thirst-bar').style.width = `${thirst}%`;
+    }
+});
+
+// ----- ЧАСЫ И ДАТА (реальное время) -----
+let dataElement = document.getElementById('data');
+let timeElement = document.getElementById('time');
+
+function zeroFirstFormat(value) {
     return value < 10 ? '0' + value : value;
 }
 
-function dates() {
+function updateDate() {
     let now = new Date();
-    data.innerHTML = zero_first_format(now.getDate()) + "." +
-                     zero_first_format(now.getMonth() + 1) + "." +
-                     now.getFullYear();
+    dataElement.innerHTML = zeroFirstFormat(now.getDate()) + "." +
+                            zeroFirstFormat(now.getMonth() + 1) + "." +
+                            now.getFullYear();
 }
 
-function times() {
+function updateTime() {
     let now = new Date();
-    time.innerHTML = zero_first_format(now.getHours()) + ":" +
-                     zero_first_format(now.getMinutes());
+    timeElement.innerHTML = zeroFirstFormat(now.getHours()) + ":" +
+                            zeroFirstFormat(now.getMinutes());
 }
 
 // Обновляем каждую секунду
 setInterval(() => {
-    dates();
-    times();
+    updateDate();
+    updateTime();
 }, 1000);
+
+// Первоначальный запуск
+updateDate();
+updateTime();
