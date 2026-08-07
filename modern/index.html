@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8">
+	<title>classic interface</title>
+	<link rel="stylesheet" href="css/interface.hud.css">
+	<link rel="stylesheet" type="text/css" href="css/fonts/stylesheet.css">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700" rel="stylesheet">
+</head>
+<body>
+	<div class="classic-hud" v-if="active" v-cloak>
+		<div class="top-right-block">
+			<div class="info-container">
+				<div class="info-style">{{ time }}</div>
+				<div class="info-style">{{ date }}</div>
+				<div class="info-style">{{ player }}</div>
+				<div class="aga"></div>
+				<div class="info-style info-style-id" style=" padding: 0.3267961165048543vh 0.9067961165048543vh 0.2067961165048543vh 1.7067961165048543vh; ">{{ playerid }}</div>
+			</div>
+			<img class="logotype" src="css/fonts/fonts.png" />
+			<div class="weapon-container">
+				<img v-if="!weapon.includes('images/gun/gun_0.png')" class="weapon-icon" :src="weapon">
+				<div class="ammo-block" v-if="!weapon.includes('images/gun/gun_0.png') && !weapon.includes('images/gun/gun_1.png') && !weapon.includes('images/gun/gun_2.png') && !weapon.includes('images/gun/gun_3.png') && !weapon.includes('images/gun/gun_4.png') && !weapon.includes('images/gun/gun_5.png') && !weapon.includes('images/gun/gun_6.png') && !weapon.includes('images/gun/gun_7.png') && !weapon.includes('images/gun/gun_8.png') && !weapon.includes('images/gun/gun_10.png') && !weapon.includes('images/gun/gun_14.png') && !weapon.includes('images/gun/gun_3.png') && !weapon.includes('images/gun/gun_4.png') && !weapon.includes('images/gun/gun_5.png') && !weapon.includes('images/gun/gun_6.png') && !weapon.includes('images/gun/gun_7.png') && !weapon.includes('images/gun/gun_8.png') && !weapon.includes('images/gun/gun_10.png') && !weapon.includes('images/gun/gun_15.png') && !weapon.includes('images/gun/gun_46.png')">
+					<div class="ammo">{{ ammo }}/</div>
+					<div class="max-ammo">{{ maxammo }}</div>
+				</div>
+			</div>
+			<div class="right-indicator-container">
+				<div class="right-indicator-block" v-if="armour !== 0">
+					<p class="progress-indicator">{{ armour }}</p>
+					<img class="right-indicator-icon" src="images/arm_active.svg" />
+				</div>
+				<div class="right-indicator-block" v-else>
+					<img class="right-indicator-icon" src="images/arm_noactive.svg" />
+				</div>
+				<div class="right-indicator-block">
+					<p class="circle-progress-indicator">{{ health }}</p>
+					<svg viewBox="0 0 100 100" stroke-linecap="round" style="transform: rotate(-90deg);">
+						<circle class="circle-progress-bg" cx="50" cy="50" r="40" fill="rgba(0, 0, 0, 0.4000000059604645)" />
+						<circle id="circle-health" class="circle-progress" cx="50" cy="50" r="40" fill="none" />
+					</svg>
+					<img class="circle-progress-icon" src="images/hp.svg" />
+				</div>
+				<div class="right-indicator-block" v-if="handcuffs !== 0">
+					<p class="progress-indicator">{{ handcuffs }}</p>
+					<img class="right-indicator-icon" src="images/handcuffs_active.svg" />
+				</div>
+				<div class="right-indicator-block" v-else>
+					<img class="right-indicator-icon" src="images/handcuffs_noactive.svg" />
+				</div>
+			</div>
+			<div class="cash-container">
+				<div class="cash-block">
+					<div class="cash">{{ format(money) }}</div>
+					<img src="images/wallet.svg" style="bottom: 0.3vh;" />
+				</div>
+				<div class="cash-block">
+					<div class="cash">{{ format(card) }}</div>
+					<img src="images/card.svg" style="bottom: 0.1vh;" />
+				</div>
+			</div>
+		</div>
+		<div class="city-street-block">
+			<img src="images/location.svg" />
+			<div class="city-street-name">
+				<div class="city-name">{{ city }}</div>
+				<div class="street-name">{{ street }}</div>
+			</div>
+		</div>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+	<script src="script/interface.hud.js"></script>
+	<script language="JavaScript"></script>
+</body>
+</html>
