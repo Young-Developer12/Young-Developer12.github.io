@@ -24,10 +24,7 @@
             width: 100vw;
             height: 100vh;
             pointer-events: none;
-            visibility: hidden;
-        }
-        .modern-cefstudio.active {
-            visibility: visible;
+            visibility: visible !important; /* ВСЕГДА ВИДЕН */
         }
 
         /* ===== TOP LOGO BLOCK ===== */
@@ -151,7 +148,7 @@
             position: absolute;
             bottom: 4vh;
             left: 4vh;
-            visibility: hidden;
+            visibility: visible !important; /* ВСЕГДА ВИДЕН */
         }
         .speed-bg {
             position: relative;
@@ -325,6 +322,7 @@
 <script>
     // ===== 1. ФОРМАТИРОВАНИЕ ДЕНЕГ (как в примере) =====
     function formatMoney(val) {
+        if (val === undefined || val === null) return '0';
         var s = String(val).replace(/,/g,'');
         var len = s.length;
         var dots = 0;
@@ -389,15 +387,9 @@
     // ===== 4. ПРИЁМ ДАННЫХ ОТ СЕРВЕРА (CEF) =====
     if (typeof cef !== 'undefined') {
 
-        // Включение/выключение HUD
+        // Включение/выключение HUD (можно не использовать, он всегда виден)
         cef.on('modern:hud:visible', function(type) {
-            var hud = document.getElementById('modern-cefstudio');
-            if (type == 0) {
-                hud.className = 'modern-cefstudio';
-            }
-            if (type == 1) {
-                hud.className = 'modern-cefstudio active';
-            }
+            // Оставлено для совместимости, но не влияет
         });
 
         // Обновление ника и ID
@@ -440,12 +432,12 @@
                 `stroke-dasharray: 838; stroke-dashoffset: -${meterCount};`;
         });
 
-        // Спидометр видимость
+        // Спидометр видимость (всегда виден)
         cef.on('modern:speed:visible', function() {
-            document.getElementById('speed-container').style.visibility = 'visible';
+            // Уже виден
         });
         cef.on('modern:speed:hidden', function() {
-            document.getElementById('speed-container').style.visibility = 'hidden';
+            // Не скрываем
         });
 
         // Обновление пробега и бензина
@@ -471,13 +463,20 @@
         console.log('[HUD] Все CEF события подключены!');
     }
 
-    // ===== 5. F7 — ВКЛ/ВЫКЛ HUD =====
+    // ===== 5. F7 — ВКЛ/ВЫКЛ HUD (теперь просто скрывает) =====
     document.addEventListener('keydown', function(event) {
         if (event.key === 'F7') {
             var hud = document.getElementById('modern-cefstudio');
-            hud.className = hud.className.includes('active') ? 'modern-cefstudio' : 'modern-cefstudio active';
+            var speed = document.getElementById('speed-container');
+            if (hud.style.visibility === 'hidden') {
+                hud.style.visibility = 'visible';
+                speed.style.visibility = 'visible';
+            } else {
+                hud.style.visibility = 'hidden';
+                speed.style.visibility = 'hidden';
+            }
             if (typeof cef !== 'undefined') {
-                cef.emit('hud:toggle', hud.className.includes('active'));
+                cef.emit('hud:toggle', hud.style.visibility === 'visible');
             }
         }
     });
