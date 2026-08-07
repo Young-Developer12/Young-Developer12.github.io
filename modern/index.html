@@ -3,17 +3,18 @@
 <head>
     <meta charset="utf-8">
     <title>Classic Interface</title>
+    <link rel="stylesheet" href="css/fonts/stylesheet.css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700" rel="stylesheet">
     <style>
         /* ===== RESET & BASE ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
+        html, body {
+            width: 100%;
+            height: 100%;
             overflow: hidden;
             user-select: none;
-            background: transparent;
+            background: transparent !important;
             font-family: 'Montserrat', sans-serif;
-            height: 100vh;
-            width: 100vw;
         }
         [v-cloak] { display: none !important; }
 
@@ -366,34 +367,26 @@
     //  CRMP / SAMPA CEF Bridge
     // ============================================================
     
-    // Проверяем наличие CEF (для SAMPA / CRMP)
+    // Заглушка для тестирования (если CEF нет)
     if (typeof cef === 'undefined') {
-        // Если CEF нет — создаём заглушку для тестирования
         window.cef = {
             emit: function() { console.log('[CEF] emit', arguments); },
             on: function(event, cb) {
                 console.log('[CEF] on', event);
-                // Эмулируем события для тестирования
                 if (event === 'classic:hud:active') {
-                    setTimeout(() => cb(true), 300);
+                    setTimeout(function() { cb(true); }, 300);
                 }
                 if (event === 'classic:hud:location') {
-                    setTimeout(() => cb('г.Арзамас', 'ул.Пушкина 52'), 400);
+                    setTimeout(function() { cb('г.Арзамас', 'ул.Пушкина 52'); }, 400);
                 }
                 if (event === 'classic:hud:update') {
-                    setTimeout(() => cb(1500, 4200, 'Mironchik_Dev', 7), 500);
+                    setTimeout(function() { cb(1500, 4200, 'Mironchik_Dev', 7); }, 500);
                 }
                 if (event === 'game:hud:update') {
-                    setTimeout(() => cb(75, 42, 'images/gun/gun_23.png', 30, 12, 0, 1000, 0), 600);
-                }
-                if (event === 'game:hud:setComponentVisible') {
-                    // noop
+                    setTimeout(function() { cb(75, 42, 'images/gun/gun_23.png', 30, 12, 0, 1000, 0); }, 600);
                 }
             }
         };
-        // Эмулируем включение HUD
-        window.cef.emit('game:hud:setComponentVisible', 'interface', false);
-        window.cef.emit('game:hud:setComponentVisible', 'radar', true);
     }
 
     // ============================================================
@@ -418,7 +411,7 @@
             city: 'г.Арзамас',
             street: 'ул.Пушкина 52'
         },
-        mounted() {
+        mounted: function() {
             var self = this;
 
             // ===== F7 TOGGLE =====
@@ -432,23 +425,7 @@
                 }
             });
 
-            // ===== ИНИЦИАЛИЗАЦИЯ =====
-            setTimeout(function() {
-                self.active = true;
-                self.updateHealth(75);
-                self.armour = 42;
-                self.handcuffs = 0;
-                self.weapon = 'images/gun/gun_23.png';
-                self.ammo = 30;
-                self.maxammo = 100;
-                self.money = 1500;
-                self.card = 4200;
-                self.city = 'г.Арзамас';
-                self.street = 'ул.Пушкина 52';
-                console.log('[HUD] initialized with test data');
-            }, 200);
-
-            // ===== CEF СОБЫТИЯ (для CRMP / SAMPA) =====
+            // ===== ПОДПИСКА НА CEF СОБЫТИЯ =====
             if (typeof cef !== 'undefined') {
                 // Включение/выключение HUD
                 cef.on('classic:hud:active', function(t) {
@@ -476,7 +453,7 @@
                     }
                 });
 
-                // Основное обновление (здоровье, броня, оружие, патроны)
+                // Основное обновление
                 cef.on('game:hud:update', function(health, armour, weapon, ammo, maxammo, handcuffs, money, card) {
                     if (self.active) {
                         self.updateHealth(health);
@@ -487,16 +464,7 @@
                         self.handcuffs = handcuffs;
                         self.money = money;
                         self.card = card;
-                        console.log('[CEF] game:hud:update', {
-                            health: health,
-                            armour: armour,
-                            weapon: weapon,
-                            ammo: ammo,
-                            maxammo: maxammo,
-                            handcuffs: handcuffs,
-                            money: money,
-                            card: card
-                        });
+                        console.log('[CEF] game:hud:update');
                     }
                 });
             }
@@ -514,12 +482,11 @@
                 }
             }, 1000);
 
-            console.log('[HUD] mounted, active:', self.active);
+            console.log('[HUD] Ready, press F7 to toggle');
         },
         methods: {
             visible: function(status) {
                 this.active = status;
-                console.log('[HUD] visible:', status);
             },
             format: function(val) {
                 if (val === undefined || val === null) return '0';
@@ -547,18 +514,12 @@
         }
     });
 
-    // ===== ГЛОБАЛЬНЫЙ ДОСТУП =====
     window.CEFSTUDIO = CEFSTUDIO;
     window.setHealth = function(val) {
         if (CEFSTUDIO) CEFSTUDIO.updateHealth(val);
     };
 
-    console.log('[HUD] Ready, press F7 to toggle');
-    console.log('[HUD] Для CRMP / SAMPA используйте события:');
-    console.log('  - classic:hud:active (bool)');
-    console.log('  - classic:hud:location (city, street)');
-    console.log('  - classic:hud:update (money, card, player, playerid)');
-    console.log('  - game:hud:update (health, armour, weapon, ammo, maxammo, handcuffs, money, card)');
+    console.log('[HUD] Ready');
 </script>
 </body>
 </html>
