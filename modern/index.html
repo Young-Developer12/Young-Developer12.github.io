@@ -363,14 +363,17 @@
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
 <script>
     // ============================================================
-    //  CEF STUB (для тестирования вне игры)
+    //  CRMP / SAMPA CEF Bridge
     // ============================================================
+    
+    // Проверяем наличие CEF (для SAMPA / CRMP)
     if (typeof cef === 'undefined') {
+        // Если CEF нет — создаём заглушку для тестирования
         window.cef = {
             emit: function() { console.log('[CEF] emit', arguments); },
             on: function(event, cb) {
                 console.log('[CEF] on', event);
-                if (event === 'game:hud:setComponentVisible') { /* noop */ }
+                // Эмулируем события для тестирования
                 if (event === 'classic:hud:active') {
                     setTimeout(() => cb(true), 300);
                 }
@@ -383,8 +386,12 @@
                 if (event === 'game:hud:update') {
                     setTimeout(() => cb(75, 42, 'images/gun/gun_23.png', 30, 12, 0, 1000, 0), 600);
                 }
+                if (event === 'game:hud:setComponentVisible') {
+                    // noop
+                }
             }
         };
+        // Эмулируем включение HUD
         window.cef.emit('game:hud:setComponentVisible', 'interface', false);
         window.cef.emit('game:hud:setComponentVisible', 'radar', true);
     }
@@ -412,99 +419,114 @@
             street: 'ул.Пушкина 52'
         },
         mounted() {
-            // F7 toggle
-            window.addEventListener('keydown', (event) => {
+            var self = this;
+
+            // ===== F7 TOGGLE =====
+            window.addEventListener('keydown', function(event) {
                 if (event.key === 'F7') {
-                    this.active = !this.active;
+                    self.active = !self.active;
                     if (typeof cef !== 'undefined') {
-                        cef.emit('game:hud:setComponentVisible', 'radar', this.active);
+                        cef.emit('game:hud:setComponentVisible', 'radar', self.active);
                     }
-                    console.log('[HUD] toggled:', this.active);
+                    console.log('[HUD] toggled:', self.active);
                 }
             });
 
-            // Инициализация с тестовыми данными
-            setTimeout(() => {
-                this.active = true;
-                this.updateHealth(75);
-                this.armour = 42;
-                this.handcuffs = 0;
-                this.weapon = 'images/gun/gun_23.png';
-                this.ammo = 30;
-                this.maxammo = 100;
-                this.money = 1500;
-                this.card = 4200;
-                this.city = 'г.Арзамас';
-                this.street = 'ул.Пушкина 52';
+            // ===== ИНИЦИАЛИЗАЦИЯ =====
+            setTimeout(function() {
+                self.active = true;
+                self.updateHealth(75);
+                self.armour = 42;
+                self.handcuffs = 0;
+                self.weapon = 'images/gun/gun_23.png';
+                self.ammo = 30;
+                self.maxammo = 100;
+                self.money = 1500;
+                self.card = 4200;
+                self.city = 'г.Арзамас';
+                self.street = 'ул.Пушкина 52';
                 console.log('[HUD] initialized with test data');
             }, 200);
 
-            // CEF события
+            // ===== CEF СОБЫТИЯ (для CRMP / SAMPA) =====
             if (typeof cef !== 'undefined') {
-                cef.on('classic:hud:active', (t) => {
-                    this.active = t;
+                // Включение/выключение HUD
+                cef.on('classic:hud:active', function(t) {
+                    self.active = t;
                     console.log('[CEF] classic:hud:active', t);
                 });
 
-                cef.on('classic:hud:location', (city, street) => {
-                    if (this.active) {
-                        this.city = city;
-                        this.street = street;
+                // Обновление локации
+                cef.on('classic:hud:location', function(city, street) {
+                    if (self.active) {
+                        self.city = city;
+                        self.street = street;
                         console.log('[CEF] location updated:', city, street);
                     }
                 });
 
-                cef.on('classic:hud:update', (money, card, player, playerid) => {
-                    if (this.active) {
-                        this.money = money;
-                        this.card = card;
-                        this.player = player;
-                        this.playerid = playerid;
+                // Обновление игрока и денег
+                cef.on('classic:hud:update', function(money, card, player, playerid) {
+                    if (self.active) {
+                        self.money = money;
+                        self.card = card;
+                        self.player = player;
+                        self.playerid = playerid;
                         console.log('[CEF] update:', money, card, player, playerid);
                     }
                 });
 
-                cef.on('game:hud:update', (health, armour, weapon, ammo, maxammo, handcuffs, money, card) => {
-                    if (this.active) {
-                        this.updateHealth(health);
-                        this.armour = armour;
-                        this.weapon = weapon;
-                        this.ammo = ammo;
-                        this.maxammo = maxammo;
-                        this.handcuffs = handcuffs;
-                        this.money = money;
-                        this.card = card;
-                        console.log('[CEF] game:hud:update', {health, armour, weapon, ammo, maxammo, handcuffs, money, card});
+                // Основное обновление (здоровье, броня, оружие, патроны)
+                cef.on('game:hud:update', function(health, armour, weapon, ammo, maxammo, handcuffs, money, card) {
+                    if (self.active) {
+                        self.updateHealth(health);
+                        self.armour = armour;
+                        self.weapon = weapon;
+                        self.ammo = ammo;
+                        self.maxammo = maxammo;
+                        self.handcuffs = handcuffs;
+                        self.money = money;
+                        self.card = card;
+                        console.log('[CEF] game:hud:update', {
+                            health: health,
+                            armour: armour,
+                            weapon: weapon,
+                            ammo: ammo,
+                            maxammo: maxammo,
+                            handcuffs: handcuffs,
+                            money: money,
+                            card: card
+                        });
                     }
                 });
             }
 
-            // Таймер времени
-            setInterval(() => {
-                if (this.active) {
-                    const d = new Date();
-                    this.time = String(d.getHours()).padStart(2,'0') + ':' +
+            // ===== ТАЙМЕР ВРЕМЕНИ =====
+            setInterval(function() {
+                if (self.active) {
+                    var d = new Date();
+                    self.time = String(d.getHours()).padStart(2,'0') + ':' +
                                String(d.getMinutes()).padStart(2,'0') + ':' +
                                String(d.getSeconds()).padStart(2,'0');
-                    const day = String(d.getDate()).padStart(2,'0');
-                    const mon = String(d.getMonth()+1).padStart(2,'0');
-                    this.date = day + '.' + mon + '.' + String(d.getFullYear()).slice(2);
+                    var day = String(d.getDate()).padStart(2,'0');
+                    var mon = String(d.getMonth()+1).padStart(2,'0');
+                    self.date = day + '.' + mon + '.' + String(d.getFullYear()).slice(2);
                 }
             }, 1000);
 
-            console.log('[HUD] mounted, active:', this.active);
+            console.log('[HUD] mounted, active:', self.active);
         },
         methods: {
-            visible(status) {
+            visible: function(status) {
                 this.active = status;
                 console.log('[HUD] visible:', status);
             },
-            format(val) {
+            format: function(val) {
                 if (val === undefined || val === null) return '0';
-                let s = String(val).replace(/,/g,'');
-                let len = s.length;
-                let dots = 0;
-                for (let i = 0; i < len; i++) {
+                var s = String(val).replace(/,/g,'');
+                var len = s.length;
+                var dots = 0;
+                for (var i = 0; i < len; i++) {
                     if ((len - i) % 3 === 0 && i > 0) {
                         s = s.slice(0, i + dots) + ',' + s.slice(i + dots);
                         dots++;
@@ -512,25 +534,31 @@
                 }
                 return s;
             },
-            updateHealth(val) {
+            updateHealth: function(val) {
                 this.health = Math.round(Math.max(0, Math.min(100, val)));
-                const circle = document.getElementById('circle-health');
+                var circle = document.getElementById('circle-health');
                 if (circle) {
-                    const circumference = 251;
-                    const progress = this.health;
-                    const offset = circumference - (progress / 100) * circumference;
+                    var circumference = 251;
+                    var progress = this.health;
+                    var offset = circumference - (progress / 100) * circumference;
                     circle.style.strokeDashoffset = offset;
                 }
             }
         }
     });
 
+    // ===== ГЛОБАЛЬНЫЙ ДОСТУП =====
     window.CEFSTUDIO = CEFSTUDIO;
     window.setHealth = function(val) {
         if (CEFSTUDIO) CEFSTUDIO.updateHealth(val);
     };
 
     console.log('[HUD] Ready, press F7 to toggle');
+    console.log('[HUD] Для CRMP / SAMPA используйте события:');
+    console.log('  - classic:hud:active (bool)');
+    console.log('  - classic:hud:location (city, street)');
+    console.log('  - classic:hud:update (money, card, player, playerid)');
+    console.log('  - game:hud:update (health, armour, weapon, ammo, maxammo, handcuffs, money, card)');
 </script>
 </body>
 </html>
