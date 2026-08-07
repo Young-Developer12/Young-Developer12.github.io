@@ -1,8 +1,8 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="utf-8">
-    <title>classic interface</title>
+    <title>Classic Interface</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700" rel="stylesheet">
     <style>
         /* ===== RESET & BASE ===== */
@@ -10,10 +10,10 @@
         body {
             overflow: hidden;
             user-select: none;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200"><circle cx="100" cy="100" r="90" fill="%23222" opacity="0.2"/><circle cx="100" cy="100" r="60" fill="%23333" opacity="0.3"/></svg>') no-repeat center/cover;
-            background-size: 200vh;
-            background-position: right 0 top 0;
+            background: transparent;
             font-family: 'Montserrat', sans-serif;
+            height: 100vh;
+            width: 100vw;
         }
         [v-cloak] { display: none !important; }
 
@@ -34,7 +34,7 @@
             height: auto;
         }
 
-        /* ===== INFO CONTAINER (time/date/player/id) ===== */
+        /* ===== INFO CONTAINER ===== */
         .info-container {
             position: absolute;
             right: 0;
@@ -44,6 +44,7 @@
             justify-content: flex-end;
             gap: 0.1vh;
             width: max-content;
+            z-index: 10;
         }
         .info-style {
             display: inline-block;
@@ -91,9 +92,10 @@
             right: 8vh;
             opacity: 0.9;
             pointer-events: none;
+            z-index: 10;
         }
 
-        /* ===== WEAPON CONTAINER ===== */
+        /* ===== WEAPON ===== */
         .weapon-container {
             position: absolute;
             top: 15vh;
@@ -101,6 +103,7 @@
             display: flex;
             align-items: center;
             gap: 0.5vh;
+            z-index: 10;
         }
         .weapon-icon {
             width: 10vh;
@@ -130,7 +133,7 @@
             font-style: italic;
         }
 
-        /* ===== RIGHT INDICATORS (armour/health/handcuffs) ===== */
+        /* ===== INDICATORS ===== */
         .right-indicator-container {
             position: absolute;
             top: 9vh;
@@ -140,6 +143,7 @@
             align-items: flex-end;
             gap: 1.2vh;
             width: 11vh;
+            z-index: 10;
         }
         .right-indicator-block {
             position: relative;
@@ -165,11 +169,8 @@
             margin-right: 1.8vh;
             filter: drop-shadow(0 0 4px rgba(0,0,0,0.5));
         }
-
-        /* health circle */
         .circle-progress-bg {
             stroke: none;
-            stroke-width: 6.592px;
         }
         .circle-progress {
             stroke: #EE2746;
@@ -202,7 +203,7 @@
             flex-shrink: 0;
         }
 
-        /* ===== CASH CONTAINER ===== */
+        /* ===== CASH ===== */
         .cash-container {
             position: absolute;
             right: 3.9vh;
@@ -211,6 +212,7 @@
             flex-direction: column;
             gap: 0.5vh;
             align-items: flex-end;
+            z-index: 10;
         }
         .cash-block {
             display: flex;
@@ -248,6 +250,7 @@
             padding: 0.5vh 2vh 0.5vh 1.2vh;
             border-radius: 0.8vh;
             backdrop-filter: blur(3px);
+            z-index: 10;
         }
         .city-street-block img {
             width: 3vh;
@@ -272,7 +275,6 @@
             text-shadow: 0 0 6px rgba(0,0,0,0.5);
         }
 
-        /* ===== RESPONSIVE TWEAKS ===== */
         @media (max-width: 768px) {
             .cash { min-width: 20vw; font-size: 1.6vh; }
             .weapon-container { right: 10vh; top: 12vh; }
@@ -289,7 +291,7 @@
     <!-- TOP RIGHT -->
     <div class="top-right-block">
 
-        <!-- INFO (time/date/player/id) -->
+        <!-- INFO -->
         <div class="info-container">
             <div class="info-style"><span>{{ time }}</span></div>
             <div class="info-style"><span>{{ date }}</span></div>
@@ -298,12 +300,12 @@
         </div>
 
         <!-- LOGOTYPE -->
-        <img class="logotype" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'><text x='0' y='40' font-family='Montserrat' font-size='32' font-weight='700' fill='%23fff' opacity='0.9'>CLASSIC</text><text x='0' y='58' font-family='Montserrat' font-size='14' font-weight='300' fill='%23ddd' opacity='0.7'>INTERFACE</text></svg>" alt="logo" />
+        <img class="logotype" src="css/fonts/fonts.png" alt="logo" />
 
         <!-- WEAPON -->
         <div class="weapon-container">
-            <img v-if="!weapon.includes('gun_0.png')" class="weapon-icon" :src="weapon" alt="weapon">
-            <div class="ammo-block" v-if="!weapon.includes('gun_0.png') && !weapon.includes('gun_1.png') && !weapon.includes('gun_2.png') && !weapon.includes('gun_3.png') && !weapon.includes('gun_4.png') && !weapon.includes('gun_5.png') && !weapon.includes('gun_6.png') && !weapon.includes('gun_7.png') && !weapon.includes('gun_8.png') && !weapon.includes('gun_10.png') && !weapon.includes('gun_14.png') && !weapon.includes('gun_15.png') && !weapon.includes('gun_46.png')">
+            <img v-if="weapon && !weapon.includes('gun_0.png')" class="weapon-icon" :src="weapon" alt="weapon">
+            <div class="ammo-block" v-if="weapon && !weapon.includes('gun_0.png') && !weapon.includes('gun_1.png') && !weapon.includes('gun_2.png') && !weapon.includes('gun_3.png') && !weapon.includes('gun_4.png') && !weapon.includes('gun_5.png') && !weapon.includes('gun_6.png') && !weapon.includes('gun_7.png') && !weapon.includes('gun_8.png') && !weapon.includes('gun_10.png') && !weapon.includes('gun_14.png') && !weapon.includes('gun_15.png') && !weapon.includes('gun_46.png')">
                 <span class="ammo">{{ ammo }}/</span>
                 <span class="max-ammo">{{ maxammo }}</span>
             </div>
@@ -314,7 +316,7 @@
             <!-- Armour -->
             <div class="right-indicator-block">
                 <p v-if="armour !== 0" class="progress-indicator">{{ armour }}</p>
-                <img class="right-indicator-icon" :src="armour !== 0 ? 'data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2235%22 fill=%22%23333%22 opacity=%220.5%22/><path d=%22M50 15 L70 25 L70 45 Q70 65 50 80 Q30 65 30 45 L30 25 Z%22 fill=%22%23ffcc3f%22 stroke=%22%23fff%22 stroke-width=%222%22/></svg>' : 'data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2235%22 fill=%22%23333%22 opacity=%220.4%22/><path d=%22M50 15 L70 25 L70 45 Q70 65 50 80 Q30 65 30 45 L30 25 Z%22 fill=%22%23666%22 stroke=%22%23999%22 stroke-width=%222%22/></svg>'" alt="armour">
+                <img class="right-indicator-icon" :src="armour !== 0 ? 'images/arm_active.svg' : 'images/arm_noactive.svg'" alt="armour">
             </div>
 
             <!-- Health -->
@@ -324,13 +326,13 @@
                     <circle class="circle-progress-bg" cx="50" cy="50" r="40" fill="rgba(0,0,0,0.4)" />
                     <circle id="circle-health" class="circle-progress" cx="50" cy="50" r="40" fill="none" />
                 </svg>
-                <img class="circle-progress-icon" src="data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><path d=%22M50 20 Q30 30 25 50 Q30 70 50 80 Q70 70 75 50 Q70 30 50 20 Z%22 fill=%22%23ee2746%22 stroke=%22%23fff%22 stroke-width=%223%22/></svg>" alt="hp">
+                <img class="circle-progress-icon" src="images/hp.svg" alt="hp">
             </div>
 
             <!-- Handcuffs -->
             <div class="right-indicator-block">
                 <p v-if="handcuffs !== 0" class="progress-indicator">{{ handcuffs }}</p>
-                <img class="right-indicator-icon" :src="handcuffs !== 0 ? 'data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2235%22 fill=%22%23333%22 opacity=%220.5%22/><circle cx=%2235%22 cy=%2240%22 r=%2212%22 fill=%22none%22 stroke=%22%23ffcc3f%22 stroke-width=%224%22/><circle cx=%2265%22 cy=%2240%22 r=%2212%22 fill=%22none%22 stroke=%22%23ffcc3f%22 stroke-width=%224%22/><line x1=%2235%22 y1=%2252%22 x2=%2265%22 y2=%2252%22 stroke=%22%23ffcc3f%22 stroke-width=%224%22/></svg>' : 'data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2235%22 fill=%22%23333%22 opacity=%220.4%22/><circle cx=%2235%22 cy=%2240%22 r=%2212%22 fill=%22none%22 stroke=%22%23666%22 stroke-width=%224%22/><circle cx=%2265%22 cy=%2240%22 r=%2212%22 fill=%22none%22 stroke=%22%23666%22 stroke-width=%224%22/><line x1=%2235%22 y1=%2252%22 x2=%2265%22 y2=%2252%22 stroke=%22%23666%22 stroke-width=%224%22/></svg>'" alt="handcuffs">
+                <img class="right-indicator-icon" :src="handcuffs !== 0 ? 'images/handcuffs_active.svg' : 'images/handcuffs_noactive.svg'" alt="handcuffs">
             </div>
         </div>
 
@@ -338,18 +340,18 @@
         <div class="cash-container">
             <div class="cash-block">
                 <div class="cash">{{ format(money) }}</div>
-                <img src="data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect x=%2210%22 y=%2230%22 width=%2280%22 height=%2240%22 rx=%225%22 fill=%22%23f5c542%22 stroke=%22%23fff%22 stroke-width=%222%22/><text x=%2250%22 y=%2256%22 font-family='Montserrat' font-size=%2230%22 font-weight='bold' fill=%22%23fff%22 text-anchor='middle'>$</text></svg>" alt="wallet" style="bottom:0.3vh;">
+                <img src="images/wallet.svg" alt="wallet" style="bottom:0.3vh;">
             </div>
             <div class="cash-block">
                 <div class="cash">{{ format(card) }}</div>
-                <img src="data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect x=%2210%22 y=%2230%22 width=%2280%22 height=%2240%22 rx=%225%22 fill=%22%234a7db4%22 stroke=%22%23fff%22 stroke-width=%222%22/><rect x=%2220%22 y=%2245%22 width=%2240%22 height=%228%22 rx=%222%22 fill=%22%23fff%22 opacity=%220.7%22/><text x=%2265%22 y=%2254%22 font-family='Montserrat' font-size=%2216%22 font-weight='bold' fill=%22%23fff%22>****</text></svg>" alt="card" style="bottom:0.1vh;">
+                <img src="images/card.svg" alt="card" style="bottom:0.1vh;">
             </div>
         </div>
     </div>
 
     <!-- LOCATION -->
     <div class="city-street-block">
-        <img src="data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2240%22 fill=%22none%22 stroke=%22%23fff%22 stroke-width=%224%22/><circle cx=%2250%22 cy=%2250%22 r=%2212%22 fill=%22%23ffcc3f%22 stroke=%22%23fff%22 stroke-width=%223%22/></svg>" alt="loc">
+        <img src="images/location.svg" alt="loc">
         <div class="city-street-name">
             <div class="city-name">{{ city }}</div>
             <div class="street-name">{{ street }}</div>
@@ -361,14 +363,13 @@
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
 <script>
     // ============================================================
-    //  CEF STUB (имитация окружения для работы вне игры)
+    //  CEF STUB (для тестирования вне игры)
     // ============================================================
     if (typeof cef === 'undefined') {
         window.cef = {
             emit: function() { console.log('[CEF] emit', arguments); },
             on: function(event, cb) {
                 console.log('[CEF] on', event);
-                // Для теста — вызываем колбэки с фейковыми данными через 1с
                 if (event === 'game:hud:setComponentVisible') { /* noop */ }
                 if (event === 'classic:hud:active') {
                     setTimeout(() => cb(true), 300);
@@ -380,11 +381,10 @@
                     setTimeout(() => cb(1500, 4200, 'Mironchik_Dev', 7), 500);
                 }
                 if (event === 'game:hud:update') {
-                    setTimeout(() => cb(75, 42, 'gun_23.png', 30, 12, 0, 1000, 0), 600);
+                    setTimeout(() => cb(75, 42, 'images/gun/gun_23.png', 30, 12, 0, 1000, 0), 600);
                 }
             }
         };
-        // Доп. эмуляция для setHealth и т.п.
         window.cef.emit('game:hud:setComponentVisible', 'interface', false);
         window.cef.emit('game:hud:setComponentVisible', 'radar', true);
     }
@@ -412,49 +412,58 @@
             street: 'ул.Пушкина 52'
         },
         mounted() {
-            // Клавиша F7 — toggle HUD
+            // F7 toggle
             window.addEventListener('keydown', (event) => {
                 if (event.key === 'F7') {
-                    if (this.active) {
-                        this.active = false;
-                        if (typeof cef !== 'undefined') cef.emit('game:hud:setComponentVisible', 'radar', false);
-                    } else {
-                        this.active = true;
-                        if (typeof cef !== 'undefined') cef.emit('game:hud:setComponentVisible', 'radar', true);
+                    this.active = !this.active;
+                    if (typeof cef !== 'undefined') {
+                        cef.emit('game:hud:setComponentVisible', 'radar', this.active);
                     }
+                    console.log('[HUD] toggled:', this.active);
                 }
             });
 
-            // Эмуляция начальных данных
+            // Инициализация с тестовыми данными
             setTimeout(() => {
                 this.active = true;
                 this.updateHealth(75);
                 this.armour = 42;
                 this.handcuffs = 0;
-                this.weapon = 'data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 80%22><rect x=%2220%22 y=%2220%22 width=%22160%22 height=%2230%22 rx=%225%22 fill=%22%23555%22 stroke=%22%23999%22 stroke-width=%222%22/><rect x=%2230%22 y=%2230%22 width=%22100%22 height=%2210%22 fill=%22%23777%22/><circle cx=%22180%22 cy=%2235%22 r=%2210%22 fill=%22%23aa3333%22/></svg>';
+                this.weapon = 'images/gun/gun_23.png';
                 this.ammo = 30;
                 this.maxammo = 100;
                 this.money = 1500;
                 this.card = 4200;
                 this.city = 'г.Арзамас';
                 this.street = 'ул.Пушкина 52';
+                console.log('[HUD] initialized with test data');
             }, 200);
 
-            // Подписка на CEF-события (если есть)
+            // CEF события
             if (typeof cef !== 'undefined') {
-                cef.on('classic:hud:active', (t) => { this.active = t; });
-                cef.on('classic:hud:location', (city, street) => {
-                    if (this.active) { this.city = city; this.street = street; }
+                cef.on('classic:hud:active', (t) => {
+                    this.active = t;
+                    console.log('[CEF] classic:hud:active', t);
                 });
+
+                cef.on('classic:hud:location', (city, street) => {
+                    if (this.active) {
+                        this.city = city;
+                        this.street = street;
+                        console.log('[CEF] location updated:', city, street);
+                    }
+                });
+
                 cef.on('classic:hud:update', (money, card, player, playerid) => {
                     if (this.active) {
                         this.money = money;
                         this.card = card;
                         this.player = player;
                         this.playerid = playerid;
+                        console.log('[CEF] update:', money, card, player, playerid);
                     }
                 });
-                // Основное обновление (health, armour, weapon, ammo...)
+
                 cef.on('game:hud:update', (health, armour, weapon, ammo, maxammo, handcuffs, money, card) => {
                     if (this.active) {
                         this.updateHealth(health);
@@ -465,11 +474,12 @@
                         this.handcuffs = handcuffs;
                         this.money = money;
                         this.card = card;
+                        console.log('[CEF] game:hud:update', {health, armour, weapon, ammo, maxammo, handcuffs, money, card});
                     }
                 });
             }
 
-            // Таймер времени/даты
+            // Таймер времени
             setInterval(() => {
                 if (this.active) {
                     const d = new Date();
@@ -481,9 +491,14 @@
                     this.date = day + '.' + mon + '.' + String(d.getFullYear()).slice(2);
                 }
             }, 1000);
+
+            console.log('[HUD] mounted, active:', this.active);
         },
         methods: {
-            visible(status) { this.active = status; },
+            visible(status) {
+                this.active = status;
+                console.log('[HUD] visible:', status);
+            },
             format(val) {
                 if (val === undefined || val === null) return '0';
                 let s = String(val).replace(/,/g,'');
@@ -498,11 +513,11 @@
                 return s;
             },
             updateHealth(val) {
-                this.health = Math.round(val);
+                this.health = Math.round(Math.max(0, Math.min(100, val)));
                 const circle = document.getElementById('circle-health');
                 if (circle) {
                     const circumference = 251;
-                    const progress = Math.min(100, Math.max(0, val));
+                    const progress = this.health;
                     const offset = circumference - (progress / 100) * circumference;
                     circle.style.strokeDashoffset = offset;
                 }
@@ -510,14 +525,12 @@
         }
     });
 
-    // Глобальный доступ для CEF
     window.CEFSTUDIO = CEFSTUDIO;
-    // Для совместимости со старым кодом
     window.setHealth = function(val) {
         if (CEFSTUDIO) CEFSTUDIO.updateHealth(val);
     };
 
-    console.log('[HUD] Ready');
+    console.log('[HUD] Ready, press F7 to toggle');
 </script>
 </body>
 </html>
