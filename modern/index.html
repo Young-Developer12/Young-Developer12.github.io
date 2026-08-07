@@ -22,7 +22,7 @@
             width: 100vw;
             height: 100vh;
             pointer-events: none;
-            display: block; /* ВСЕГДА ВИДЕН */
+            display: block; /* Всегда виден */
         }
 
         /* ===== TOP RIGHT BLOCK ===== */
@@ -83,7 +83,7 @@
             transform: skewX(-23deg);
         }
 
-        /* ===== LOGOTYPE ===== */
+        /* ===== LOGOTYPE (встроенный SVG) ===== */
         .logotype {
             position: absolute;
             width: 25vh;
@@ -133,7 +133,7 @@
             font-style: italic;
         }
 
-        /* ===== INDICATORS ===== */
+        /* ===== INDICATORS (встроенные SVG) ===== */
         .right-indicator-container {
             position: absolute;
             top: 9vh;
@@ -203,7 +203,7 @@
             flex-shrink: 0;
         }
 
-        /* ===== CASH ===== */
+        /* ===== CASH (встроенные SVG) ===== */
         .cash-container {
             position: absolute;
             right: 3.9vh;
@@ -232,13 +232,13 @@
             min-width: 10vw;
             text-align: right;
         }
-        .cash-block img {
+        .cash-block svg {
             width: 3vh;
             height: auto;
             filter: drop-shadow(0 0 4px rgba(0,0,0,0.4));
         }
 
-        /* ===== LOCATION ===== */
+        /* ===== LOCATION (встроенный SVG) ===== */
         .city-street-block {
             display: flex;
             position: absolute;
@@ -252,7 +252,7 @@
             backdrop-filter: blur(3px);
             z-index: 10;
         }
-        .city-street-block img {
+        .city-street-block svg {
             width: 3vh;
             height: auto;
             filter: drop-shadow(0 0 4px rgba(0,0,0,0.3));
@@ -298,12 +298,15 @@
             <div class="info-style info-style-id"><span id="playerid">0</span></div>
         </div>
 
-        <!-- LOGOTYPE -->
-        <img class="logotype" src="css/fonts/fonts.png" alt="logo" />
+        <!-- LOGOTYPE (встроенный SVG) -->
+        <svg class="logotype" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="200" height="50" rx="10" fill="white" fill-opacity="0.1"/>
+            <text x="100" y="32" font-size="20" font-weight="700" fill="white" text-anchor="middle" font-family="Montserrat">SERVER LOGO</text>
+        </svg>
 
         <!-- WEAPON -->
         <div class="weapon-container">
-            <img id="weapon-icon" class="weapon-icon" src="images/gun/gun_0.png" alt="weapon">
+            <img id="weapon-icon" class="weapon-icon" src="" alt="weapon">
             <div id="ammo-block" class="ammo-block">
                 <span id="ammo" class="ammo">0</span>
                 <span id="maxammo" class="max-ammo">0</span>
@@ -315,7 +318,10 @@
             <!-- Armour -->
             <div class="right-indicator-block">
                 <p id="armour-text" class="progress-indicator"></p>
-                <img id="armour-icon" class="right-indicator-icon" src="images/arm_noactive.svg" alt="armour">
+                <svg id="armour-icon" class="right-indicator-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L3 7V13C3 19.2 7.2 24 12 24C16.8 24 21 19.2 21 13V7L12 2Z" fill="#555555" stroke="#888888" stroke-width="1"/>
+                    <text x="12" y="18" font-size="10" font-weight="700" fill="white" text-anchor="middle">A</text>
+                </svg>
             </div>
 
             <!-- Health -->
@@ -325,13 +331,19 @@
                     <circle class="circle-progress-bg" cx="50" cy="50" r="40" fill="rgba(0,0,0,0.4)" />
                     <circle id="circle-health" class="circle-progress" cx="50" cy="50" r="40" fill="none" />
                 </svg>
-                <img class="circle-progress-icon" src="images/hp.svg" alt="hp">
+                <svg class="circle-progress-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" fill="white" fill-opacity="0.5"/>
+                    <path d="M12 6V12L16 14" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                </svg>
             </div>
 
             <!-- Handcuffs -->
             <div class="right-indicator-block">
                 <p id="handcuffs-text" class="progress-indicator"></p>
-                <img id="handcuffs-icon" class="right-indicator-icon" src="images/handcuffs_noactive.svg" alt="handcuffs">
+                <svg id="handcuffs-icon" class="right-indicator-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 8L8 16M16 8L16 16M6 8C6 5.79086 7.79086 4 10 4H14C16.2091 4 18 5.79086 18 8V12M6 16C6 18.2091 7.79086 20 10 20H14C16.2091 20 18 18.2091 18 16" stroke="#888888" stroke-width="2" stroke-linecap="round"/>
+                    <circle cx="12" cy="12" r="2" fill="#888888"/>
+                </svg>
             </div>
         </div>
 
@@ -339,18 +351,28 @@
         <div class="cash-container">
             <div class="cash-block">
                 <div id="money" class="cash">0</div>
-                <img src="images/wallet.svg" alt="wallet" style="bottom:0.3vh;">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z" fill="#FFD700"/>
+                    <text x="12" y="16" font-size="10" font-weight="700" fill="#333" text-anchor="middle">$</text>
+                </svg>
             </div>
             <div class="cash-block">
                 <div id="card" class="cash">0</div>
-                <img src="images/card.svg" alt="card" style="bottom:0.1vh;">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="5" width="20" height="14" rx="2" fill="#4CAF50"/>
+                    <path d="M2 10H22" stroke="#333" stroke-width="1"/>
+                    <text x="12" y="18" font-size="8" font-weight="700" fill="white" text-anchor="middle">BANK</text>
+                </svg>
             </div>
         </div>
     </div>
 
     <!-- LOCATION -->
     <div class="city-street-block">
-        <img src="images/location.svg" alt="loc">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2Z" fill="#FF4444" fill-opacity="0.8"/>
+            <circle cx="12" cy="9" r="3" fill="white"/>
+        </svg>
         <div class="city-street-name">
             <div id="city" class="city-name">г.Арзамас</div>
             <div id="street" class="street-name">ул.Пушкина 52</div>
@@ -393,11 +415,6 @@
     // ----- 3. ПРИЁМ ДАННЫХ ОТ СЕРВЕРА (CEF) -----
     if (typeof cef !== 'undefined') {
 
-        // Включение/выключение HUD (можно не использовать, он всегда виден)
-        cef.on('interface:show', function(what) {
-            // Оставлено для совместимости
-        });
-
         // Обновление ник и ID (ваш пример)
         cef.on('hud:update:playerinfo', function(playername, playerid) {
             document.getElementById('player').innerText = playername || 'Player';
@@ -417,7 +434,6 @@
         // Обновление здоровья
         cef.on('hud:update:health', function(health) {
             document.getElementById('health-text').innerText = Math.round(health);
-            // Обновление круга здоровья
             var circle = document.getElementById('circle-health');
             if (circle) {
                 var circumference = 251;
@@ -429,12 +445,15 @@
 
         // Обновление брони
         cef.on('hud:update:armor', function(armor) {
+            var icon = document.getElementById('armour-icon');
             if (armor > 0) {
                 document.getElementById('armour-text').innerText = Math.round(armor);
-                document.getElementById('armour-icon').src = 'images/arm_active.svg';
+                icon.querySelector('path').setAttribute('fill', '#4CAF50');
+                icon.querySelector('path').setAttribute('stroke', '#4CAF50');
             } else {
                 document.getElementById('armour-text').innerText = '';
-                document.getElementById('armour-icon').src = 'images/arm_noactive.svg';
+                icon.querySelector('path').setAttribute('fill', '#555555');
+                icon.querySelector('path').setAttribute('stroke', '#888888');
             }
         });
 
@@ -442,7 +461,7 @@
         cef.on('hud:update:weapon', function(weapon, ammo, maxammo) {
             var weaponIcon = document.getElementById('weapon-icon');
             var ammoBlock = document.getElementById('ammo-block');
-            if (weapon && !weapon.includes('gun_0.png') && !weapon.includes('gun_1.png')) {
+            if (weapon && !weapon.includes('gun_0.png')) {
                 weaponIcon.src = weapon;
                 weaponIcon.style.display = 'block';
                 ammoBlock.style.display = 'flex';
@@ -456,12 +475,15 @@
 
         // Обновление наручников
         cef.on('hud:update:handcuffs', function(time) {
+            var icon = document.getElementById('handcuffs-icon');
             if (time > 0) {
                 document.getElementById('handcuffs-text').innerText = time;
-                document.getElementById('handcuffs-icon').src = 'images/handcuffs_active.svg';
+                icon.querySelectorAll('path, circle').forEach(el => el.setAttribute('stroke', '#FF4444'));
+                icon.querySelector('circle').setAttribute('fill', '#FF4444');
             } else {
                 document.getElementById('handcuffs-text').innerText = '';
-                document.getElementById('handcuffs-icon').src = 'images/handcuffs_noactive.svg';
+                icon.querySelectorAll('path, circle').forEach(el => el.setAttribute('stroke', '#888888'));
+                icon.querySelector('circle').setAttribute('fill', '#888888');
             }
         });
 
@@ -474,15 +496,11 @@
         console.log('[HUD] Все CEF события подключены!');
     }
 
-    // ----- 4. F7 — ВКЛ/ВЫКЛ HUD (теперь просто скрывает/показывает) -----
+    // ----- 4. F7 — ВКЛ/ВЫКЛ HUD -----
     document.addEventListener('keydown', function(event) {
         if (event.key === 'F7') {
             var hud = document.getElementById('hud');
-            if (hud.style.display === 'none') {
-                hud.style.display = 'block';
-            } else {
-                hud.style.display = 'none';
-            }
+            hud.style.display = hud.style.display === 'none' ? 'block' : 'none';
             if (typeof cef !== 'undefined') {
                 cef.emit('hud:toggle', hud.style.display === 'block');
             }
