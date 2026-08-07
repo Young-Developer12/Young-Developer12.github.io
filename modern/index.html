@@ -22,7 +22,7 @@
             width: 100vw;
             height: 100vh;
             pointer-events: none;
-            display: block; /* Всегда виден */
+            display: block;
         }
 
         /* ===== TOP RIGHT BLOCK ===== */
@@ -83,7 +83,7 @@
             transform: skewX(-23deg);
         }
 
-        /* ===== LOGOTYPE (встроенный SVG) ===== */
+        /* ===== LOGOTYPE ===== */
         .logotype {
             position: absolute;
             width: 25vh;
@@ -133,7 +133,7 @@
             font-style: italic;
         }
 
-        /* ===== INDICATORS (встроенные SVG) ===== */
+        /* ===== INDICATORS ===== */
         .right-indicator-container {
             position: absolute;
             top: 9vh;
@@ -203,7 +203,7 @@
             flex-shrink: 0;
         }
 
-        /* ===== CASH (встроенные SVG) ===== */
+        /* ===== CASH ===== */
         .cash-container {
             position: absolute;
             right: 3.9vh;
@@ -238,7 +238,7 @@
             filter: drop-shadow(0 0 4px rgba(0,0,0,0.4));
         }
 
-        /* ===== LOCATION (встроенный SVG) ===== */
+        /* ===== LOCATION ===== */
         .city-street-block {
             display: flex;
             position: absolute;
@@ -298,26 +298,23 @@
             <div class="info-style info-style-id"><span id="playerid">0</span></div>
         </div>
 
-        <!-- LOGOTYPE (встроенный SVG) -->
+        <!-- LOGOTYPE -->
         <svg class="logotype" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="200" height="50" rx="10" fill="white" fill-opacity="0.1"/>
-            <text x="100" y="32" font-size="20" font-weight="700" fill="white" text-anchor="middle" font-family="Montserrat">ELEGANT ROLEPLAY</text>
+            <text x="100" y="32" font-size="20" font-weight="700" fill="white" text-anchor="middle">SERVER</text>
         </svg>
 
         <!-- WEAPON -->
         <div class="weapon-container">
-            <img id="weapon-icon" class="weapon-icon" src="" alt="weapon">
-            <div id="ammo-block" class="ammo-block">
-                <span id="ammo" class="ammo">0</span>
-                <span id="maxammo" class="max-ammo">0</span>
-            </div>
+            <img id="weapon_id" class="weapon-icon" src="" alt="weapon">
+            <div id="weapon_ammo" class="ammo-block"></div>
         </div>
 
         <!-- INDICATORS -->
         <div class="right-indicator-container">
             <!-- Armour -->
             <div class="right-indicator-block">
-                <p id="armour-text" class="progress-indicator"></p>
+                <p id="b3" class="progress-indicator">0</p>
                 <svg id="armour-icon" class="right-indicator-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 2L3 7V13C3 19.2 7.2 24 12 24C16.8 24 21 19.2 21 13V7L12 2Z" fill="#555555" stroke="#888888" stroke-width="1"/>
                     <text x="12" y="18" font-size="10" font-weight="700" fill="white" text-anchor="middle">A</text>
@@ -326,7 +323,7 @@
 
             <!-- Health -->
             <div class="right-indicator-block">
-                <p id="health-text" class="circle-progress-indicator">100</p>
+                <p id="b1" class="circle-progress-indicator">100</p>
                 <svg viewBox="0 0 100 100" stroke-linecap="round" style="transform: rotate(-90deg);">
                     <circle class="circle-progress-bg" cx="50" cy="50" r="40" fill="rgba(0,0,0,0.4)" />
                     <circle id="circle-health" class="circle-progress" cx="50" cy="50" r="40" fill="none" />
@@ -350,7 +347,7 @@
         <!-- CASH -->
         <div class="cash-container">
             <div class="cash-block">
-                <div id="money" class="cash">0</div>
+                <div id="s3" class="cash">0</div>
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z" fill="#FFD700"/>
                     <text x="12" y="16" font-size="10" font-weight="700" fill="#333" text-anchor="middle">$</text>
@@ -381,10 +378,27 @@
 </div>
 
 <!-- ============================================================ -->
-<!-- JAVASCRIPT (всё в одном файле) -->
+<!-- JAVASCRIPT (работает с вашим game:data:playerStats) -->
 <!-- ============================================================ -->
 <script>
-    // ----- 1. ТАЙМЕР ВРЕМЕНИ (реальное) -----
+    // ----- 1. ВАША ФУНКЦИЯ ФОРМАТИРОВАНИЯ ДЕНЕГ -----
+    function formatt(i) {
+        var text_fmt = String(i);
+        var text_tmp = text_fmt;
+        var text_len = text_fmt.length;
+        var dots_count = 0;
+
+        for (var idx = 0; idx < (text_len - 1); idx++) {
+            if (text_tmp[idx] == '.') continue;
+            if (((text_len - (idx + 1)) % 3) == 0) {
+                dots_count++;
+                text_tmp = text_tmp.slice(0, idx + dots_count) + '.' + text_tmp.slice(idx + dots_count);
+            }
+        }
+        return text_tmp;
+    }
+
+    // ----- 2. ТАЙМЕР ВРЕМЕНИ (реальное) -----
     setInterval(function() {
         var d = new Date();
         document.getElementById('time').innerText = 
@@ -397,97 +411,93 @@
             String(d.getFullYear()).slice(2);
     }, 1000);
 
-    // ----- 2. ФОРМАТИРОВАНИЕ ЧИСЕЛ (с запятыми) -----
-    function formatNumber(val) {
-        if (val === undefined || val === null) return '0';
-        var s = String(val).replace(/,/g,'');
-        var len = s.length;
-        var dots = 0;
-        for (var i = 0; i < len; i++) {
-            if ((len - i) % 3 === 0 && i > 0) {
-                s = s.slice(0, i + dots) + ',' + s.slice(i + dots);
-                dots++;
+    // ----- 3. ПОВОРОТНИКИ (Q / E) -----
+    var leftArrow = false;
+    var rightArrow = false;
+
+    document.addEventListener('keyup', function(event) {
+        if (event.keyCode === 81) { // Q
+            var left = document.getElementById('left-arrow');
+            var right = document.getElementById('right-arrow');
+            if (!leftArrow) {
+                left.className = 'left-arrow-anim active';
+                right.className = 'right-arrow-anim';
+                leftArrow = true;
+                rightArrow = false;
+            } else {
+                left.className = 'left-arrow-anim';
+                right.className = 'right-arrow-anim';
+                leftArrow = false;
+                rightArrow = false;
             }
         }
-        return s;
-    }
+        if (event.keyCode === 69) { // E
+            var left = document.getElementById('left-arrow');
+            var right = document.getElementById('right-arrow');
+            if (!rightArrow) {
+                right.className = 'right-arrow-anim active';
+                left.className = 'left-arrow-anim';
+                rightArrow = true;
+                leftArrow = false;
+            } else {
+                right.className = 'right-arrow-anim';
+                left.className = 'left-arrow-anim';
+                rightArrow = false;
+                leftArrow = false;
+            }
+        }
+    });
 
-    // ----- 3. ПРИЁМ ДАННЫХ ОТ СЕРВЕРА (CEF) -----
+    // ----- 4. ПРИЁМ ДАННЫХ ОТ СЕРВЕРА (ВАШЕ СОБЫТИЕ) -----
     if (typeof cef !== 'undefined') {
 
-        // Обновление ник и ID (ваш пример)
+        // Запрос данных (как в вашем примере)
+        cef.emit("game:hud:setComponentVisible", "interface", false);
+        cef.emit("game:data:pollPlayerStats", true, 50);
+
+        // ВАШЕ ГЛАВНОЕ СОБЫТИЕ
+        cef.on("game:data:playerStats", function(hp, max_hp, arm, breath, wanted, weapon, ammo, max_ammo, money, speed) {
+            // Здоровье
+            document.getElementById('b1').innerHTML = Math.round(hp);
+            
+            // Броня
+            document.getElementById('b3').innerHTML = Math.round(arm);
+
+            // Деньги (с вашей функцией форматирования)
+            document.getElementById('s3').innerHTML = 
+                `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:23px;height:23px;margin-top:-5px;margin-right:8px;">
+                    <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z" fill="#FFD700"/>
+                    <text x="12" y="16" font-size="10" font-weight="700" fill="#333" text-anchor="middle">$</text>
+                </svg> ${formatt(money)}`;
+
+            // Оружие
+            var weaponID = weapon;
+            var weaponAmmo = '';
+            if (weaponID !== '0') {
+                weaponAmmo = `${ammo}/${(max_ammo - ammo)}`;
+            }
+            document.getElementById('weapon_id').src = `icon/weapon/gun_${weaponID}.png`;
+            document.getElementById('weapon_ammo').innerHTML = weaponAmmo;
+
+            // Спидометр (если есть элементы)
+            var speed_count = Math.round(speed * 1.4);
+            if (document.getElementById("speed-count")) {
+                document.getElementById("speed-count").innerHTML = speed_count;
+            }
+            if (document.getElementById("speed-meter")) {
+                var meter_count = 838 + (speed * 3.77);
+                document.getElementById("speed-meter").style = `stroke-dasharray: 838; stroke-dashoffset: -${meter_count};`;
+            }
+        });
+
+        // ----- ДОПОЛНИТЕЛЬНЫЕ СОБЫТИЯ (если нужно) -----
+        // Обновление ника и ID
         cef.on('hud:update:playerinfo', function(playername, playerid) {
             document.getElementById('player').innerText = playername || 'Player';
             document.getElementById('playerid').innerText = playerid || '0';
         });
 
-        // Обновление денег (наличные)
-        cef.on('hud:update:money', function(money) {
-            document.getElementById('money').innerText = formatNumber(money);
-        });
-
-        // Обновление банка (карта)
-        cef.on('hud:update:bank', function(bank) {
-            document.getElementById('card').innerText = formatNumber(bank);
-        });
-
-        // Обновление здоровья
-        cef.on('hud:update:health', function(health) {
-            document.getElementById('health-text').innerText = Math.round(health);
-            var circle = document.getElementById('circle-health');
-            if (circle) {
-                var circumference = 251;
-                var progress = Math.max(0, Math.min(100, health));
-                var offset = circumference - (progress / 100) * circumference;
-                circle.style.strokeDashoffset = offset;
-            }
-        });
-
-        // Обновление брони
-        cef.on('hud:update:armor', function(armor) {
-            var icon = document.getElementById('armour-icon');
-            if (armor > 0) {
-                document.getElementById('armour-text').innerText = Math.round(armor);
-                icon.querySelector('path').setAttribute('fill', '#4CAF50');
-                icon.querySelector('path').setAttribute('stroke', '#4CAF50');
-            } else {
-                document.getElementById('armour-text').innerText = '';
-                icon.querySelector('path').setAttribute('fill', '#555555');
-                icon.querySelector('path').setAttribute('stroke', '#888888');
-            }
-        });
-
-        // Обновление оружия и патронов
-        cef.on('hud:update:weapon', function(weapon, ammo, maxammo) {
-            var weaponIcon = document.getElementById('weapon-icon');
-            var ammoBlock = document.getElementById('ammo-block');
-            if (weapon && !weapon.includes('gun_0.png')) {
-                weaponIcon.src = weapon;
-                weaponIcon.style.display = 'block';
-                ammoBlock.style.display = 'flex';
-                document.getElementById('ammo').innerText = ammo || 0;
-                document.getElementById('maxammo').innerText = maxammo || 0;
-            } else {
-                weaponIcon.style.display = 'none';
-                ammoBlock.style.display = 'none';
-            }
-        });
-
-        // Обновление наручников
-        cef.on('hud:update:handcuffs', function(time) {
-            var icon = document.getElementById('handcuffs-icon');
-            if (time > 0) {
-                document.getElementById('handcuffs-text').innerText = time;
-                icon.querySelectorAll('path, circle').forEach(el => el.setAttribute('stroke', '#FF4444'));
-                icon.querySelector('circle').setAttribute('fill', '#FF4444');
-            } else {
-                document.getElementById('handcuffs-text').innerText = '';
-                icon.querySelectorAll('path, circle').forEach(el => el.setAttribute('stroke', '#888888'));
-                icon.querySelector('circle').setAttribute('fill', '#888888');
-            }
-        });
-
-        // Обновление локации (город, улица)
+        // Обновление локации
         cef.on('hud:update:location', function(city, street) {
             document.getElementById('city').innerText = city || 'г.Арзамас';
             document.getElementById('street').innerText = street || 'ул.Пушкина 52';
@@ -496,7 +506,7 @@
         console.log('[HUD] Все CEF события подключены!');
     }
 
-    // ----- 4. F7 — ВКЛ/ВЫКЛ HUD -----
+    // ----- 5. F7 — ВКЛ/ВЫКЛ HUD -----
     document.addEventListener('keydown', function(event) {
         if (event.key === 'F7') {
             var hud = document.getElementById('hud');
