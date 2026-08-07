@@ -2,8 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="utf-8">
-    <title>Classic Interface</title>
-    <link rel="stylesheet" href="css/fonts/stylesheet.css">
+    <title>Classic HUD</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700" rel="stylesheet">
     <style>
         /* ===== RESET & BASE ===== */
@@ -56,7 +55,6 @@
             text-align: right;
             font-size: 1.509vh;
             font-weight: 600;
-            font-family: 'Montserrat', sans-serif;
             padding: 0.3268vh 1.7068vh 0.2068vh 1.7068vh;
             color: #171717;
             margin-left: 0.1vh;
@@ -293,7 +291,6 @@
 <body>
 
 <div id="hud" class="classic-hud">
-    <!-- TOP RIGHT -->
     <div class="top-right-block">
 
         <!-- INFO -->
@@ -365,50 +362,23 @@
 </div>
 
 <!-- ============================================================ -->
-<!-- СКРИПТ: ЧИСТЫЙ JS, БЕЗ VUE -->
+<!-- JAVASCRIPT (всё в одном файле) -->
 <!-- ============================================================ -->
 <script>
-    // ============================================================
-    // 1. ПОВОРОТНИКИ (Q / E) — оставляем как в вашем примере
-    // ============================================================
-    var left_arrow = false;
-    var right_arrow = false;
+    // ----- 1. ТАЙМЕР ВРЕМЕНИ (реальное) -----
+    setInterval(function() {
+        var d = new Date();
+        document.getElementById('time').innerText = 
+            String(d.getHours()).padStart(2,'0') + ':' +
+            String(d.getMinutes()).padStart(2,'0') + ':' +
+            String(d.getSeconds()).padStart(2,'0');
+        document.getElementById('date').innerText = 
+            String(d.getDate()).padStart(2,'0') + '.' +
+            String(d.getMonth()+1).padStart(2,'0') + '.' +
+            String(d.getFullYear()).slice(2);
+    }, 1000);
 
-    document.addEventListener('keyup', function (event) {
-        if (event.keyCode === 81) { // Q
-            if (left_arrow == false) {
-                document.getElementById("left-arrow").style = "animation: arrow 0.6s infinite;";
-                document.getElementById("right-arrow").style = "animation: 0; animation-delay: 0;";
-                left_arrow = true;
-                right_arrow = false;
-            } else {
-                document.getElementById("left-arrow").style = "animation: 0; animation-delay: 0;";
-                document.getElementById("right-arrow").style = "animation: 0; animation-delay: 0;";
-                left_arrow = false;
-                right_arrow = false;
-            }
-        }
-    });
-
-    document.addEventListener('keyup', function (event) {
-        if (event.keyCode === 69) { // E
-            if (right_arrow == false) {
-                document.getElementById("right-arrow").style = "animation: arrow 0.6s infinite;";
-                document.getElementById("left-arrow").style = "animation: 0; animation-delay: 0;";
-                right_arrow = true;
-                left_arrow = false;
-            } else {
-                document.getElementById("right-arrow").style = "animation: 0; animation-delay: 0;";
-                document.getElementById("left-arrow").style = "animation: 0; animation-delay: 0;";
-                right_arrow = false;
-                left_arrow = false;
-            }
-        }
-    });
-
-    // ============================================================
-    // 2. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
-    // ============================================================
+    // ----- 2. ФОРМАТИРОВАНИЕ ЧИСЕЛ (с запятыми) -----
     function formatNumber(val) {
         if (val === undefined || val === null) return '0';
         var s = String(val).replace(/,/g,'');
@@ -423,116 +393,56 @@
         return s;
     }
 
-    function updateHealthCircle(val) {
-        var circle = document.getElementById('circle-health');
-        if (circle) {
-            var circumference = 251;
-            var progress = Math.max(0, Math.min(100, val));
-            var offset = circumference - (progress / 100) * circumference;
-            circle.style.strokeDashoffset = offset;
-        }
-    }
-
-    // ============================================================
-    // 3. ТАЙМЕР ВРЕМЕНИ (реальное время)
-    // ============================================================
-    setInterval(function() {
-        var d = new Date();
-        document.getElementById('time').innerText = 
-            String(d.getHours()).padStart(2,'0') + ':' +
-            String(d.getMinutes()).padStart(2,'0') + ':' +
-            String(d.getSeconds()).padStart(2,'0');
-        document.getElementById('date').innerText = 
-            String(d.getDate()).padStart(2,'0') + '.' +
-            String(d.getMonth()+1).padStart(2,'0') + '.' +
-            String(d.getFullYear()).slice(2);
-    }, 1000);
-
-    // ============================================================
-    // 4. ПОДКЛЮЧЕНИЕ CEF СОБЫТИЙ (как в вашем примере)
-    // ============================================================
+    // ----- 3. ПРИЁМ ДАННЫХ ОТ СЕРВЕРА (CEF) -----
     if (typeof cef !== 'undefined') {
-        // Показать/скрыть HUD
-        cef.on('classic:hud:active', function(active) {
-            document.getElementById('hud').className = active ? 'classic-hud active' : 'classic-hud';
+
+        // Включение/выключение HUD
+        cef.on('interface:show', function(what) {
+            if (what === 'money') {
+                document.getElementById('hud').className = 'classic-hud active';
+            }
         });
 
-        // Локация
-        cef.on('classic:hud:location', function(city, street) {
-            document.getElementById('city').innerText = city || 'г.Арзамас';
-            document.getElementById('street').innerText = street || 'ул.Пушкина 52';
+        // Обновление ник и ID (ваш пример)
+        cef.on('hud:update:playerinfo', function(playername, playerid) {
+            if (document.getElementById('player')) {
+                document.getElementById('player').innerText = playername || 'Player';
+            }
+            if (document.getElementById('playerid')) {
+                document.getElementById('playerid').innerText = playerid || '0';
+            }
         });
 
-        // Обновление денег и инфо
-        cef.on('classic:hud:update', function(money, card, player, playerid) {
-            document.getElementById('money').innerText = formatNumber(money);
-            document.getElementById('card').innerText = formatNumber(card);
-            document.getElementById('player').innerText = player || 'Player';
-            document.getElementById('playerid').innerText = playerid || 0;
-        });
-
-        // Основное обновление (здоровье, броня, оружие)
-        cef.on('game:hud:update', function(health, armour, weapon, ammo, maxammo, handcuffs, money, card) {
-            // Здоровье
-            document.getElementById('health-text').innerText = Math.round(health);
-            updateHealthCircle(health);
-
-            // Броня
-            if (armour > 0) {
-                document.getElementById('armour-text').innerText = Math.round(armour);
-                document.getElementById('armour-icon').src = 'images/arm_active.svg';
-            } else {
-                document.getElementById('armour-text').innerText = '';
-                document.getElementById('armour-icon').src = 'images/arm_noactive.svg';
-            }
-
-            // Оружие
-            var weaponIcon = document.getElementById('weapon-icon');
-            var ammoBlock = document.getElementById('ammo-block');
-            if (weapon && !weapon.includes('gun_0.png') && !weapon.includes('gun_1.png')) {
-                weaponIcon.src = weapon;
-                weaponIcon.style.display = 'block';
-                ammoBlock.style.display = 'flex';
-                document.getElementById('ammo').innerText = ammo || 0;
-                document.getElementById('maxammo').innerText = maxammo || 0;
-            } else {
-                weaponIcon.style.display = 'none';
-                ammoBlock.style.display = 'none';
-            }
-
-            // Наручники
-            if (handcuffs > 0) {
-                document.getElementById('handcuffs-text').innerText = handcuffs;
-                document.getElementById('handcuffs-icon').src = 'images/handcuffs_active.svg';
-            } else {
-                document.getElementById('handcuffs-text').innerText = '';
-                document.getElementById('handcuffs-icon').src = 'images/handcuffs_noactive.svg';
-            }
-
-            // Деньги (если не пришли отдельно)
-            if (money !== undefined) {
+        // Обновление денег (наличные)
+        cef.on('hud:update:money', function(money) {
+            if (document.getElementById('money')) {
                 document.getElementById('money').innerText = formatNumber(money);
             }
-            if (card !== undefined) {
-                document.getElementById('card').innerText = formatNumber(card);
+        });
+
+        // Обновление банка (карта)
+        cef.on('hud:update:bank', function(bank) {
+            if (document.getElementById('card')) {
+                document.getElementById('card').innerText = formatNumber(bank);
             }
         });
 
-        // Отдельные обновления (если нужны)
-        cef.on('hud:update:money', function(money) {
-            document.getElementById('money').innerText = formatNumber(money);
-        });
-        cef.on('hud:update:bank', function(card) {
-            document.getElementById('card').innerText = formatNumber(card);
-        });
-        cef.on('hud:update:playerinfo', function(player, playerid) {
-            document.getElementById('player').innerText = player || 'Player';
-            document.getElementById('playerid').innerText = playerid || 0;
-        });
+        // Обновление здоровья
         cef.on('hud:update:health', function(health) {
-            document.getElementById('health-text').innerText = Math.round(health);
-            updateHealthCircle(health);
+            if (document.getElementById('health-text')) {
+                document.getElementById('health-text').innerText = Math.round(health);
+            }
+            // Обновление круга здоровья
+            var circle = document.getElementById('circle-health');
+            if (circle) {
+                var circumference = 251;
+                var progress = Math.max(0, Math.min(100, health));
+                var offset = circumference - (progress / 100) * circumference;
+                circle.style.strokeDashoffset = offset;
+            }
         });
+
+        // Обновление брони
         cef.on('hud:update:armor', function(armor) {
             if (armor > 0) {
                 document.getElementById('armour-text').innerText = Math.round(armor);
@@ -542,6 +452,8 @@
                 document.getElementById('armour-icon').src = 'images/arm_noactive.svg';
             }
         });
+
+        // Обновление оружия и патронов
         cef.on('hud:update:weapon', function(weapon, ammo, maxammo) {
             var weaponIcon = document.getElementById('weapon-icon');
             var ammoBlock = document.getElementById('ammo-block');
@@ -556,20 +468,43 @@
                 ammoBlock.style.display = 'none';
             }
         });
+
+        // Обновление наручников
+        cef.on('hud:update:handcuffs', function(time) {
+            if (time > 0) {
+                document.getElementById('handcuffs-text').innerText = time;
+                document.getElementById('handcuffs-icon').src = 'images/handcuffs_active.svg';
+            } else {
+                document.getElementById('handcuffs-text').innerText = '';
+                document.getElementById('handcuffs-icon').src = 'images/handcuffs_noactive.svg';
+            }
+        });
+
+        // Обновление локации (город, улица)
+        cef.on('hud:update:location', function(city, street) {
+            if (document.getElementById('city')) {
+                document.getElementById('city').innerText = city || 'г.Арзамас';
+            }
+            if (document.getElementById('street')) {
+                document.getElementById('street').innerText = street || 'ул.Пушкина 52';
+            }
+        });
+
+        console.log('[HUD] Все CEF события подключены!');
     }
 
-    // F7 — переключение HUD
+    // ----- 4. F7 — ВКЛ/ВЫКЛ HUD -----
     document.addEventListener('keydown', function(event) {
         if (event.key === 'F7') {
             var hud = document.getElementById('hud');
             hud.className = hud.className.includes('active') ? 'classic-hud' : 'classic-hud active';
             if (typeof cef !== 'undefined') {
-                cef.emit('game:hud:setComponentVisible', 'radar', hud.className.includes('active'));
+                cef.emit('hud:toggle', hud.className.includes('active'));
             }
         }
     });
 
-    console.log('[HUD] Ready, press F7 to toggle');
+    console.log('[HUD] Ready! Press F7 to toggle.');
 </script>
 </body>
 </html>
