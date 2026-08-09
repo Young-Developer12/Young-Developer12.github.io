@@ -76,15 +76,14 @@ document.getElementById('register-btn').addEventListener('click', function() {
     }
 });
 
-// ===== ВЫБОР СКИНА (только 6 скинов) =====
+// ===== ВЫБОР СКИНА =====
 let selectedSkin = 0;
 
-// Загружаем скины из папки pass/images/skins/
 function loadSkins() {
     const grid = document.getElementById('skin-options');
     grid.innerHTML = '';
 
-    // Только эти 6 скинов
+    // 6 скинов
     const skinIds = [1, 2, 3, 4, 7, 24];
 
     skinIds.forEach(function(id) {
@@ -93,11 +92,13 @@ function loadSkins() {
         card.dataset.skin = id;
 
         const img = document.createElement('img');
-        // Используем путь pass/images/skins/
-        img.src = `pass/images/skins/${id}.png`;
+        // ПРАВИЛЬНЫЙ ПУТЬ ОТНОСИТЕЛЬНО auth/
+        img.src = `../pass/images/skins/${id}.png`;
         img.alt = `Скин ${id}`;
         img.onerror = function() {
-            this.src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTUwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjE1MCIgZmlsbD0iIzIyMjIyIi8+PHRleHQgeD0iNTAiIHk9Ijc1IiBmb250LXNpemU9IjE0IiBmaWxsPSIjZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5T a2luIDwvdGV4dD48L3N2Zz4=';
+            // Если картинка не найдена — показываем заглушку
+            this.src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTUwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjE1MCIgZmlsbD0iIzIyMjIyIi8+PHRleHQgeD0iNTAiIHk9Ijc1IiBmb250LXNpemU9IjE0IiBmaWxsPSIjZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5Ta2luIDwvdGV4dD48L3N2Zz4=';
+            console.warn('Картинка не найдена:', `../pass/images/skins/${id}.png`);
         };
 
         const label = document.createElement('div');
@@ -117,6 +118,8 @@ function loadSkins() {
 
         grid.appendChild(card);
     });
+
+    console.log('[SKIN] Загружено 6 скинов');
 }
 
 // ===== СОХРАНЕНИЕ СКИНА =====
@@ -137,10 +140,14 @@ document.getElementById('save-skin').addEventListener('click', function() {
 // ===== ЗАГЛУШКА ДЛЯ ТЕСТА =====
 if (typeof cef === 'undefined') {
     console.log('[AUTH] Тестовый режим');
+    // Включаем видимость через 0.5 сек
     setTimeout(function() {
-        document.getElementById('auth-container').classList.add('visible');
+        const container = document.getElementById('auth-container');
+        container.classList.add('visible');
+        // Показываем выбор скина для теста
         document.getElementById('skin-selection').style.display = 'block';
         loadSkins();
+        console.log('[AUTH] Интерфейс загружен');
     }, 500);
 }
 
@@ -148,6 +155,7 @@ if (typeof cef === 'undefined') {
 if (typeof cef !== 'undefined') {
     cef.on('auth:open', function() {
         document.getElementById('auth-container').classList.add('visible');
+        console.log('[AUTH] Открыто по команде сервера');
     });
     cef.on('auth:close', function() {
         document.getElementById('auth-container').classList.remove('visible');
