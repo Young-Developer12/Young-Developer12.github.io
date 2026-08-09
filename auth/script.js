@@ -77,7 +77,7 @@ document.getElementById('register-btn').addEventListener('click', function() {
 });
 
 // ===== ВЫБОР СКИНА =====
-let selectedSkin = 0;
+let selectedSkin = 0; // <-- ОДНА СТРОКА, БОЛЬШЕ НИГДЕ НЕ ПИШИТЕ let selectedSkin
 
 function loadSkins() {
     const grid = document.getElementById('skin-options');
@@ -92,7 +92,6 @@ function loadSkins() {
         card.dataset.skin = id;
 
         const img = document.createElement('img');
-        // ПРАВИЛЬНЫЙ ПУТЬ К ВАШИМ КАРТИНКАМ
         img.src = `../pass/images/skins/${id}.png`;
         img.alt = `Скин ${id}`;
         img.onerror = function() {
