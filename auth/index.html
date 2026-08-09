@@ -16,47 +16,45 @@
             <div class="auth-title">ELEGANT <span>ROLEPLAY</span></div>
         </div>
 
-        <div class="auth-form">
-            <div class="auth-tabs">
-                <div class="auth-tab active" data-tab="login">Вход</div>
-                <div class="auth-tab" data-tab="register">Регистрация</div>
-            </div>
+        <div class="auth-tabs">
+            <div class="auth-tab active" data-tab="login">Вход</div>
+            <div class="auth-tab" data-tab="register">Регистрация</div>
+        </div>
 
-            <div id="auth-login" class="auth-tab-content active">
-                <div class="auth-field">
-                    <label>Ваш никнейм</label>
-                    <input type="text" id="login-username" placeholder="Введите никнейм..." maxlength="24">
-                </div>
-                <div class="auth-field">
-                    <label>Пароль</label>
-                    <input type="password" id="login-password" placeholder="Введите пароль..." maxlength="16">
-                </div>
-                <button class="auth-btn" id="login-btn">Войти</button>
-                <div class="auth-error" id="login-error"></div>
+        <div id="auth-login" class="auth-tab-content active">
+            <div class="auth-field">
+                <label>Ваш никнейм</label>
+                <input type="text" id="login-username" placeholder="Введите никнейм..." maxlength="24">
             </div>
-
-            <div id="auth-register" class="auth-tab-content">
-                <div class="auth-field">
-                    <label>Ваш никнейм</label>
-                    <input type="text" id="reg-username" placeholder="Введите никнейм..." maxlength="24">
-                </div>
-                <div class="auth-field">
-                    <label>Пароль</label>
-                    <input type="password" id="reg-password" placeholder="Введите пароль..." maxlength="16">
-                </div>
-                <div class="auth-field">
-                    <label>Подтверждение пароля</label>
-                    <input type="password" id="reg-password-confirm" placeholder="Повторите пароль..." maxlength="16">
-                </div>
-                <div class="auth-field">
-                    <label>Электронная почта</label>
-                    <input type="text" id="reg-email" placeholder="example@mail.ru" maxlength="25">
-                </div>
-                <button class="auth-btn" id="register-btn">Зарегистрироваться</button>
-                <div class="auth-error" id="register-error"></div>
+            <div class="auth-field">
+                <label>Пароль</label>
+                <input type="password" id="login-password" placeholder="Введите пароль..." maxlength="16">
             </div>
+            <button class="auth-btn" id="login-btn">Войти</button>
+            <div class="auth-error" id="login-error"></div>
+        </div>
 
-            <!-- ВЫБОР СКИНА -->
+        <div id="auth-register" class="auth-tab-content">
+            <div class="auth-field">
+                <label>Ваш никнейм</label>
+                <input type="text" id="reg-username" placeholder="Введите никнейм..." maxlength="24">
+            </div>
+            <div class="auth-field">
+                <label>Пароль</label>
+                <input type="password" id="reg-password" placeholder="Введите пароль..." maxlength="16">
+            </div>
+            <div class="auth-field">
+                <label>Подтверждение пароля</label>
+                <input type="password" id="reg-password-confirm" placeholder="Повторите пароль..." maxlength="16">
+            </div>
+            <div class="auth-field">
+                <label>Электронная почта</label>
+                <input type="text" id="reg-email" placeholder="example@mail.ru" maxlength="25">
+            </div>
+            <button class="auth-btn" id="register-btn">Зарегистрироваться</button>
+            <div class="auth-error" id="register-error"></div>
+
+            <!-- ВЫБОР СКИНА (появляется только после регистрации) -->
             <div id="skin-selection" class="skin-selection" style="display:none;">
                 <div class="skin-title-block">Выберите скин</div>
                 <div class="skin-options" id="skin-options"></div>
