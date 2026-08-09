@@ -16,15 +16,12 @@
             <div class="auth-title">ELEGANT <span>ROLEPLAY</span></div>
         </div>
 
-        <!-- Основная форма -->
         <div class="auth-form">
-            <!-- Вкладки Вход / Регистрация -->
             <div class="auth-tabs">
                 <div class="auth-tab active" data-tab="login">Вход</div>
                 <div class="auth-tab" data-tab="register">Регистрация</div>
             </div>
 
-            <!-- ===== ФОРМА ВХОДА ===== -->
             <div id="auth-login" class="auth-tab-content active">
                 <div class="auth-field">
                     <label>Ваш никнейм</label>
@@ -38,7 +35,6 @@
                 <div class="auth-error" id="login-error"></div>
             </div>
 
-            <!-- ===== ФОРМА РЕГИСТРАЦИИ ===== -->
             <div id="auth-register" class="auth-tab-content">
                 <div class="auth-field">
                     <label>Ваш никнейм</label>
@@ -60,12 +56,10 @@
                 <div class="auth-error" id="register-error"></div>
             </div>
 
-            <!-- ===== ВЫБОР СКИНА (появляется после регистрации) ===== -->
+            <!-- ВЫБОР СКИНА -->
             <div id="skin-selection" class="skin-selection" style="display:none;">
                 <div class="skin-title-block">Выберите скин</div>
-                <div class="skin-options" id="skin-options">
-                    <!-- Карточки скинов будут созданы через JS -->
-                </div>
+                <div class="skin-options" id="skin-options"></div>
                 <button class="skin-save-btn" id="save-skin">Сохранить скин</button>
                 <div class="auth-error" id="skin-error"></div>
             </div>
