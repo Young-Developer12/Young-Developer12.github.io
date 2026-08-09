@@ -88,38 +88,6 @@
             margin-right: 1vh;
         }
 
-        /* ===== TIME BLOCK ===== */
-        .time-block {
-            display: flex;
-            gap: 1vh;
-            color: white;
-            font-size: 1.8vh;
-            font-weight: 600;
-            background: rgba(0,0,0,0.3);
-            padding: 0.3vh 1.2vh;
-            border-radius: 0.6vh;
-            backdrop-filter: blur(4px);
-        }
-        .time-icon {
-            width: 2vh;
-            height: 2vh;
-        }
-
-        /* ===== PLAYER INFO ===== */
-        .player-info-block {
-            display: flex;
-            gap: 1vh;
-            color: white;
-            font-size: 1.8vh;
-            font-weight: 600;
-            background: rgba(0,0,0,0.3);
-            padding: 0.3vh 1.2vh;
-            border-radius: 0.6vh;
-            backdrop-filter: blur(4px);
-        }
-        .player-nick { color: #FFCC3F; }
-        .player-id { color: #ffffff; }
-
         /* ===== WEAPON BLOCK ===== */
         .weapon-block {
             position: absolute;
@@ -375,17 +343,110 @@ body { background: transparent; overflow: hidden; user-select: none; }
 </style>
 
 <!-- ============================================================ -->
-<!-- JAVASCRIPT (ПОЛНОСТЬЮ ВАШ, БЕЗ ИЗМЕНЕНИЙ) -->
+<!-- JAVASCRIPT (всё в одном, включая ваши script.js + time.js) -->
 <!-- ============================================================ -->
 <script>
+// ----- БЛОКИРОВКА ВЫДЕЛЕНИЯ -----
 document.ondragstart = test;
 document.onselectstart = test;
 document.oncontextmenu = test;
-document.oncontextmenu;
-function test() {
-    return false;
+function test() { return false; }
+
+// ----- ВАШ СКРИПТ: ПОВОРОТНИКИ (script.js) -----
+var all_arrow = false;
+var left_arrow = false;
+var right_arrow = false;
+
+document.addEventListener('keyup', function (event) {
+    if (event.keyCode === 81) { // Q
+        if (left_arrow == false) {
+            document.getElementById("left-arrow").style = "animation: arrow 0.6s infinite;";
+            document.getElementById("right-arrow").style = "animation: 0; animation-delay: 0;";
+            left_arrow = true;
+            right_arrow = false;
+        } else {
+            document.getElementById("left-arrow").style = "animation: 0; animation-delay: 0;";
+            document.getElementById("right-arrow").style = "animation: 0; animation-delay: 0;";
+            left_arrow = false;
+            right_arrow = false;
+        }
+    }
+});
+
+document.addEventListener('keyup', function (event) {
+    if (event.keyCode === 69) { // E
+        if (right_arrow == false) {
+            document.getElementById("right-arrow").style = "animation: arrow 0.6s infinite;";
+            document.getElementById("left-arrow").style = "animation: 0; animation-delay: 0;";
+            right_arrow = true;
+            left_arrow = false;
+        } else {
+            document.getElementById("right-arrow").style = "animation: 0; animation-delay: 0;";
+            document.getElementById("left-arrow").style = "animation: 0; animation-delay: 0;";
+            right_arrow = false;
+            left_arrow = false;
+        }
+    }
+});
+
+// ----- ВАШ СКРИПТ: ВРЕМЯ И ДАТА (time.js) -----
+function zero_first_format(value) {
+    return value < 10 ? '0' + value : value;
 }
 
+function dates() {
+    var now = new Date();
+    var day = zero_first_format(now.getDate());
+    var month = zero_first_format(now.getMonth() + 1);
+    var year = now.getFullYear();
+    document.getElementById('data').innerHTML = day + "." + month + "." + year;
+}
+
+function times() {
+    var now = new Date();
+    var hours = zero_first_format(now.getHours());
+    var minutes = zero_first_format(now.getMinutes());
+    document.getElementById('time').innerHTML = hours + ":" + minutes;
+}
+
+setInterval(function () {
+    dates();
+    times();
+}, 1000);
+
+// ----- CEF СОБЫТИЯ (из script.js) -----
+if (typeof cef !== 'undefined') {
+    cef.on("modern:speed:arrow", (type) => {
+        if (type == 0) {
+            document.getElementById("left-arrow").style = "animation: 0; animation-delay: 0;";
+            document.getElementById("right-arrow").style = "animation: 0; animation-delay: 0;";
+        }
+        if (type == 1) {
+            document.getElementById("left-arrow").style = "animation: arrow 0.6s infinite;";
+            document.getElementById("right-arrow").style = "animation: arrow 0.6s infinite;";
+        }
+    });
+
+    cef.on("modern:speed:update", (odometer_val, gas_val) => {
+        document.getElementById('speed-odometer').innerHTML = Math.round(odometer_val);
+        document.getElementById('speed-fuel').innerHTML = `
+            <svg class="fuel-icon" width="11" height="20" viewBox="0 0 17 20" fill="none">
+                <path d="M0 0H3C3.28 0 3.53 0.115789 3.71 0.305263L5.79 2.50526L6.59 1.67368C7 1.26316 7.5 1.05263 8 1.05263H14C14.5 1.05263 15 1.26316 15.41 1.67368L17 3.33684V16.3263C17 18.3579 15.36 20 13.33 20H3.67C1.64 20 0 18.3579 0 16.3263V0ZM2 2V16.3263C2 17.2526 2.75 18 3.67 18H13.33C14.25 18 15 17.2526 15 16.3263V5L13.59 3.58947C13.43 3.43158 13.22 3.33684 13 3.33684H8.41L7.2 4.58947C6.83 4.96842 6.32 5.18947 5.79 5.18947L3 2.24211V2H2Z" fill="white"/>
+            </svg> 
+            ${Math.round(gas_val)} л.`;
+    });
+
+    cef.on('hud:update:playerinfo', (playername, playerid) => {
+        if (document.getElementById('s1')) {
+            document.getElementById('s1').innerText = `${playername}`;
+        }
+        if (document.getElementById('s2')) {
+            document.getElementById('s2').innerText = `${playerid}`;
+        }
+    });
+}
+
+// ----- ОСНОВНОЙ СКРИПТ HUD (из вашего примера) -----
 cef.emit("game:hud:setComponentVisible", "interface", false);
 cef.emit("game:data:pollPlayerStats", true, 50);
 
@@ -400,10 +461,10 @@ cef.on("game:data:playerStats", (hp, max_hp, arm, breath, wanted, weapon, ammo, 
         weaponAmmo = `${ammo}/${(max_ammo - ammo)}`;
     }
 
-    speed_count = Math.round(speed * 1.4);
+    var speed_count = Math.round(speed * 1.4);
     document.getElementById("speed-count").innerHTML = `${speed_count}`;
 
-    let meter_count = 838 + (speed * 3.77);
+    var meter_count = 838 + (speed * 3.77);
     document.getElementById("speed-meter").style = `stroke-dasharray: 838; stroke-dashoffset: -${meter_count};`;
 
     document.getElementById('weapon_id').src = `icon/weapon/gun_${weaponID}.png`;
@@ -417,9 +478,7 @@ function formatt(i) {
     var dots_count = 0;
 
     for (var idx = 0; idx < (text_len - 1); idx++) {
-        if (text_tmp[idx] == '.') {
-            continue;
-        }
+        if (text_tmp[idx] == '.') continue;
         if (((text_len - (idx + 1)) % 3) == 0) {
             dots_count++;
             text_tmp = text_tmp.slice(0, idx + dots_count) + '.' + text_tmp.slice(idx + dots_count);
@@ -431,11 +490,9 @@ function formatt(i) {
 cef.on("modern:hud:visible", (type) => {
     if (type == 0) {
         document.getElementById('modern-cefstudio').style.visibility = 'hidden';
-        is_open_hud = true;
     }
     if (type == 1) {
         document.getElementById('modern-cefstudio').style.visibility = 'visible';
-        is_open_hud = false;
     }
 });
 
@@ -452,19 +509,6 @@ cef.on("modern:speed:visible", () => {
 cef.on("modern:speed:hidden", () => {
     document.getElementById('modern-cefstudio-speed').style.visibility = 'hidden';
 });
-
-// Таймер времени (добавлен для работы часов)
-setInterval(function() {
-    var d = new Date();
-    document.getElementById('time').innerText = 
-        String(d.getHours()).padStart(2,'0') + ':' +
-        String(d.getMinutes()).padStart(2,'0');
-    document.getElementById('data').innerText = 
-        String(d.getDate()).padStart(2,'0') + '.' +
-        String(d.getMonth()+1).padStart(2,'0') + '.' +
-        String(d.getFullYear()).slice(2);
-}, 1000);
-
 </script>
 </body>
 </html>
