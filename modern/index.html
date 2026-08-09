@@ -193,7 +193,7 @@
             position: absolute;
             bottom: 3vh;
             left: 3vh;
-            visibility: visible !important; /* ВСЕГДА ВИДЕН */
+            visibility: visible !important;
             opacity: 1;
             transition: opacity 0.3s ease;
         }
@@ -399,7 +399,7 @@ body { background: transparent; overflow: hidden; user-select: none; }
 </style>
 
 <!-- ============================================================ -->
-<!-- JAVASCRIPT (всё в одном) -->
+<!-- JAVASCRIPT (с проверкой CEF и заглушкой) -->
 <!-- ============================================================ -->
 <script>
 // ----- БЛОКИРОВКА -----
@@ -408,7 +408,30 @@ document.onselectstart = test;
 document.oncontextmenu = test;
 function test() { return false; }
 
-// ----- ПОВОРОТНИКИ (script.js) -----
+// ----- ЗАГЛУШКА ДЛЯ ТЕСТОВ В БРАУЗЕРЕ (если cef не определён) -----
+if (typeof cef === 'undefined') {
+    window.cef = {
+        emit: function() { console.log('[CEF] emit', arguments); },
+        on: function(event, cb) {
+            console.log('[CEF] on', event);
+            // Эмуляция данных через 1 секунду
+            setTimeout(function() {
+                if (event === 'game:data:playerStats') {
+                    cb(100, 100, 50, 0, 0, 0, 0, 0, 15000, 0);
+                }
+                if (event === 'hud:update:playerinfo') {
+                    cb('TestPlayer', 1);
+                }
+                if (event === 'modern:speed:update') {
+                    cb(12345, 42);
+                }
+            }, 1000);
+        }
+    };
+    console.log('[HUD] Тестовый режим (без CEF)');
+}
+
+// ----- ПОВОРОТНИКИ (работают без CEF) -----
 var all_arrow = false;
 var left_arrow = false;
 var right_arrow = false;
@@ -445,7 +468,7 @@ document.addEventListener('keyup', function (event) {
     }
 });
 
-// ----- ВРЕМЯ И ДАТА (time.js) -----
+// ----- ВРЕМЯ И ДАТА (работают без CEF) -----
 function zero_first_format(value) {
     return value < 10 ? '0' + value : value;
 }
@@ -470,8 +493,13 @@ setInterval(function () {
     times();
 }, 1000);
 
-// ----- CEF СОБЫТИЯ -----
-if (typeof cef !== 'undefined') {
+// ----- CEF СОБЫТИЯ (только если CEF существует) -----
+if (typeof cef !== 'undefined' && cef !== null) {
+    console.log('[HUD] CEF подключён, данные будут настоящими');
+
+    cef.emit("game:hud:setComponentVisible", "interface", false);
+    cef.emit("game:data:pollPlayerStats", true, 50);
+
     cef.on("modern:speed:arrow", (type) => {
         if (type == 0) {
             document.getElementById("left-arrow").style = "animation: 0; animation-delay: 0;";
@@ -503,29 +531,31 @@ if (typeof cef !== 'undefined') {
 }
 
 // ----- ОСНОВНОЙ СКРИПТ HUD -----
-cef.emit("game:hud:setComponentVisible", "interface", false);
-cef.emit("game:data:pollPlayerStats", true, 50);
+if (typeof cef !== 'undefined' && cef !== null) {
+    cef.emit("game:hud:setComponentVisible", "interface", false);
+    cef.emit("game:data:pollPlayerStats", true, 50);
 
-cef.on("game:data:playerStats", (hp, max_hp, arm, breath, wanted, weapon, ammo, max_ammo, money, speed) => {
-    document.getElementById('b1').innerHTML = Math.round(hp);
-    document.getElementById('b3').innerHTML = Math.round(arm);
-    document.getElementById('s3').innerHTML = `<img src="icon/cash.svg" alt="cash" style="width:2.6vh;height:auto;filter:drop-shadow(0 0 8px rgba(255,215,0,0.2));"> ${formatt(money)}`;
+    cef.on("game:data:playerStats", (hp, max_hp, arm, breath, wanted, weapon, ammo, max_ammo, money, speed) => {
+        document.getElementById('b1').innerHTML = Math.round(hp);
+        document.getElementById('b3').innerHTML = Math.round(arm);
+        document.getElementById('s3').innerHTML = `<img src="icon/cash.svg" alt="cash" style="width:2.6vh;height:auto;filter:drop-shadow(0 0 8px rgba(255,215,0,0.2));"> ${formatt(money)}`;
 
-    var weaponID = weapon;
-    var weaponAmmo = '';
-    if (weaponID !== '0') {
-        weaponAmmo = `${ammo}/${(max_ammo - ammo)}`;
-    }
+        var weaponID = weapon;
+        var weaponAmmo = '';
+        if (weaponID !== '0') {
+            weaponAmmo = `${ammo}/${(max_ammo - ammo)}`;
+        }
 
-    var speed_count = Math.round(speed * 1.4);
-    document.getElementById("speed-count").innerHTML = `${speed_count}`;
+        var speed_count = Math.round(speed * 1.4);
+        document.getElementById("speed-count").innerHTML = `${speed_count}`;
 
-    var meter_count = 838 + (speed * 3.77);
-    document.getElementById("speed-meter").style = `stroke-dasharray: 838; stroke-dashoffset: -${meter_count};`;
+        var meter_count = 838 + (speed * 3.77);
+        document.getElementById("speed-meter").style = `stroke-dasharray: 838; stroke-dashoffset: -${meter_count};`;
 
-    document.getElementById('weapon_id').src = `icon/weapon/gun_${weaponID}.png`;
-    document.getElementById('weapon_ammo').innerHTML = weaponAmmo;
-});
+        document.getElementById('weapon_id').src = `icon/weapon/gun_${weaponID}.png`;
+        document.getElementById('weapon_ammo').innerHTML = weaponAmmo;
+    });
+}
 
 function formatt(i) {
     var text_fmt = `${i}`;
@@ -543,28 +573,28 @@ function formatt(i) {
     return text_tmp;
 }
 
-cef.on("modern:hud:visible", (type) => {
-    if (type == 0) {
-        document.getElementById('modern-cefstudio').style.visibility = 'hidden';
-    }
-    if (type == 1) {
-        document.getElementById('modern-cefstudio').style.visibility = 'visible';
-    }
-});
+// ----- HUD VISIBLE (оставляем для совместимости, но не влияет на видимость) -----
+if (typeof cef !== 'undefined' && cef !== null) {
+    cef.on("modern:hud:visible", (type) => {
+        // Ничего не делаем, HUD всегда виден
+    });
 
-cef.on("modern:hud:update", (b1, s1, s2) => {
-    document.getElementById('b2').innerHTML = Math.round(b1);
-    document.getElementById('s1').innerHTML = `${s1}`;
-    document.getElementById('s2').innerHTML = `${s2}`;
-});
+    cef.on("modern:hud:update", (b1, s1, s2) => {
+        document.getElementById('b2').innerHTML = Math.round(b1);
+        document.getElementById('s1').innerHTML = `${s1}`;
+        document.getElementById('s2').innerHTML = `${s2}`;
+    });
 
-cef.on("modern:speed:visible", () => {
-    // Игнорируем — спидометр всегда виден
-});
+    cef.on("modern:speed:visible", () => {
+        // Игнорируем — спидометр всегда виден
+    });
 
-cef.on("modern:speed:hidden", () => {
-    // Игнорируем — спидометр всегда виден
-});
+    cef.on("modern:speed:hidden", () => {
+        // Игнорируем — спидометр всегда виден
+    });
+}
+
+console.log('[HUD] Готово!');
 </script>
 </body>
 </html>
