@@ -12,24 +12,52 @@ html, body {
     font-family: 'Montserrat', sans-serif;
 }
 
+/* ===== КОНТЕЙНЕР НА ВЕСЬ ЭКРАН ===== */
 .menu-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    display: none;
+    z-index: 9999;
+}
+.menu-container.visible {
+    display: block;
+    pointer-events: auto;
+}
+
+/* ===== ФОН НА ВЕСЬ ЭКРАН ===== */
+.menu-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(6px);
+    z-index: 1;
+}
+
+/* ===== ЦЕНТРАЛЬНЫЙ БЛОК ===== */
+.menu-wrapper {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 50vh;
-    max-width: 90vw;
-    background: rgba(10, 10, 20, 0.92);
-    backdrop-filter: blur(18px);
+    width: 65vh;
+    max-width: 92vw;
+    max-height: 85vh;
+    background: rgba(12, 12, 24, 0.92);
+    backdrop-filter: blur(12px);
     border-radius: 2.5vh;
-    padding: 2.5vh 3vh;
-    box-shadow: 0 0 60px rgba(0,0,0,0.9), 0 0 15px rgba(255,255,255,0.03);
+    padding: 3vh 3.5vh;
+    box-shadow: 0 0 80px rgba(0,0,0,0.9), 0 0 30px rgba(255,255,255,0.02);
     border: 1px solid rgba(255,255,255,0.06);
     pointer-events: auto;
-    display: none;
-}
-.menu-container.visible {
-    display: block;
+    z-index: 2;
+    overflow-y: auto;
 }
 
 /* ===== HEADER ===== */
@@ -43,7 +71,7 @@ html, body {
 }
 .menu-title {
     color: rgba(255,255,255,0.9);
-    font-size: 2.6vh;
+    font-size: 2.8vh;
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 0.2vh;
@@ -72,30 +100,32 @@ html, body {
 /* ===== TABS ===== */
 .tabs {
     display: flex;
-    gap: 0.4vh;
-    margin-bottom: 1.8vh;
+    gap: 0.6vh;
+    margin-bottom: 2vh;
     border-bottom: 1px solid rgba(255,255,255,0.04);
-    padding-bottom: 0.8vh;
+    padding-bottom: 1vh;
 }
 .tab-btn {
     flex: 1;
     text-align: center;
-    padding: 0.6vh 0.4vh;
-    font-size: 1.3vh;
+    padding: 0.8vh 0.6vh;
+    font-size: 1.4vh;
     font-weight: 700;
     color: rgba(255,255,255,0.4);
     cursor: pointer;
     transition: all 0.2s;
-    border-radius: 0.6vh;
+    border-radius: 0.8vh;
     text-transform: uppercase;
     letter-spacing: 0.1vh;
 }
 .tab-btn:hover {
     color: rgba(255,255,255,0.7);
+    background: rgba(255,255,255,0.03);
 }
 .tab-btn.active {
     color: #fff;
     background: rgba(255,255,255,0.08);
+    box-shadow: 0 0 10px rgba(255,255,255,0.02);
 }
 
 /* ===== TAB CONTENT ===== */
@@ -107,7 +137,7 @@ html, body {
     display: block;
 }
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(5px); }
+    from { opacity: 0; transform: translateY(6px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
@@ -115,15 +145,15 @@ html, body {
 .menu-list {
     display: flex;
     flex-direction: column;
-    gap: 0.6vh;
+    gap: 0.8vh;
 }
 .menu-item {
     display: flex;
     align-items: center;
     gap: 1.2vh;
-    padding: 0.8vh 1.5vh;
+    padding: 1vh 1.8vh;
     background: rgba(255,255,255,0.04);
-    border-radius: 0.8vh;
+    border-radius: 1vh;
     cursor: pointer;
     transition: all 0.2s;
     border: 1px solid rgba(255,255,255,0.02);
@@ -131,17 +161,19 @@ html, body {
 .menu-item:hover {
     background: rgba(255,255,255,0.1);
     border-color: rgba(255,255,255,0.1);
+    transform: translateX(0.4vh);
 }
 .menu-item:active {
     transform: scale(0.97);
 }
 .menu-item-icon {
-    font-size: 2vh;
-    width: 3.5vh;
+    font-size: 2.2vh;
+    width: 4vh;
     text-align: center;
 }
 .menu-item-text {
     color: rgba(255,255,255,0.85);
-    font-size: 1.6vh;
+    font-size: 1.7vh;
     font-weight: 600;
+    letter-spacing: 0.05vh;
 }
