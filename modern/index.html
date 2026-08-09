@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>MODERN HUD</title>
     <meta http-equiv='X-UA-Compatible' content='ie=edge'>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         /* ===== RESET & BASE ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -26,7 +26,7 @@
             visibility: visible;
         }
 
-        /* ===== RIGHT PANEL (все элементы справа в одной колонке) ===== */
+        /* ===== RIGHT PANEL ===== */
         .right-panel {
             position: absolute;
             top: 2vh;
@@ -34,38 +34,61 @@
             display: flex;
             flex-direction: column;
             align-items: flex-end;
-            gap: 0.8vh;
+            gap: 0.6vh;
             z-index: 10;
         }
 
-        /* ===== INFO ROW (время, дата, ник, ID) ===== */
-        .info-row {
+        /* ===== TOP INFO ROW (время, дата, ник, ID) ===== */
+        .top-info-row {
             display: flex;
             gap: 0.6vh;
             flex-wrap: wrap;
             justify-content: flex-end;
+            margin-bottom: 0.2vh;
         }
-        .info-style {
+        .top-info-style {
             display: inline-block;
             text-align: right;
             font-size: 1.4vh;
             font-weight: 700;
-            padding: 0.4vh 1.6vh;
+            padding: 0.3vh 1.4vh;
             color: #1a1a1a;
-            background: rgba(255, 255, 255, 0.92);
+            background: rgba(255, 255, 255, 0.9);
             transform: skewX(-12deg);
             backdrop-filter: blur(4px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
             border-radius: 3px;
         }
-        .info-style span {
+        .top-info-style span {
             display: inline-block;
             transform: skewX(12deg);
         }
-        .info-style-id {
+        .top-info-style-id {
             background: #FFCC3F !important;
             color: #000 !important;
             font-weight: 800;
+        }
+
+        /* ===== SERVER NAME (ELEGANT / ROLEPLAY) ===== */
+        .server-name {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 2.8vh;
+            text-transform: uppercase;
+            letter-spacing: 0.15vh;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.8);
+            line-height: 1.1;
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+        .server-name .white {
+            color: #ffffff;
+        }
+        .server-name .dark-blue {
+            color: #1a2a4a;
+            text-shadow: 0 2px 20px rgba(26, 42, 74, 0.4);
         }
 
         /* ===== WEAPON BLOCK ===== */
@@ -79,6 +102,7 @@
             backdrop-filter: blur(8px);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
             border: 1px solid rgba(255, 255, 255, 0.06);
+            margin-top: 0.4vh;
         }
         .weapon-png {
             width: 5vh;
@@ -95,7 +119,7 @@
             border-left: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* ===== STATS BLOCK (здоровье + броня) ===== */
+        /* ===== STATS BLOCK ===== */
         .stats-block {
             display: flex;
             flex-direction: column;
@@ -164,7 +188,7 @@
             filter: drop-shadow(0 0 8px rgba(255,215,0,0.2));
         }
 
-        /* ===== LEFT PANEL (спидометр) ===== */
+        /* ===== SPEEDOMETER ===== */
         .modern-cefstudio-speed {
             position: absolute;
             bottom: 3vh;
@@ -271,7 +295,7 @@
         /* ===== АДАПТИВ ===== */
         @media (max-width: 768px) {
             .right-panel { top: 1vh; right: 1vh; gap: 0.5vh; }
-            .info-style { font-size: 1.1vh; padding: 0.2vh 1vh; }
+            .top-info-style { font-size: 1.1vh; padding: 0.2vh 1vh; }
             .weapon-block { padding: 0.3vh 0.8vh; }
             .weapon-png { width: 4vh; }
             .stats-block { width: 13vh; }
@@ -280,6 +304,7 @@
             .modern-cefstudio-speed { bottom: 2vh; left: 2vh; }
             .speed-bg { width: 18vh; height: 18vh; }
             .speed-count { font-size: 3.6vh; }
+            .server-name { font-size: 2vh; }
         }
     </style>
 </head>
@@ -319,12 +344,19 @@
 <!-- ===== MAIN HUD ===== -->
 <div id="modern-cefstudio" class="modern-cefstudio">
     <div class="right-panel">
-        <!-- INFO ROW -->
-        <div class="info-row">
-            <div class="info-style"><span id="time">00:00</span></div>
-            <div class="info-style"><span id="data">01.01.24</span></div>
-            <div class="info-style"><span id="s1">Player</span></div>
-            <div class="info-style info-style-id"><span id="s2">0</span></div>
+        
+        <!-- TOP INFO ROW (время, дата, ник, ID) -->
+        <div class="top-info-row">
+            <div class="top-info-style"><span id="time">00:00</span></div>
+            <div class="top-info-style"><span id="data">01.01.24</span></div>
+            <div class="top-info-style"><span id="s1">Player</span></div>
+            <div class="top-info-style top-info-style-id"><span id="s2">0</span></div>
+        </div>
+
+        <!-- SERVER NAME (ELEGANT / ROLEPLAY) -->
+        <div class="server-name">
+            <span class="white">ELEGANT</span>
+            <span class="dark-blue">ROLEPLAY</span>
         </div>
 
         <!-- WEAPON -->
