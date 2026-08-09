@@ -2,9 +2,108 @@
 <html lang="ru">
 <head>
     <meta charset="utf-8">
-    <title>Паспорт</title>
+    <title>Паспорт РФ</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            user-select: none;
+            background: transparent !important;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .passport-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50vh;
+            max-width: 95vw;
+            background: rgba(10, 10, 20, 0.92);
+            backdrop-filter: blur(18px);
+            border-radius: 2.5vh;
+            padding: 3vh 3.5vh;
+            box-shadow: 0 0 60px rgba(0,0,0,0.9), 0 0 15px rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            pointer-events: auto;
+            display: none;
+        }
+        .passport-container.visible { display: block; }
+
+        .passport-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 1.2vh;
+            margin-bottom: 2vh;
+        }
+        .passport-title {
+            color: rgba(255,255,255,0.9);
+            font-size: 2.4vh;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.15vh;
+        }
+        .passport-title span { color: #FFCC3F; }
+        .passport-close {
+            color: rgba(255,255,255,0.4);
+            font-size: 2.4vh;
+            cursor: pointer;
+            transition: 0.2s;
+            background: rgba(255,255,255,0.05);
+            width: 4vh;
+            height: 4vh;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .passport-close:hover {
+            color: #fff;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .passport-photo {
+            width: 14vh;
+            height: 16vh;
+            background: rgba(255,255,255,0.05);
+            border-radius: 1.2vh;
+            margin: 0 auto 2.5vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.2);
+            font-size: 1.2vh;
+            border: 1px solid rgba(255,255,255,0.05);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .passport-table { width: 100%; border-collapse: collapse; }
+        .passport-table td {
+            padding: 0.8vh 0.5vh;
+            color: rgba(255,255,255,0.75);
+            font-size: 1.5vh;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        .passport-table td:first-child {
+            color: rgba(255,255,255,0.4);
+            font-weight: 500;
+            width: 35%;
+            text-transform: uppercase;
+            font-size: 1.2vh;
+            letter-spacing: 0.1vh;
+        }
+        .passport-table td:last-child {
+            font-weight: 600;
+            color: #fff;
+        }
+        .passport-table tr:last-child td { border-bottom: none; }
+    </style>
 </head>
 <body>
 
@@ -14,42 +113,73 @@
         <div class="passport-close" id="close-btn">✕</div>
     </div>
 
-    <div class="passport-body">
-        <!-- Фото (заглушка) -->
-        <div class="passport-photo">
-            <span>Фото</span>
-        </div>
-
-        <!-- Данные -->
-        <table class="passport-table">
-            <tr>
-                <td>Фамилия</td>
-                <td id="pSurname">—</td>
-            </tr>
-            <tr>
-                <td>Имя</td>
-                <td id="pRusname">—</td>
-            </tr>
-            <tr>
-                <td>Отчество</td>
-                <td id="pOtchestvo">—</td>
-            </tr>
-            <tr>
-                <td>Пол</td>
-                <td id="pSex">—</td>
-            </tr>
-            <tr>
-                <td>Дата рождения</td>
-                <td id="pBirth">—</td>
-            </tr>
-            <tr>
-                <td>Номер паспорта</td>
-                <td id="pId">—</td>
-            </tr>
-        </table>
+    <div class="passport-photo" id="photo-container">
+        <img id="skin-image" src="" alt="Фото" style="display:none; width:100%; height:100%; object-fit:cover;">
+        <span id="skin-placeholder">Фото</span>
     </div>
+
+    <table class="passport-table">
+        <tr><td>Фамилия</td><td id="pSurname">—</td></tr>
+        <tr><td>Имя</td><td id="pRusname">Неизвестный</td></tr>
+        <tr><td>Отчество</td><td id="pOtchestvo">—</td></tr>
+        <tr><td>Пол</td><td id="pSex">м.</td></tr>
+        <tr><td>Дата рождения</td><td id="pBirth">—</td></tr>
+        <tr><td>Номер паспорта</td><td id="pId">—</td></tr>
+    </table>
 </div>
 
-<script src="script.js"></script>
+<script>
+    // ===== ЗАКРЫТИЕ =====
+    document.getElementById('close-btn').addEventListener('click', closePassport);
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Alt') { e.preventDefault(); closePassport(); }
+    });
+
+    function closePassport() {
+        document.getElementById('passport').classList.remove('visible');
+        if (typeof cef !== 'undefined') cef.emit('passport:close');
+    }
+
+    // ===== ФУНКЦИЯ ОБНОВЛЕНИЯ (для теста в браузере) =====
+    function updatePassport(surname, name, otchestvo, sex, birth, id, skin) {
+        document.getElementById('pSurname').innerText = surname || '—';
+        document.getElementById('pRusname').innerText = name || 'Неизвестный';
+        document.getElementById('pOtchestvo').innerText = otchestvo || '—';
+        document.getElementById('pSex').innerText = sex || 'м.';
+        document.getElementById('pBirth').innerText = birth || '—';
+        document.getElementById('pId').innerText = id || '—';
+
+        // Скин
+        const img = document.getElementById('skin-image');
+        const placeholder = document.getElementById('skin-placeholder');
+        if (skin && skin > 0) {
+            img.src = `images/skins/${skin}.png`;
+            img.style.display = 'block';
+            placeholder.style.display = 'none';
+        } else {
+            img.style.display = 'none';
+            placeholder.style.display = 'block';
+        }
+
+        document.getElementById('passport').classList.add('visible');
+    }
+
+    // ===== ЗАГЛУШКА ДЛЯ ТЕСТА В БРАУЗЕРЕ =====
+    if (typeof cef === 'undefined') {
+        console.log('[PASSPORT] Тестовый режим');
+        // Запускаем через 0.5 секунды, чтобы HTML успел загрузиться
+        setTimeout(function() {
+            updatePassport("Иванов", "Иван", "Иванович", "м.", "12.05.1999", "123456", 1);
+        }, 500);
+    }
+
+    // ===== ПРИЁМ ДАННЫХ ОТ СЕРВЕРА =====
+    if (typeof cef !== 'undefined') {
+        cef.on('interface:set:showPassport', function(surname, name, otchestvo, sex, birth, id, skin) {
+            updatePassport(surname, name, otchestvo, sex, birth, id, skin);
+        });
+        console.log('[PASSPORT] CEF подключён');
+    }
+</script>
 </body>
 </html>
