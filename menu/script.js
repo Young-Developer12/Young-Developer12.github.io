@@ -1,5 +1,6 @@
-// ===== ЗАКРЫТИЕ =====
+// ===== ЗАКРЫТИЕ ПО КРЕСТИКУ, ALT И ESC =====
 document.getElementById('close-btn').addEventListener('click', closeMenu);
+
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Alt' || e.key === 'Escape') {
         e.preventDefault();
@@ -17,18 +18,14 @@ function closeMenu() {
 // ===== ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК =====
 document.querySelectorAll('.tab-btn').forEach(function(btn) {
     btn.addEventListener('click', function() {
-        // Убираем активный класс у всех вкладок
         document.querySelectorAll('.tab-btn').forEach(function(b) {
             b.classList.remove('active');
         });
-        // Добавляем активный класс нажатой вкладке
         this.classList.add('active');
 
-        // Скрываем все табы
         document.querySelectorAll('.tab-content').forEach(function(content) {
             content.classList.remove('active');
         });
-        // Показываем нужный таб
         var tabId = this.getAttribute('data-tab');
         document.getElementById('tab-' + tabId).classList.add('active');
     });
