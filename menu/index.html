@@ -9,67 +9,72 @@
 <body>
 
 <div id="menu-container" class="menu-container">
-    <!-- Хедер + Заголовок -->
-    <div class="menu-header">
-        <div class="menu-title">MAIN <span>MENU</span></div>
-        <div class="menu-close" id="close-btn">✕</div>
-    </div>
+    <!-- Фон на весь экран -->
+    <div class="menu-overlay"></div>
 
-    <!-- Вкладки (Tabs) -->
-    <div class="tabs">
-        <div class="tab-btn active" data-tab="home">🏠 Главная</div>
-        <div class="tab-btn" data-tab="shop">🛒 Магазин</div>
-        <div class="tab-btn" data-tab="quests">📜 Квесты</div>
-    </div>
+    <div class="menu-wrapper">
+        <!-- Хедер + Заголовок -->
+        <div class="menu-header">
+            <div class="menu-title">MAIN <span>MENU</span></div>
+            <div class="menu-close" id="close-btn">✕</div>
+        </div>
 
-    <!-- Контент вкладок -->
-    <div id="tab-home" class="tab-content active">
-        <div class="menu-list">
-            <div class="menu-item" data-id="1">
-                <div class="menu-item-icon">📊</div>
-                <div class="menu-item-text">Статистика</div>
-            </div>
-            <div class="menu-item" data-id="2">
-                <div class="menu-item-icon">⚙️</div>
-                <div class="menu-item-text">Настройки</div>
-            </div>
-            <div class="menu-item" data-id="6">
-                <div class="menu-item-icon">🔗</div>
-                <div class="menu-item-text">Прикреплённые предметы</div>
+        <!-- Вкладки (Tabs) -->
+        <div class="tabs">
+            <div class="tab-btn active" data-tab="home">🏠 Главная</div>
+            <div class="tab-btn" data-tab="shop">🛒 Магазин</div>
+            <div class="tab-btn" data-tab="quests">📜 Квесты</div>
+        </div>
+
+        <!-- Контент вкладок -->
+        <div id="tab-home" class="tab-content active">
+            <div class="menu-list">
+                <div class="menu-item" data-id="1">
+                    <div class="menu-item-icon">📊</div>
+                    <div class="menu-item-text">Статистика</div>
+                </div>
+                <div class="menu-item" data-id="2">
+                    <div class="menu-item-icon">⚙️</div>
+                    <div class="menu-item-text">Настройки</div>
+                </div>
+                <div class="menu-item" data-id="6">
+                    <div class="menu-item-icon">🔗</div>
+                    <div class="menu-item-text">Прикреплённые предметы</div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div id="tab-shop" class="tab-content">
-        <div class="menu-list">
-            <div class="menu-item" data-id="10">
-                <div class="menu-item-icon">🚗</div>
-                <div class="menu-item-text">Автомобили</div>
-            </div>
-            <div class="menu-item" data-id="11">
-                <div class="menu-item-icon">🏠</div>
-                <div class="menu-item-text">Недвижимость</div>
-            </div>
-            <div class="menu-item" data-id="12">
-                <div class="menu-item-icon">👕</div>
-                <div class="menu-item-text">Одежда</div>
+        <div id="tab-shop" class="tab-content">
+            <div class="menu-list">
+                <div class="menu-item" data-id="10">
+                    <div class="menu-item-icon">🚗</div>
+                    <div class="menu-item-text">Автомобили</div>
+                </div>
+                <div class="menu-item" data-id="11">
+                    <div class="menu-item-icon">🏠</div>
+                    <div class="menu-item-text">Недвижимость</div>
+                </div>
+                <div class="menu-item" data-id="12">
+                    <div class="menu-item-icon">👕</div>
+                    <div class="menu-item-text">Одежда</div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div id="tab-quests" class="tab-content">
-        <div class="menu-list">
-            <div class="menu-item" data-id="20">
-                <div class="menu-item-icon">📋</div>
-                <div class="menu-item-text">Активные квесты</div>
-            </div>
-            <div class="menu-item" data-id="21">
-                <div class="menu-item-icon">✅</div>
-                <div class="menu-item-text">Завершённые квесты</div>
-            </div>
-            <div class="menu-item" data-id="22">
-                <div class="menu-item-icon">❓</div>
-                <div class="menu-item-text">Помощь по квестам</div>
+        <div id="tab-quests" class="tab-content">
+            <div class="menu-list">
+                <div class="menu-item" data-id="20">
+                    <div class="menu-item-icon">📋</div>
+                    <div class="menu-item-text">Активные квесты</div>
+                </div>
+                <div class="menu-item" data-id="21">
+                    <div class="menu-item-icon">✅</div>
+                    <div class="menu-item-text">Завершённые квесты</div>
+                </div>
+                <div class="menu-item" data-id="22">
+                    <div class="menu-item-icon">❓</div>
+                    <div class="menu-item-text">Помощь по квестам</div>
+                </div>
             </div>
         </div>
     </div>
