@@ -77,7 +77,7 @@ document.getElementById('register-btn').addEventListener('click', function() {
 });
 
 // ===== ВЫБОР СКИНА =====
-let selectedSkin = 0; // <-- ОДНА СТРОКА, БОЛЬШЕ НИГДЕ НЕ ПИШИТЕ let selectedSkin
+let selectedSkin = 0;
 
 function loadSkins() {
     const grid = document.getElementById('skin-options');
@@ -140,8 +140,6 @@ if (typeof cef === 'undefined') {
     console.log('[AUTH] Тестовый режим');
     setTimeout(function() {
         document.getElementById('auth-container').classList.add('visible');
-        document.getElementById('skin-selection').style.display = 'block';
-        loadSkins();
     }, 500);
 }
 
@@ -154,6 +152,7 @@ if (typeof cef !== 'undefined') {
         document.getElementById('auth-container').classList.remove('visible');
     });
 
+    // Открыть выбор скина после регистрации
     cef.on('auth:showSkinSelection', function() {
         document.getElementById('skin-selection').style.display = 'block';
         loadSkins();
