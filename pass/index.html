@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>Паспорт</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="passport" class="passport-container">
+    <div class="passport-header">
+        <div class="passport-title">Паспорт <span>РФ</span></div>
+        <div class="passport-close" id="close-btn">✕</div>
+    </div>
+
+    <div class="passport-body">
+        <!-- Фото (заглушка) -->
+        <div class="passport-photo">
+            <span>Фото</span>
+        </div>
+
+        <!-- Данные -->
+        <table class="passport-table">
+            <tr>
+                <td>Фамилия</td>
+                <td id="pSurname">—</td>
+            </tr>
+            <tr>
+                <td>Имя</td>
+                <td id="pRusname">—</td>
+            </tr>
+            <tr>
+                <td>Отчество</td>
+                <td id="pOtchestvo">—</td>
+            </tr>
+            <tr>
+                <td>Пол</td>
+                <td id="pSex">—</td>
+            </tr>
+            <tr>
+                <td>Дата рождения</td>
+                <td id="pBirth">—</td>
+            </tr>
+            <tr>
+                <td>Номер паспорта</td>
+                <td id="pId">—</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
