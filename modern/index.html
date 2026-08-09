@@ -7,11 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         /* ===== RESET & BASE ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body {
             width: 100%;
             height: 100%;
@@ -30,40 +26,41 @@
             visibility: visible;
         }
 
-        /* ===== TOP RIGHT BLOCK ===== */
-        .top-logo-block {
+        /* ===== RIGHT PANEL (все элементы справа в одной колонке) ===== */
+        .right-panel {
             position: absolute;
             top: 2vh;
             right: 2vh;
             display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: flex-end;
+            flex-direction: column;
+            align-items: flex-end;
             gap: 0.8vh;
-            max-width: 50vw;
             z-index: 10;
         }
 
-        /* ===== INFO STYLE (Classic Premium) ===== */
+        /* ===== INFO ROW (время, дата, ник, ID) ===== */
+        .info-row {
+            display: flex;
+            gap: 0.6vh;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
         .info-style {
             display: inline-block;
-            position: relative;
             text-align: right;
             font-size: 1.4vh;
             font-weight: 700;
-            padding: 0.4vh 1.8vh 0.4vh 1.8vh;
+            padding: 0.4vh 1.6vh;
             color: #1a1a1a;
             background: rgba(255, 255, 255, 0.92);
-            transform: skewX(-15deg);
+            transform: skewX(-12deg);
             backdrop-filter: blur(4px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-            letter-spacing: 0.05vh;
-            border-radius: 4px;
-            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
         }
         .info-style span {
             display: inline-block;
-            transform: skewX(15deg);
+            transform: skewX(12deg);
         }
         .info-style-id {
             background: #FFCC3F !important;
@@ -71,134 +68,114 @@
             font-weight: 800;
         }
 
-        /* ===== SERVER LOGO ===== */
-        .server-logo {
-            height: 4.5vh;
-            width: auto;
-            opacity: 0.95;
-            pointer-events: none;
-            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
-            margin-right: 1vh;
-        }
-
         /* ===== WEAPON BLOCK ===== */
         .weapon-block {
-            position: absolute;
-            top: 11vh;
-            right: 3.5vh;
             display: flex;
             align-items: center;
             gap: 0.6vh;
             background: rgba(0, 0, 0, 0.55);
-            padding: 0.5vh 1.2vh 0.5vh 0.8vh;
-            border-radius: 1.2vh;
+            padding: 0.4vh 1.2vh 0.4vh 0.6vh;
+            border-radius: 1vh;
             backdrop-filter: blur(8px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
         .weapon-png {
-            width: 5.5vh;
+            width: 5vh;
             height: auto;
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.1));
+            filter: drop-shadow(0 0 8px rgba(255,255,255,0.05));
         }
         .weapon-ammo {
             color: #fff;
-            font-size: 1.6vh;
+            font-size: 1.4vh;
             font-weight: 600;
             background: rgba(0, 0, 0, 0.3);
             padding: 0.2vh 0.8vh;
             border-radius: 0.4vh;
-            border-left: 2px solid rgba(255,255,255,0.15);
+            border-left: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* ===== PROGRESS BARS (Modern) ===== */
-        .progress-bar-block {
-            position: absolute;
-            top: 17vh;
-            right: 3.5vh;
+        /* ===== STATS BLOCK (здоровье + броня) ===== */
+        .stats-block {
             display: flex;
             flex-direction: column;
-            gap: 0.8vh;
+            gap: 0.4vh;
+            width: 16vh;
         }
-        .progress-bar-block > div {
+        .stat-item {
             display: flex;
             align-items: center;
             gap: 0.6vh;
-            background: rgba(0, 0, 0, 0.45);
+            background: rgba(0, 0, 0, 0.5);
             padding: 0.3vh 0.8vh 0.3vh 0.5vh;
             border-radius: 0.8vh;
             backdrop-filter: blur(6px);
-            min-width: 14vh;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            border: 1px solid rgba(255,255,255,0.06);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border: 1px solid rgba(255,255,255,0.05);
         }
-        .bar-icon {
-            width: 2.8vh;
+        .stat-icon {
+            width: 2.6vh;
             height: auto;
-            filter: drop-shadow(0 0 6px rgba(0,0,0,0.5));
+            filter: drop-shadow(0 0 6px rgba(0,0,0,0.4));
         }
-        .bar-indicator {
+        .stat-value {
             color: #fff;
-            font-size: 1.8vh;
+            font-size: 1.6vh;
             font-weight: 700;
-            min-width: 5vh;
+            min-width: 4vh;
             text-align: right;
-            text-shadow: 0 0 10px rgba(0,0,0,0.6);
+            text-shadow: 0 0 8px rgba(0,0,0,0.5);
         }
-        /* Цветные полоски под барами (визуальные) */
-        .bar-fill {
-            height: 0.3vh;
+        .stat-bar {
+            height: 0.25vh;
             border-radius: 0.3vh;
             width: 100%;
-            margin-top: 0.2vh;
+            margin-top: 0.1vh;
             background: linear-gradient(90deg, #00ff88, #00cc66);
-            box-shadow: 0 0 8px rgba(0,255,136,0.3);
+            box-shadow: 0 0 6px rgba(0,255,136,0.2);
         }
-        .bar-fill.armour {
+        .stat-bar.armour {
             background: linear-gradient(90deg, #4d9eff, #0066ff);
-            box-shadow: 0 0 8px rgba(77,158,255,0.3);
+            box-shadow: 0 0 6px rgba(77,158,255,0.2);
         }
 
         /* ===== MONEY BLOCK ===== */
         .money-block {
-            position: absolute;
-            bottom: 4vh;
-            right: 3.5vh;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 0.8vh 2vh 0.8vh 1.5vh;
-            border-radius: 1.2vh;
-            backdrop-filter: blur(8px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
-            border: 1px solid rgba(255,255,255,0.08);
-            display: flex;
-            align-items: center;
-            gap: 0.8vh;
-        }
-        .money {
-            color: #fff;
-            font-size: 2.2vh;
-            font-weight: 700;
             display: flex;
             align-items: center;
             gap: 0.6vh;
-            text-shadow: 0 0 15px rgba(0,0,0,0.4);
+            background: rgba(0, 0, 0, 0.5);
+            padding: 0.5vh 1.4vh 0.5vh 1vh;
+            border-radius: 1vh;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .money {
+            color: #fff;
+            font-size: 2vh;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5vh;
+            text-shadow: 0 0 10px rgba(0,0,0,0.3);
         }
         .money img {
-            filter: drop-shadow(0 0 8px rgba(255,215,0,0.3));
+            filter: drop-shadow(0 0 8px rgba(255,215,0,0.2));
         }
 
-        /* ===== SPEEDOMETER (Premium) ===== */
+        /* ===== LEFT PANEL (спидометр) ===== */
         .modern-cefstudio-speed {
             position: absolute;
-            bottom: 4vh;
-            left: 3.5vh;
+            bottom: 3vh;
+            left: 3vh;
             visibility: hidden;
             transition: opacity 0.4s ease;
         }
         .speed-bg {
             position: relative;
-            width: 26vh;
-            height: 26vh;
+            width: 24vh;
+            height: 24vh;
         }
         .speed-count {
             position: absolute;
@@ -206,107 +183,103 @@
             left: 50%;
             transform: translate(-50%, -50%);
             color: #fff;
-            font-size: 5.2vh;
+            font-size: 4.8vh;
             font-weight: 800;
-            text-shadow: 0 0 30px rgba(0,0,0,0.8);
-            letter-spacing: 0.1vh;
+            text-shadow: 0 0 25px rgba(0,0,0,0.8);
         }
         .speed-kmh {
             position: absolute;
-            bottom: 3.5vh;
+            bottom: 3vh;
             left: 50%;
             transform: translateX(-50%);
-            color: rgba(255,255,255,0.5);
-            font-size: 1.6vh;
+            color: rgba(255,255,255,0.4);
+            font-size: 1.4vh;
             font-weight: 500;
-            letter-spacing: 0.2vh;
             text-transform: uppercase;
+            letter-spacing: 0.2vh;
         }
         .speed-meter {
             stroke: #FFCC3F;
-            stroke-width: 6px;
+            stroke-width: 5px;
             fill: none;
             transition: stroke-dashoffset 0.3s ease;
-            filter: drop-shadow(0 0 12px rgba(255,204,63,0.3));
+            filter: drop-shadow(0 0 10px rgba(255,204,63,0.2));
         }
         .speed-meter-bg {
-            stroke: rgba(255,255,255,0.1);
-            stroke-width: 6px;
+            stroke: rgba(255,255,255,0.08);
+            stroke-width: 5px;
             fill: none;
         }
-        /* Стрелки поворотников */
         .arrow-icon {
             position: absolute;
-            bottom: 1.2vh;
+            bottom: 1vh;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 1.2vh;
+            gap: 1vh;
         }
         .arrow-icon svg {
-            width: 2.8vh;
-            height: 2vh;
+            width: 2.6vh;
+            height: 1.8vh;
         }
         .left-arrow-anim, .right-arrow-anim {
-            fill: rgba(255,255,255,0.2);
+            fill: rgba(255,255,255,0.15);
             transition: all 0.3s;
-            filter: drop-shadow(0 0 4px rgba(255,255,255,0));
         }
         .left-arrow-anim.active, .right-arrow-anim.active {
             fill: #FFCC3F;
             animation: blink 0.6s infinite;
-            filter: drop-shadow(0 0 12px rgba(255,204,63,0.6));
+            filter: drop-shadow(0 0 10px rgba(255,204,63,0.4));
         }
         @keyframes blink {
             0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.3; transform: scale(0.9); }
+            50% { opacity: 0.2; transform: scale(0.9); }
             100% { opacity: 1; transform: scale(1); }
         }
 
-        /* ===== FUEL ===== */
+        /* ===== FUEL & ODOMETER ===== */
         .fuel-count {
             position: absolute;
-            bottom: 0.8vh;
-            right: 1.5vh;
-            color: rgba(255,255,255,0.7);
-            font-size: 1.4vh;
+            bottom: 0.6vh;
+            right: 1.2vh;
+            color: rgba(255,255,255,0.5);
+            font-size: 1.2vh;
             font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 0.5vh;
-            background: rgba(0,0,0,0.2);
-            padding: 0.2vh 0.8vh;
-            border-radius: 0.6vh;
-            backdrop-filter: blur(2px);
+            gap: 0.4vh;
+            background: rgba(0,0,0,0.15);
+            padding: 0.1vh 0.6vh;
+            border-radius: 0.4vh;
         }
         .fuel-icon {
-            width: 1.8vh;
+            width: 1.6vh;
             height: auto;
-            opacity: 0.7;
+            opacity: 0.6;
         }
         .odometr-block {
             position: absolute;
-            bottom: 6.5vh;
+            bottom: 5.8vh;
             left: 50%;
             transform: translateX(-50%);
-            color: rgba(255,255,255,0.4);
-            font-size: 1.2vh;
+            color: rgba(255,255,255,0.3);
+            font-size: 1.1vh;
             font-weight: 500;
-            text-align: center;
             letter-spacing: 0.1vh;
         }
 
         /* ===== АДАПТИВ ===== */
         @media (max-width: 768px) {
-            .money-block { bottom: 2vh; right: 2vh; padding: 0.5vh 1.2vh; }
-            .weapon-block { top: 14vh; right: 2vh; }
-            .progress-bar-block { top: 20vh; right: 2vh; }
+            .right-panel { top: 1vh; right: 1vh; gap: 0.5vh; }
+            .info-style { font-size: 1.1vh; padding: 0.2vh 1vh; }
+            .weapon-block { padding: 0.3vh 0.8vh; }
+            .weapon-png { width: 4vh; }
+            .stats-block { width: 13vh; }
+            .money-block { padding: 0.4vh 1vh; }
+            .money { font-size: 1.6vh; }
             .modern-cefstudio-speed { bottom: 2vh; left: 2vh; }
-            .speed-bg { width: 20vh; height: 20vh; }
-            .speed-count { font-size: 4vh; }
-            .info-style { font-size: 1.2vh; padding: 0.2vh 1vh; }
-            .top-logo-block { top: 1vh; right: 1vh; gap: 0.4vh; }
-            .server-logo { height: 3vh; }
+            .speed-bg { width: 18vh; height: 18vh; }
+            .speed-count { font-size: 3.6vh; }
         }
     </style>
 </head>
@@ -345,40 +318,45 @@
 
 <!-- ===== MAIN HUD ===== -->
 <div id="modern-cefstudio" class="modern-cefstudio">
-    <div class="top-logo-block">
-        <img class="server-logo" src="icon/logotype.png" alt="logo">
-        <div class="info-style"><span id="time">00:00</span></div>
-        <div class="info-style"><span id="data">01.01.24</span></div>
-        <div class="info-style"><span id="s1">Player</span></div>
-        <div class="info-style info-style-id"><span id="s2">0</span></div>
-    </div>
+    <div class="right-panel">
+        <!-- INFO ROW -->
+        <div class="info-row">
+            <div class="info-style"><span id="time">00:00</span></div>
+            <div class="info-style"><span id="data">01.01.24</span></div>
+            <div class="info-style"><span id="s1">Player</span></div>
+            <div class="info-style info-style-id"><span id="s2">0</span></div>
+        </div>
 
-    <div class="weapon-block">
-        <img id="weapon_id" class="weapon-png" src="icon/weapon/gun_0.png" alt="weapon">
-        <div id="weapon_ammo" class="weapon-ammo"></div>
-    </div>
+        <!-- WEAPON -->
+        <div class="weapon-block">
+            <img id="weapon_id" class="weapon-png" src="icon/weapon/gun_0.png" alt="weapon">
+            <div id="weapon_ammo" class="weapon-ammo"></div>
+        </div>
 
-    <div class="progress-bar-block">
-        <div id="health-bar">
-            <img class="bar-icon" src="icon/hp.svg" alt="hp">
-            <div>
-                <div id="b1" class="bar-indicator">100</div>
-                <div class="bar-fill"></div>
+        <!-- STATS -->
+        <div class="stats-block">
+            <div class="stat-item">
+                <img class="stat-icon" src="icon/hp.svg" alt="hp">
+                <div>
+                    <div id="b1" class="stat-value">100</div>
+                    <div class="stat-bar"></div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <img class="stat-icon" src="icon/armour.svg" alt="armour">
+                <div>
+                    <div id="b3" class="stat-value">0</div>
+                    <div class="stat-bar armour"></div>
+                </div>
             </div>
         </div>
-        <div id="armour-bar">
-            <img class="bar-icon" src="icon/armour.svg" alt="armour">
-            <div>
-                <div id="b3" class="bar-indicator">0</div>
-                <div class="bar-fill armour"></div>
-            </div>
-        </div>
-    </div>
 
-    <div class="money-block">
-        <div id="s3" class="money">
-            <img src="icon/cash.svg" alt="cash" style="width:2.8vh; height:auto;">
-            <span>0</span>
+        <!-- MONEY -->
+        <div class="money-block">
+            <div id="s3" class="money">
+                <img src="icon/cash.svg" alt="cash" style="width:2.6vh; height:auto;">
+                <span>0</span>
+            </div>
         </div>
     </div>
 </div>
@@ -391,19 +369,19 @@ body { background: transparent; overflow: hidden; user-select: none; }
 <!-- JAVASCRIPT (всё в одном) -->
 <!-- ============================================================ -->
 <script>
-// ----- БЛОКИРОВКА ВЫДЕЛЕНИЯ -----
+// ----- БЛОКИРОВКА -----
 document.ondragstart = test;
 document.onselectstart = test;
 document.oncontextmenu = test;
 function test() { return false; }
 
-// ----- ВАШ СКРИПТ: ПОВОРОТНИКИ (script.js) -----
+// ----- ПОВОРОТНИКИ (script.js) -----
 var all_arrow = false;
 var left_arrow = false;
 var right_arrow = false;
 
 document.addEventListener('keyup', function (event) {
-    if (event.keyCode === 81) { // Q
+    if (event.keyCode === 81) {
         if (left_arrow == false) {
             document.getElementById("left-arrow").style = "animation: arrow 0.6s infinite;";
             document.getElementById("right-arrow").style = "animation: 0; animation-delay: 0;";
@@ -419,7 +397,7 @@ document.addEventListener('keyup', function (event) {
 });
 
 document.addEventListener('keyup', function (event) {
-    if (event.keyCode === 69) { // E
+    if (event.keyCode === 69) {
         if (right_arrow == false) {
             document.getElementById("right-arrow").style = "animation: arrow 0.6s infinite;";
             document.getElementById("left-arrow").style = "animation: 0; animation-delay: 0;";
@@ -434,7 +412,7 @@ document.addEventListener('keyup', function (event) {
     }
 });
 
-// ----- ВАШ СКРИПТ: ВРЕМЯ И ДАТА (time.js) -----
+// ----- ВРЕМЯ И ДАТА (time.js) -----
 function zero_first_format(value) {
     return value < 10 ? '0' + value : value;
 }
@@ -459,7 +437,7 @@ setInterval(function () {
     times();
 }, 1000);
 
-// ----- CEF СОБЫТИЯ (из script.js) -----
+// ----- CEF СОБЫТИЯ -----
 if (typeof cef !== 'undefined') {
     cef.on("modern:speed:arrow", (type) => {
         if (type == 0) {
@@ -498,7 +476,7 @@ cef.emit("game:data:pollPlayerStats", true, 50);
 cef.on("game:data:playerStats", (hp, max_hp, arm, breath, wanted, weapon, ammo, max_ammo, money, speed) => {
     document.getElementById('b1').innerHTML = Math.round(hp);
     document.getElementById('b3').innerHTML = Math.round(arm);
-    document.getElementById('s3').innerHTML = `<img src="icon/cash.svg" style="width: 2.8vh; height: auto; filter: drop-shadow(0 0 8px rgba(255,215,0,0.3));"> ${formatt(money)}`;
+    document.getElementById('s3').innerHTML = `<img src="icon/cash.svg" alt="cash" style="width:2.6vh;height:auto;filter:drop-shadow(0 0 8px rgba(255,215,0,0.2));"> ${formatt(money)}`;
 
     var weaponID = weapon;
     var weaponAmmo = '';
