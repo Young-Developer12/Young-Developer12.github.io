@@ -1,0 +1,114 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    user-select: none;
+    background: transparent !important;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* ===== КОНТЕЙНЕР ПАСПОРТА ===== */
+.passport-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 45vh;
+    max-width: 90vw;
+    background: rgba(15, 15, 25, 0.92);
+    backdrop-filter: blur(16px);
+    border-radius: 2vh;
+    padding: 3vh 3.5vh;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.9), 0 0 15px rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    pointer-events: auto;
+    display: none;
+}
+.passport-container.visible {
+    display: block;
+}
+
+/* ===== ЗАГОЛОВОК ===== */
+.passport-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    padding-bottom: 1.2vh;
+    margin-bottom: 2vh;
+}
+.passport-title {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 2.4vh;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.15vh;
+}
+.passport-title span {
+    color: #FFCC3F;
+}
+.passport-close {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 2.4vh;
+    cursor: pointer;
+    transition: color 0.2s;
+    background: rgba(255, 255, 255, 0.05);
+    width: 3.5vh;
+    height: 3.5vh;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.passport-close:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* ===== ФОТО ===== */
+.passport-photo {
+    width: 12vh;
+    height: 16vh;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 1vh;
+    margin: 0 auto 2vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.2);
+    font-size: 1.2vh;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* ===== ТАБЛИЦА ===== */
+.passport-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1vh;
+}
+.passport-table td {
+    padding: 0.6vh 0.8vh;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 1.5vh;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+.passport-table td:first-child {
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 500;
+    width: 35%;
+    text-transform: uppercase;
+    font-size: 1.2vh;
+    letter-spacing: 0.1vh;
+}
+.passport-table td:last-child {
+    font-weight: 600;
+    color: #fff;
+}
+.passport-table tr:last-child td {
+    border-bottom: none;
+}
