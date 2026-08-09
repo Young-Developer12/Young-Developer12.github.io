@@ -1,158 +1,141 @@
 // ============================================================
-// interface.hud.js — Полный HUD (Машина + Персонаж)
+// hud.js — логика HUD
 // ============================================================
 
-// ----- ПОВОРОТНИКИ (Q / E) -----
-var all_arrow = false;
-var left_arrow = false;
-var right_arrow = false;
+// ----- 1. ФОРМАТИРОВАНИЕ ДЕНЕГ -----
+function formatt(i) {
+    var text_fmt = String(i);
+    var text_tmp = text_fmt;
+    var text_len = text_fmt.length;
+    var dots_count = 0;
 
-document.addEventListener('keyup', function (event) {
-    if (event.keyCode === 81) { // Q — левый поворотник
-        if (left_arrow == false) {
-            var arrow = document.getElementById("left-arrow");
-            arrow.style = "animation: arrow 0.6s infinite;";
-            document.getElementById("right-arrow").style = "animation: 0; animation-delay: 0;";
-            left_arrow = true;
-            right_arrow = false;
-        }
-        else if (left_arrow == true) {
-            var arrow = document.getElementById("left-arrow");
-            arrow.style = "animation: 0; animation-delay: 0;";
-            document.getElementById("right-arrow").style = "animation: 0; animation-delay: 0;";
-            left_arrow = false;
-            right_arrow = false;
+    for (var idx = 0; idx < (text_len - 1); idx++) {
+        if (text_tmp[idx] == '.') continue;
+        if (((text_len - (idx + 1)) % 3) == 0) {
+            dots_count++;
+            text_tmp = text_tmp.slice(0, idx + dots_count) + '.' + text_tmp.slice(idx + dots_count);
         }
     }
-});
-
-document.addEventListener('keyup', function (event) {
-    if (event.keyCode === 69) { // E — правый поворотник
-        if (right_arrow == false) {
-            var arrow = document.getElementById("right-arrow");
-            arrow.style = "animation: arrow 0.6s infinite;";
-            document.getElementById("left-arrow").style = "animation: 0; animation-delay: 0;";
-            right_arrow = true;
-            left_arrow = false;
-        }
-        else if (right_arrow == true) {
-            var arrow = document.getElementById("right-arrow");
-            arrow.style = "animation: 0; animation-delay: 0;";
-            document.getElementById("left-arrow").style = "animation: 0; animation-delay: 0;";
-            right_arrow = false;
-            left_arrow = false;
-        }
-    }
-});
-
-// ----- МАШИННЫЕ ДАННЫЕ (CEF) -----
-cef.on("modern:speed:arrow", (type) => {
-    if (type == 0) {
-        document.getElementById("left-arrow").style = "animation: 0; animation-delay: 0;";
-        document.getElementById("right-arrow").style = "animation: 0; animation-delay: 0;";
-    }
-    if (type == 1) {
-        document.getElementById("left-arrow").style = "animation: arrow 0.6s infinite;";
-        document.getElementById("right-arrow").style = "animation: arrow 0.6s infinite;";
-    }
-});
-
-cef.on("modern:speed:update", (odometer_val, gas_val) => {
-    // Обновляем пробег
-    document.getElementById('speed-odometer').innerHTML = Math.round(odometer_val);
-    
-    // Обновляем бензин (сохраняя иконку)
-    document.getElementById('speed-fuel').innerHTML = `
-        <svg class="fuel-icon" width="11" height="20" viewBox="0 0 17 20" fill="none">
-            <path d="M0 0H3C3.28 0 3.53 0.115789 3.71 0.305263L5.79 2.50526L6.59 1.67368C7 1.26316 7.5 1.05263 8 1.05263H14C14.5 1.05263 15 1.26316 15.41 1.67368L17 3.33684V16.3263C17 18.3579 15.36 20 13.33 20H3.67C1.64 20 0 18.3579 0 16.3263V0ZM2 2V16.3263C2 17.2526 2.75 18 3.67 18H13.33C14.25 18 15 17.2526 15 16.3263V5L13.59 3.58947C13.43 3.43158 13.22 3.33684 13 3.33684H8.41L7.2 4.58947C6.83 4.96842 6.32 5.18947 5.79 5.18947L3 2.24211V2H2Z" fill="white"/>
-        </svg> 
-        ${Math.round(gas_val)} л.`;
-});
-
-// ----- ИНФОРМАЦИЯ ОБ ИГРОКЕ (CEF) -----
-cef.on('hud:update:playerinfo', (playername, playerid) => {
-    if(document.getElementById('s1')) {
-        document.getElementById('s1').innerText = `${playername}`;
-    }
-    if(document.getElementById('s2')) {
-        document.getElementById('s2').innerText = `${playerid}`;
-    }
-});
-
-// Деньги (наличные)
-cef.on('hud:update:money', (cash) => {
-    if (document.getElementById('money')) {
-        document.getElementById('money').innerText = `${cash} $`;
-    }
-});
-
-// Здоровье
-cef.on('hud:update:health', (health) => {
-    if (document.getElementById('health')) {
-        document.getElementById('health').innerText = `${Math.round(health)}%`;
-    }
-    if (document.getElementById('health-bar')) {
-        document.getElementById('health-bar').style.width = `${health}%`;
-    }
-});
-
-// Броня
-cef.on('hud:update:armor', (armor) => {
-    if (document.getElementById('armor')) {
-        document.getElementById('armor').innerText = `${Math.round(armor)}%`;
-    }
-    if (document.getElementById('armor-bar')) {
-        document.getElementById('armor-bar').style.width = `${armor}%`;
-    }
-});
-
-// Голод
-cef.on('hud:update:hunger', (hunger) => {
-    if (document.getElementById('hunger')) {
-        document.getElementById('hunger').innerText = `${Math.round(hunger)}%`;
-    }
-    if (document.getElementById('hunger-bar')) {
-        document.getElementById('hunger-bar').style.width = `${hunger}%`;
-    }
-});
-
-// Жажда
-cef.on('hud:update:thirst', (thirst) => {
-    if (document.getElementById('thirst')) {
-        document.getElementById('thirst').innerText = `${Math.round(thirst)}%`;
-    }
-    if (document.getElementById('thirst-bar')) {
-        document.getElementById('thirst-bar').style.width = `${thirst}%`;
-    }
-});
-
-// ----- ЧАСЫ И ДАТА (реальное время) -----
-let dataElement = document.getElementById('data');
-let timeElement = document.getElementById('time');
-
-function zeroFirstFormat(value) {
-    return value < 10 ? '0' + value : value;
+    return text_tmp;
 }
 
-function updateDate() {
-    let now = new Date();
-    dataElement.innerHTML = zeroFirstFormat(now.getDate()) + "." +
-                            zeroFirstFormat(now.getMonth() + 1) + "." +
-                            now.getFullYear();
-}
-
-function updateTime() {
-    let now = new Date();
-    timeElement.innerHTML = zeroFirstFormat(now.getHours()) + ":" +
-                            zeroFirstFormat(now.getMinutes());
-}
-
-// Обновляем каждую секунду
-setInterval(() => {
-    updateDate();
-    updateTime();
+// ----- 2. ТАЙМЕР ВРЕМЕНИ (реальное) -----
+setInterval(function() {
+    var d = new Date();
+    document.getElementById('time').innerText = 
+        String(d.getHours()).padStart(2,'0') + ':' +
+        String(d.getMinutes()).padStart(2,'0') + ':' +
+        String(d.getSeconds()).padStart(2,'0');
+    document.getElementById('date').innerText = 
+        String(d.getDate()).padStart(2,'0') + '.' +
+        String(d.getMonth()+1).padStart(2,'0') + '.' +
+        String(d.getFullYear()).slice(2);
 }, 1000);
 
-// Первоначальный запуск
-updateDate();
-updateTime();
+// ----- 3. ПОВОРОТНИКИ (Q / E) -----
+var leftArrow = false;
+var rightArrow = false;
+
+document.addEventListener('keyup', function(event) {
+    if (event.keyCode === 81) { // Q
+        var left = document.getElementById('left-arrow');
+        var right = document.getElementById('right-arrow');
+        if (!leftArrow) {
+            left.className = 'left-arrow-anim active';
+            right.className = 'right-arrow-anim';
+            leftArrow = true;
+            rightArrow = false;
+        } else {
+            left.className = 'left-arrow-anim';
+            right.className = 'right-arrow-anim';
+            leftArrow = false;
+            rightArrow = false;
+        }
+    }
+    if (event.keyCode === 69) { // E
+        var left = document.getElementById('left-arrow');
+        var right = document.getElementById('right-arrow');
+        if (!rightArrow) {
+            right.className = 'right-arrow-anim active';
+            left.className = 'left-arrow-anim';
+            rightArrow = true;
+            leftArrow = false;
+        } else {
+            right.className = 'right-arrow-anim';
+            left.className = 'left-arrow-anim';
+            rightArrow = false;
+            leftArrow = false;
+        }
+    }
+});
+
+// ----- 4. ПРИЁМ ДАННЫХ ОТ СЕРВЕРА (CEF) -----
+if (typeof cef !== 'undefined') {
+
+    // Запрос данных (как в вашем примере)
+    cef.emit("game:hud:setComponentVisible", "interface", false);
+    cef.emit("game:data:pollPlayerStats", true, 50);
+
+    // ВАШЕ ГЛАВНОЕ СОБЫТИЕ
+    cef.on("game:data:playerStats", function(hp, max_hp, arm, breath, wanted, weapon, ammo, max_ammo, money, speed) {
+        // Здоровье
+        document.getElementById('b1').innerHTML = Math.round(hp);
+        
+        // Броня
+        document.getElementById('b3').innerHTML = Math.round(arm);
+
+        // Деньги (с вашей функцией форматирования)
+        document.getElementById('s3').innerHTML = 
+            `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:23px;height:23px;margin-top:-5px;margin-right:8px;">
+                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z" fill="#FFD700"/>
+                <text x="12" y="16" font-size="10" font-weight="700" fill="#333" text-anchor="middle">$</text>
+            </svg> ${formatt(money)}`;
+
+        // Оружие
+        var weaponID = weapon;
+        var weaponAmmo = '';
+        if (weaponID !== '0') {
+            weaponAmmo = `${ammo}/${(max_ammo - ammo)}`;
+        }
+        document.getElementById('weapon_id').src = `icon/weapon/gun_${weaponID}.png`;
+        document.getElementById('weapon_ammo').innerHTML = weaponAmmo;
+
+        // Спидометр (если есть элементы)
+        var speed_count = Math.round(speed * 1.4);
+        if (document.getElementById("speed-count")) {
+            document.getElementById("speed-count").innerHTML = speed_count;
+        }
+        if (document.getElementById("speed-meter")) {
+            var meter_count = 838 + (speed * 3.77);
+            document.getElementById("speed-meter").style = `stroke-dasharray: 838; stroke-dashoffset: -${meter_count};`;
+        }
+    });
+
+    // ----- ДОПОЛНИТЕЛЬНЫЕ СОБЫТИЯ -----
+    // Обновление ника и ID
+    cef.on('hud:update:playerinfo', function(playername, playerid) {
+        document.getElementById('player').innerText = playername || 'Player';
+        document.getElementById('playerid').innerText = playerid || '0';
+    });
+
+    // Обновление локации
+    cef.on('hud:update:location', function(city, street) {
+        document.getElementById('city').innerText = city || 'г.Арзамас';
+        document.getElementById('street').innerText = street || 'ул.Пушкина 52';
+    });
+
+    console.log('[HUD] Все CEF события подключены!');
+}
+
+// ----- 5. F7 — ВКЛ/ВЫКЛ HUD -----
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'F7') {
+        var hud = document.getElementById('hud');
+        hud.style.display = hud.style.display === 'none' ? 'block' : 'none';
+        if (typeof cef !== 'undefined') {
+            cef.emit('hud:toggle', hud.style.display === 'block');
+        }
+    }
+});
+
+console.log('[HUD] Ready! Press F7 to toggle.');
