@@ -34,7 +34,7 @@
             display: flex;
             flex-direction: column;
             align-items: flex-end;
-            gap: 0.6vh;
+            gap: 0.8vh;
             z-index: 10;
         }
 
@@ -49,14 +49,14 @@
         .top-info-style {
             display: inline-block;
             text-align: right;
-            font-size: 1.4vh;
+            font-size: 1.3vh;
             font-weight: 700;
-            padding: 0.3vh 1.4vh;
+            padding: 0.3vh 1.2vh;
             color: #1a1a1a;
             background: rgba(255, 255, 255, 0.9);
             transform: skewX(-12deg);
-            backdrop-filter: blur(4px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(6px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             border-radius: 3px;
         }
         .top-info-style span {
@@ -71,9 +71,8 @@
 
         /* ===== SERVER NAME ===== */
         .server-name {
-            font-family: 'Montserrat', sans-serif;
             font-weight: 900;
-            font-size: 2.8vh;
+            font-size: 2.6vh;
             text-transform: uppercase;
             letter-spacing: 0.15vh;
             text-shadow: 0 2px 20px rgba(0,0,0,0.8);
@@ -83,84 +82,95 @@
             flex-direction: column;
             align-items: flex-end;
         }
-        .server-name .white {
-            color: #ffffff;
-        }
+        .server-name .white { color: #ffffff; }
         .server-name .dark-blue {
-            color: #1a2a4a;
-            text-shadow: 0 2px 20px rgba(26, 42, 74, 0.4);
+            color: #2b4c7e;
+            text-shadow: 0 2px 20px rgba(43, 76, 126, 0.6);
         }
 
         /* ===== WEAPON ===== */
         .weapon-block {
             display: flex;
             align-items: center;
-            gap: 0.6vh;
-            background: rgba(0, 0, 0, 0.55);
-            padding: 0.4vh 1.2vh 0.4vh 0.6vh;
-            border-radius: 1vh;
+            gap: 0.8vh;
+            background: rgba(0, 0, 0, 0.65);
+            padding: 0.5vh 1.2vh;
+            border-radius: 0.8vh;
             backdrop-filter: blur(8px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            margin-top: 0.4vh;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
         .weapon-png {
             width: 5vh;
             height: auto;
-            filter: drop-shadow(0 0 8px rgba(255,255,255,0.05));
+            filter: drop-shadow(0 0 8px rgba(255,255,255,0.1));
         }
         .weapon-ammo {
             color: #fff;
             font-size: 1.4vh;
-            font-weight: 600;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 0.2vh 0.8vh;
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 0.3vh 0.8vh;
             border-radius: 0.4vh;
-            border-left: 1px solid rgba(255,255,255,0.1);
+            border-left: 2px solid #FFCC3F;
         }
 
         /* ===== STATS ===== */
         .stats-block {
             display: flex;
             flex-direction: column;
-            gap: 0.4vh;
-            width: 16vh;
+            gap: 0.5vh;
+            width: 17vh;
         }
         .stat-item {
             display: flex;
             align-items: center;
-            gap: 0.6vh;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 0.3vh 0.8vh 0.3vh 0.5vh;
+            gap: 0.8vh;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 0.4vh 0.8vh;
             border-radius: 0.8vh;
-            backdrop-filter: blur(6px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            border: 1px solid rgba(255,255,255,0.05);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.06);
         }
         .stat-icon {
-            width: 2.6vh;
+            width: 2.2vh;
             height: auto;
-            filter: drop-shadow(0 0 6px rgba(0,0,0,0.4));
+            filter: drop-shadow(0 0 6px rgba(0,0,0,0.5));
+        }
+        .stat-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.2vh;
         }
         .stat-value {
             color: #fff;
-            font-size: 1.6vh;
+            font-size: 1.3vh;
             font-weight: 700;
-            min-width: 4vh;
             text-align: right;
             text-shadow: 0 0 8px rgba(0,0,0,0.5);
         }
-        .stat-bar {
-            height: 0.25vh;
+        .stat-bar-bg {
+            height: 0.4vh;
             border-radius: 0.3vh;
             width: 100%;
-            margin-top: 0.1vh;
-            background: linear-gradient(90deg, #00ff88, #00cc66);
-            box-shadow: 0 0 6px rgba(0,255,136,0.2);
+            background: rgba(255, 255, 255, 0.1);
+            overflow: hidden;
         }
-        .stat-bar.armour {
+        .stat-bar-fill {
+            height: 100%;
+            width: 100%;
+            border-radius: 0.3vh;
+            transition: width 0.3s ease;
+        }
+        .stat-bar-fill.hp {
+            background: linear-gradient(90deg, #00ff88, #00cc66);
+            box-shadow: 0 0 8px rgba(0,255,136,0.4);
+        }
+        .stat-bar-fill.armour {
             background: linear-gradient(90deg, #4d9eff, #0066ff);
-            box-shadow: 0 0 6px rgba(77,158,255,0.2);
+            box-shadow: 0 0 8px rgba(77,158,255,0.4);
         }
 
         /* ===== MONEY ===== */
@@ -168,34 +178,32 @@
             display: flex;
             align-items: center;
             gap: 0.6vh;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 0.5vh 1.4vh 0.5vh 1vh;
-            border-radius: 1vh;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 0.6vh 1.4vh;
+            border-radius: 0.8vh;
             backdrop-filter: blur(8px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-            border: 1px solid rgba(255,255,255,0.06);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255,255,255,0.08);
         }
         .money {
-            color: #fff;
+            color: #2ecc71;
             font-size: 2vh;
-            font-weight: 700;
+            font-weight: 800;
             display: flex;
             align-items: center;
-            gap: 0.5vh;
-            text-shadow: 0 0 10px rgba(0,0,0,0.3);
-        }
-        .money img {
-            filter: drop-shadow(0 0 8px rgba(255,215,0,0.2));
+            gap: 0.6vh;
+            text-shadow: 0 0 10px rgba(46, 204, 113, 0.3);
         }
 
-        /* ===== SPEEDOMETER ===== */
+        /* ===== SPEEDOMETER (СПРАВА ВНИЗУ) ===== */
         .modern-cefstudio-speed {
             position: absolute;
             bottom: 3vh;
-            left: 3vh;
+            right: 3vh;
             visibility: hidden;
             opacity: 0;
             transition: opacity 0.4s ease, visibility 0.4s ease;
+            z-index: 10;
         }
         .modern-cefstudio-speed.visible {
             visibility: visible;
@@ -203,178 +211,275 @@
         }
         .speed-bg {
             position: relative;
-            width: 24vh;
-            height: 24vh;
-            background: rgba(0, 0, 0, 0.85);
+            width: 22vh;
+            height: 22vh;
+            background: rgba(0, 0, 0, 0.75);
             border-radius: 50%;
-            box-shadow: 0 0 40px rgba(0,0,0,0.9), inset 0 0 20px rgba(255,255,255,0.02);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 30px rgba(0,0,0,0.8), inset 0 0 15px rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
             display: flex;
             align-items: center;
             justify-content: center;
         }
         .speed-content {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
         }
         .speed-count {
             color: #fff;
-            font-size: 4.8vh;
+            font-size: 4.5vh;
             font-weight: 900;
-            text-shadow: 0 0 30px rgba(255,255,255,0.1);
-            z-index: 2;
-            letter-spacing: 0.1vh;
-            margin-top: -1.5vh; /* Чуть выше центра */
+            text-shadow: 0 0 20px rgba(255,255,255,0.2);
+            line-height: 1;
+            margin-top: -1vh;
         }
         .speed-kmh {
-            position: absolute;
-            bottom: 4.5vh;
-            left: 50%;
-            transform: translateX(-50%);
-            color: rgba(255,255,255,0.25);
-            font-size: 1.2vh;
-            font-weight: 600;
-            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+            font-size: 1.1vh;
+            font-weight: 700;
             letter-spacing: 0.2vh;
+            margin-top: 0.4vh;
         }
         .speed-meter {
             stroke: #FFCC3F;
-            stroke-width: 4px;
+            stroke-width: 5px;
             fill: none;
-            transition: stroke-dashoffset 0.3s ease;
-            filter: drop-shadow(0 0 12px rgba(255,204,63,0.25));
+            transition: stroke-dashoffset 0.2s ease;
+            filter: drop-shadow(0 0 10px rgba(255,204,63,0.4));
         }
         .speed-meter-bg {
-            stroke: rgba(255,255,255,0.06);
-            stroke-width: 4px;
+            stroke: rgba(255,255,255,0.08);
+            stroke-width: 5px;
             fill: none;
         }
         .arrow-icon {
             position: absolute;
-            bottom: 1.2vh;
+            bottom: 2vh;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
             gap: 1.2vh;
         }
-        .arrow-icon svg {
-            width: 2.6vh;
-            height: 1.8vh;
-        }
+        .arrow-icon svg { width: 2vh; height: 1.4vh; }
         .left-arrow-anim, .right-arrow-anim {
             fill: rgba(255,255,255,0.15);
-            transition: all 0.3s;
+            transition: all 0.2s ease;
         }
         .left-arrow-anim.active, .right-arrow-anim.active {
             fill: #FFCC3F;
             animation: blink 0.6s infinite;
-            filter: drop-shadow(0 0 12px rgba(255,204,63,0.5));
+            filter: drop-shadow(0 0 8px rgba(255,204,63,0.8));
         }
         @keyframes blink {
-            0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.2; transform: scale(0.9); }
-            100% { opacity: 1; transform: scale(1); }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
         }
         .fuel-count {
             position: absolute;
-            bottom: 1.2vh;
-            right: 1.8vh;
-            color: rgba(255,255,255,0.4);
+            bottom: 4vh;
+            right: 2.8vh;
+            color: rgba(255,255,255,0.6);
             font-size: 1.1vh;
-            font-weight: 500;
+            font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 0.3vh;
+            gap: 0.4vh;
         }
-        .fuel-icon {
-            width: 1.4vh;
-            height: auto;
-            opacity: 0.5;
-        }
+        .fuel-icon { width: 1.2vh; height: auto; opacity: 0.7; }
         .odometr-block {
             position: absolute;
-            bottom: 1.2vh;
-            left: 1.8vh;
-            color: rgba(255,255,255,0.3);
+            bottom: 4vh;
+            left: 2.8vh;
+            color: rgba(255,255,255,0.4);
+            font-size: 1.1vh;
+            font-weight: 600;
+            letter-spacing: 0.05vh;
+        }
+
+        /* ===== LEFT HUD: KEYBINDS & LOCATION ===== */
+        .left-panel {
+            position: absolute;
+            bottom: 3vh;
+            left: 3vh;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5vh;
+            z-index: 10;
+        }
+
+        /* KEYBINDS LIST */
+        .keybinds-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6vh;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 1.2vh;
+            border-radius: 1vh;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            width: fit-content;
+        }
+        .keybind-row {
+            display: flex;
+            align-items: center;
+            gap: 1vh;
+        }
+        .keybind-btn {
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+            font-size: 1.1vh;
+            font-weight: 800;
+            padding: 0.3vh 0.7vh;
+            border-radius: 0.4vh;
+            min-width: 2.4vh;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.15);
+            text-transform: uppercase;
+        }
+        .keybind-label {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 1.2vh;
+            font-weight: 600;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+        }
+
+        /* LOCATION BOX */
+        .location-block {
+            display: flex;
+            align-items: center;
+            gap: 1vh;
+            background: rgba(0, 0, 0, 0.55);
+            padding: 0.8vh 1.4vh;
+            border-radius: 0.8vh;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            width: fit-content;
+        }
+        .location-icon {
+            width: 2vh;
+            height: auto;
+            fill: #e74c3c;
+            filter: drop-shadow(0 0 6px rgba(231, 76, 60, 0.5));
+        }
+        .location-text {
+            display: flex;
+            flex-direction: column;
+        }
+        .location-city {
+            color: #fff;
+            font-size: 1.4vh;
+            font-weight: 800;
+            line-height: 1.1;
+        }
+        .location-street {
+            color: rgba(255, 255, 255, 0.5);
             font-size: 1.1vh;
             font-weight: 500;
-            letter-spacing: 0.1vh;
-        }
-        .speed-inner-ring {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 85%;
-            height: 85%;
-            border-radius: 50%;
-            border: 1px solid rgba(255,255,255,0.04);
-            pointer-events: none;
-        }
-        .speed-outer-ring {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 95%;
-            height: 95%;
-            border-radius: 50%;
-            border: 1px solid rgba(255,255,255,0.02);
-            pointer-events: none;
         }
 
         /* ===== АДАПТИВ ===== */
         @media (max-width: 768px) {
             .right-panel { top: 1vh; right: 1vh; gap: 0.5vh; }
-            .top-info-style { font-size: 1.1vh; padding: 0.2vh 1vh; }
+            .top-info-style { font-size: 1vh; padding: 0.2vh 0.8vh; }
             .weapon-block { padding: 0.3vh 0.8vh; }
-            .weapon-png { width: 4vh; }
+            .weapon-png { width: 3.5vh; }
             .stats-block { width: 13vh; }
             .money-block { padding: 0.4vh 1vh; }
-            .money { font-size: 1.6vh; }
-            .modern-cefstudio-speed { bottom: 2vh; left: 2vh; }
-            .speed-bg { width: 18vh; height: 18vh; }
-            .speed-count { font-size: 3.6vh; margin-top: -1vh; }
-            .server-name { font-size: 2vh; }
-            .fuel-count { font-size: 1vh; }
-            .odometr-block { font-size: 1vh; }
+            .money { font-size: 1.5vh; }
+            .modern-cefstudio-speed { bottom: 2vh; right: 2vh; }
+            .speed-bg { width: 17vh; height: 17vh; }
+            .speed-count { font-size: 3.2vh; }
+            .server-name { font-size: 1.8vh; }
+            .left-panel { bottom: 2vh; left: 2vh; }
+            .keybind-btn { font-size: 0.9vh; }
+            .keybind-label { font-size: 1vh; }
         }
     </style>
 </head>
 <body>
 
-<!-- ===== SPEEDOMETER ===== -->
+<!-- ===== LEFT PANEL (KEYBINDS & LOCATION) ===== -->
+<div class="left-panel">
+    <!-- KEYBINDS -->
+    <div class="keybinds-container">
+        <div class="keybind-row">
+            <span class="keybind-btn">F1</span>
+            <span class="keybind-label">Помощь</span>
+        </div>
+        <div class="keybind-row">
+            <span class="keybind-btn">G</span>
+            <span class="keybind-label">Сесть пассажиром</span>
+        </div>
+        <div class="keybind-row">
+            <span class="keybind-btn">L</span>
+            <span class="keybind-label">Фары</span>
+        </div>
+        <div class="keybind-row">
+            <span class="keybind-btn">Q/E</span>
+            <span class="keybind-label">Поворотники</span>
+        </div>
+        <div class="keybind-row">
+            <span class="keybind-btn">M</span>
+            <span class="keybind-label">Карта</span>
+        </div>
+        <div class="keybind-row">
+            <span class="keybind-btn">C</span>
+            <span class="keybind-label">Меню транспорта</span>
+        </div>
+        <div class="keybind-row">
+            <span class="keybind-btn">CTRL</span>
+            <span class="keybind-label">Запустить/заглушить</span>
+        </div>
+        <div class="keybind-row">
+            <span class="keybind-btn">ЛКМ</span>
+            <span class="keybind-label">Гудок</span>
+        </div>
+    </div>
+
+    <!-- LOCATION BLOCK -->
+    <div class="location-block">
+        <svg class="location-icon" viewBox="0 0 24 24">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+        </svg>
+        <div class="location-text">
+            <span class="location-city" id="loc-city">г. Южный</span>
+            <span class="location-street" id="loc-street">Улица Маршала Воронова, 4</span>
+        </div>
+    </div>
+</div>
+
+<!-- ===== SPEEDOMETER (СПРАВА ВНИЗУ) ===== -->
 <div class="modern-cefstudio-speed" id="modern-cefstudio-speed">
     <div class="speed-bg">
-        <div class="speed-outer-ring"></div>
-        <div class="speed-inner-ring"></div>
-        <svg class="speed" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 167" stroke-linecap="round">
-            <path class="speed-meter-bg" d="M41 149.5a77 77 0 1 1 117.93 0" fill="none" stroke-dasharray="4" />
-            <path id="speed-meter" class="speed-meter" d="M41 149.5a77 77 0 1 1 117.93 0" fill="none" style="stroke-dasharray: 624.295, 504.295; stroke-dashoffset: 625;" />
+        <svg class="speed" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+            <path class="speed-meter-bg" d="M 40 160 A 75 75 0 1 1 160 160" />
+            <path id="speed-meter" class="speed-meter" d="M 40 160 A 75 75 0 1 1 160 160" stroke-dasharray="353" stroke-dashoffset="353" />
         </svg>
         <div class="speed-content">
             <div id="speed-count" class="speed-count">0</div>
             <div class="speed-kmh">КМ/Ч</div>
         </div>
         <div class="arrow-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="10" viewBox="0 0 17 12" fill="none">
-                <path id="left-arrow" class="left-arrow-anim" d="M6.09319 12V7.2H16.9634L17 4.788H6.09319V0L0 6L6.09319 12Z" fill="white" />
+            <svg viewBox="0 0 17 12">
+                <path id="left-arrow" class="left-arrow-anim" d="M6.09319 12V7.2H16.9634L17 4.788H6.09319V0L0 6L6.09319 12Z" />
             </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="10" viewBox="0 0 17 12" fill="none">
-                <path id="right-arrow" class="right-arrow-anim" d="M10.9068 -5.32684e-07L10.9068 4.8L0.0365607 4.8L4.1858e-07 7.212L10.9068 7.212L10.9068 12L17 6L10.9068 -5.32684e-07Z" fill="white" />
+            <svg viewBox="0 0 17 12">
+                <path id="right-arrow" class="right-arrow-anim" d="M10.9068 -5.32684e-07L10.9068 4.8L0.0365607 4.8L4.1858e-07 7.212L10.9068 7.212L10.9068 12L17 6L10.9068 -5.32684e-07Z" />
             </svg>
         </div>
         <div class="odometr-block">
-            <div id="speed-odometer" class="speed-odometer">000000</div>
+            <span id="speed-odometer">000000</span> км
         </div>
         <div class="fuel-count">
-            <svg class="fuel-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 20" fill="none">
-                <path d="M0 0H3C3.28 0 3.53 0.115789 3.71 0.305263L5.79 2.50526L6.59 1.67368C7 1.26316 7.5 1.05263 8 1.05263H14C14.5 1.05263 15 1.26316 15.41 1.67368L16.41 2.72632C16.8 3.1579 17 3.68421 17 4.21053V17.8947C17 18.4531 16.7893 18.9886 16.4142 19.3834C16.0391 19.7782 15.5304 20 15 20H5C4.46957 20 3.96086 19.7782 3.58579 19.3834C3.21071 18.9886 3 18.4531 3 17.8947V11.5789V10.5263V6.31579C3 5.78947 3.2 5.26316 3.59 4.83158L4.38 3.98947L2.59 2.10526H0V0ZM8 3.15789V5.26316H14V3.15789H8ZM8.41 9.47368L6.41 7.36842H5V8.85263L7 10.9579V14.3053L5 16.4105V17.8947H6.41L8.41 15.7895H11.59L13.59 17.8947H15V16.4105L13 14.3053V10.9579L15 8.85263V7.36842H13.59L11.59 9.47368H8.41ZM9 11.5789H11V13.6842H9V11.5789Z" fill="white" fill-opacity="0.6" />
+            <svg class="fuel-icon" viewBox="0 0 17 20">
+                <path d="M0 0H3C3.28 0 3.53 0.115789 3.71 0.305263L5.79 2.50526L6.59 1.67368C7 1.26316 7.5 1.05263 8 1.05263H14C14.5 1.05263 15 1.26316 15.41 1.67368L16.41 2.72632C16.8 3.1579 17 3.68421 17 4.21053V17.8947C17 18.4531 16.7893 18.9886 16.4142 19.3834C16.0391 19.7782 15.5304 20 15 20H5C4.46957 20 3.96086 19.7782 3.58579 19.3834C3.21071 18.9886 3 18.4531 3 17.8947V11.5789V10.5263V6.31579C3 5.78947 3.2 5.26316 3.59 4.83158L4.38 3.98947L2.59 2.10526H0V0Z" fill="white" />
             </svg>
             <span id="speed-fuel">0 л</span>
         </div>
@@ -388,7 +493,7 @@
         <!-- TOP INFO ROW -->
         <div class="top-info-row">
             <div class="top-info-style"><span id="time">00:00</span></div>
-            <div class="top-info-style"><span id="data">01.01.24</span></div>
+            <div class="top-info-style"><span id="data">01.01.26</span></div>
             <div class="top-info-style"><span id="s1">Player</span></div>
             <div class="top-info-style top-info-style-id"><span id="s2">0</span></div>
         </div>
@@ -402,23 +507,27 @@
         <!-- WEAPON -->
         <div class="weapon-block">
             <img id="weapon_id" class="weapon-png" src="icon/weapon/gun_0.png" alt="weapon">
-            <div id="weapon_ammo" class="weapon-ammo"></div>
+            <div id="weapon_ammo" class="weapon-ammo">0/0</div>
         </div>
 
         <!-- STATS -->
         <div class="stats-block">
             <div class="stat-item">
                 <img class="stat-icon" src="icon/hp.svg" alt="hp">
-                <div>
+                <div class="stat-info">
                     <div id="b1" class="stat-value">100</div>
-                    <div class="stat-bar"></div>
+                    <div class="stat-bar-bg">
+                        <div id="bar-hp" class="stat-bar-fill hp" style="width: 100%;"></div>
+                    </div>
                 </div>
             </div>
             <div class="stat-item">
                 <img class="stat-icon" src="icon/armour.svg" alt="armour">
-                <div>
+                <div class="stat-info">
                     <div id="b3" class="stat-value">0</div>
-                    <div class="stat-bar armour"></div>
+                    <div class="stat-bar-bg">
+                        <div id="bar-armour" class="stat-bar-fill armour" style="width: 0%;"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -426,16 +535,12 @@
         <!-- MONEY -->
         <div class="money-block">
             <div id="s3" class="money">
-                <img src="icon/cash.svg" alt="cash" style="width:2.6vh; height:auto;">
-                <span>0</span>
+                <img src="icon/cash.svg" alt="cash" style="width:2.4vh; height:auto;">
+                <span>$ 0</span>
             </div>
         </div>
     </div>
 </div>
-
-<style>
-body { background: transparent; overflow: hidden; user-select: none; }
-</style>
 
 <!-- ============================================================ -->
 <!-- JAVASCRIPT -->
@@ -446,166 +551,123 @@ document.onselectstart = test;
 document.oncontextmenu = test;
 function test() { return false; }
 
+// Эмуляция CEF в тестовом режиме
 if (typeof cef === 'undefined') {
     window.cef = {
         emit: function() { console.log('[CEF] emit', arguments); },
         on: function(event, cb) {
             console.log('[CEF] on', event);
             setTimeout(function() {
-                if (event === 'game:data:playerStats') cb(100, 100, 50, 0, 0, 0, 0, 0, 15000, 0);
-                if (event === 'hud:update:playerinfo') cb('TestPlayer', 1);
-                if (event === 'modern:speed:update') cb(12345, 42);
+                if (event === 'game:data:playerStats') cb(85, 100, 40, 0, 0, 24, 30, 150, 250000, 80);
+                if (event === 'hud:update:playerinfo') cb('Alexander_Green', 142);
+                if (event === 'modern:speed:update') cb(12450, 65);
                 if (event === 'modern:speed:visible') {
                     document.getElementById('modern-cefstudio-speed').classList.add('visible');
                 }
-            }, 1000);
+            }, 500);
         }
     };
-    console.log('[HUD] Тестовый режим (без CEF)');
+    console.log('[HUD] Тестовый режим');
     setTimeout(function() {
         document.getElementById('modern-cefstudio-speed').classList.add('visible');
-    }, 500);
+    }, 300);
 }
 
-var all_arrow = false;
 var left_arrow = false;
 var right_arrow = false;
 
+// Поворотники Q / E
 document.addEventListener('keyup', function (event) {
-    if (event.keyCode === 81) {
-        if (left_arrow == false) {
-            document.getElementById("left-arrow").style = "animation: arrow 0.6s infinite;";
-            document.getElementById("right-arrow").style = "animation: 0; animation-delay: 0;";
-            left_arrow = true;
-            right_arrow = false;
-        } else {
-            document.getElementById("left-arrow").style = "animation: 0; animation-delay: 0;";
-            document.getElementById("right-arrow").style = "animation: 0; animation-delay: 0;";
-            left_arrow = false;
-            right_arrow = false;
-        }
+    if (event.keyCode === 81) { // Q
+        left_arrow = !left_arrow;
+        right_arrow = false;
+        updateArrows();
+    }
+    if (event.keyCode === 69) { // E
+        right_arrow = !right_arrow;
+        left_arrow = false;
+        updateArrows();
     }
 });
 
-document.addEventListener('keyup', function (event) {
-    if (event.keyCode === 69) {
-        if (right_arrow == false) {
-            document.getElementById("right-arrow").style = "animation: arrow 0.6s infinite;";
-            document.getElementById("left-arrow").style = "animation: 0; animation-delay: 0;";
-            right_arrow = true;
-            left_arrow = false;
-        } else {
-            document.getElementById("right-arrow").style = "animation: 0; animation-delay: 0;";
-            document.getElementById("left-arrow").style = "animation: 0; animation-delay: 0;";
-            right_arrow = false;
-            left_arrow = false;
-        }
-    }
-});
+function updateArrows() {
+    const lArrow = document.getElementById("left-arrow");
+    const rArrow = document.getElementById("right-arrow");
+    
+    lArrow.classList.toggle('active', left_arrow);
+    rArrow.classList.toggle('active', right_arrow);
+}
 
 function zero_first_format(value) {
     return value < 10 ? '0' + value : value;
 }
 
-function dates() {
+function updateDateTime() {
     var now = new Date();
-    var day = zero_first_format(now.getDate());
-    var month = zero_first_format(now.getMonth() + 1);
-    var year = now.getFullYear();
-    document.getElementById('data').innerHTML = day + "." + month + "." + year;
+    document.getElementById('data').innerText = `${zero_first_format(now.getDate())}.${zero_first_format(now.getMonth() + 1)}.${now.getFullYear().toString().substr(-2)}`;
+    document.getElementById('time').innerText = `${zero_first_format(now.getHours())}:${zero_first_format(now.getMinutes())}`;
 }
 
-function times() {
-    var now = new Date();
-    var hours = zero_first_format(now.getHours());
-    var minutes = zero_first_format(now.getMinutes());
-    document.getElementById('time').innerHTML = hours + ":" + minutes;
-}
+setInterval(updateDateTime, 1000);
+updateDateTime();
 
-setInterval(function () {
-    dates();
-    times();
-}, 1000);
+function formatMoney(amount) {
+    return new Intl.NumberFormat('ru-RU').format(amount);
+}
 
 if (typeof cef !== 'undefined' && cef !== null) {
-    console.log('[HUD] CEF подключён, данные будут настоящими');
-
     cef.emit("game:hud:setComponentVisible", "interface", false);
     cef.emit("game:data:pollPlayerStats", true, 50);
 
     cef.on("modern:speed:arrow", (type) => {
-        if (type == 0) {
-            document.getElementById("left-arrow").style = "animation: 0; animation-delay: 0;";
-            document.getElementById("right-arrow").style = "animation: 0; animation-delay: 0;";
-        }
-        if (type == 1) {
-            document.getElementById("left-arrow").style = "animation: arrow 0.6s infinite;";
-            document.getElementById("right-arrow").style = "animation: arrow 0.6s infinite;";
-        }
+        left_arrow = (type === 1 || type === 3);
+        right_arrow = (type === 2 || type === 3);
+        updateArrows();
     });
 
     cef.on("modern:speed:update", (odometer_val, gas_val) => {
-        document.getElementById('speed-odometer').innerHTML = Math.round(odometer_val);
-        document.getElementById('speed-fuel').innerHTML = `
-            <svg class="fuel-icon" width="11" height="20" viewBox="0 0 17 20" fill="none">
-                <path d="M0 0H3C3.28 0 3.53 0.115789 3.71 0.305263L5.79 2.50526L6.59 1.67368C7 1.26316 7.5 1.05263 8 1.05263H14C14.5 1.05263 15 1.26316 15.41 1.67368L17 3.33684V16.3263C17 18.3579 15.36 20 13.33 20H3.67C1.64 20 0 18.3579 0 16.3263V0ZM2 2V16.3263C2 17.2526 2.75 18 3.67 18H13.33C14.25 18 15 17.2526 15 16.3263V5L13.59 3.58947C13.43 3.43158 13.22 3.33684 13 3.33684H8.41L7.2 4.58947C6.83 4.96842 6.32 5.18947 5.79 5.18947L3 2.24211V2H2Z" fill="white"/>
-            </svg> 
-            ${Math.round(gas_val)} л.`;
+        document.getElementById('speed-odometer').innerText = Math.round(odometer_val).toString().padStart(6, '0');
+        document.getElementById('speed-fuel').innerText = `${Math.round(gas_val)} л`;
     });
 
     cef.on('hud:update:playerinfo', (playername, playerid) => {
-        if (document.getElementById('s1')) {
-            document.getElementById('s1').innerText = `${playername}`;
-        }
-        if (document.getElementById('s2')) {
-            document.getElementById('s2').innerText = `${playerid}`;
-        }
+        if (document.getElementById('s1')) document.getElementById('s1').innerText = playername;
+        if (document.getElementById('s2')) document.getElementById('s2').innerText = playerid;
     });
-}
-
-if (typeof cef !== 'undefined' && cef !== null) {
-    cef.emit("game:hud:setComponentVisible", "interface", false);
-    cef.emit("game:data:pollPlayerStats", true, 50);
 
     cef.on("game:data:playerStats", (hp, max_hp, arm, breath, wanted, weapon, ammo, max_ammo, money, speed) => {
-        document.getElementById('b1').innerHTML = Math.round(hp);
-        document.getElementById('b3').innerHTML = Math.round(arm);
-        document.getElementById('s3').innerHTML = `<img src="icon/cash.svg" alt="cash" style="width:2.6vh;height:auto;filter:drop-shadow(0 0 8px rgba(255,215,0,0.2));"> ${formatt(money)}`;
+        // HP & Armour
+        var hpPercent = Math.min(100, Math.max(0, (hp / (max_hp || 100)) * 100));
+        var armPercent = Math.min(100, Math.max(0, arm));
+        
+        document.getElementById('b1').innerText = Math.round(hp);
+        document.getElementById('bar-hp').style.width = hpPercent + '%';
 
-        var weaponID = weapon;
-        var weaponAmmo = '';
-        if (weaponID !== '0') {
-            weaponAmmo = `${ammo}/${(max_ammo - ammo)}`;
-        }
+        document.getElementById('b3').innerText = Math.round(arm);
+        document.getElementById('bar-armour').style.width = armPercent + '%';
 
-        var speed_count = Math.round(speed * 1.4);
-        document.getElementById("speed-count").innerHTML = `${speed_count}`;
+        // Money
+        document.getElementById('s3').innerHTML = `
+            <img src="icon/cash.svg" alt="cash" style="width:2.4vh;height:auto;"> 
+            <span>$ ${formatMoney(money)}</span>`;
 
-        var meter_count = 838 + (speed * 3.77);
-        document.getElementById("speed-meter").style = `stroke-dasharray: 838; stroke-dashoffset: -${meter_count};`;
-
+        // Weapon
+        var weaponID = weapon || 0;
+        var weaponAmmo = (weaponID !== 0 && weaponID !== '0') ? `${ammo}/${max_ammo - ammo}` : '';
         document.getElementById('weapon_id').src = `icon/weapon/gun_${weaponID}.png`;
-        document.getElementById('weapon_ammo').innerHTML = weaponAmmo;
+        document.getElementById('weapon_ammo').innerText = weaponAmmo;
+
+        // Speedometer
+        var speed_count = Math.round(speed * 1.4);
+        document.getElementById("speed-count").innerText = speed_count;
+
+        // Circle Meter: Max length ~ 353
+        var maxMeter = 353;
+        var speedRatio = Math.min(speed_count / 300, 1); // 300 km/h max
+        var dashoffset = maxMeter - (maxMeter * speedRatio);
+        document.getElementById("speed-meter").style.strokeDashoffset = dashoffset;
     });
-}
 
-function formatt(i) {
-    var text_fmt = `${i}`;
-    var text_tmp = text_fmt;
-    var text_len = text_fmt.length;
-    var dots_count = 0;
-
-    for (var idx = 0; idx < (text_len - 1); idx++) {
-        if (text_tmp[idx] == '.') continue;
-        if (((text_len - (idx + 1)) % 3) == 0) {
-            dots_count++;
-            text_tmp = text_tmp.slice(0, idx + dots_count) + '.' + text_tmp.slice(idx + dots_count);
-        }
-    }
-    return text_tmp;
-}
-
-if (typeof cef !== 'undefined' && cef !== null) {
     cef.on("modern:speed:visible", () => {
         document.getElementById('modern-cefstudio-speed').classList.add('visible');
     });
@@ -613,18 +675,12 @@ if (typeof cef !== 'undefined' && cef !== null) {
     cef.on("modern:speed:hidden", () => {
         document.getElementById('modern-cefstudio-speed').classList.remove('visible');
     });
-}
 
-if (typeof cef !== 'undefined' && cef !== null) {
-    cef.on("modern:hud:visible", (type) => { });
-    cef.on("modern:hud:update", (b1, s1, s2) => {
-        document.getElementById('b2').innerHTML = Math.round(b1);
-        document.getElementById('s1').innerHTML = `${s1}`;
-        document.getElementById('s2').innerHTML = `${s2}`;
+    cef.on("hud:update:location", (city, street) => {
+        if (city) document.getElementById('loc-city').innerText = city;
+        if (street) document.getElementById('loc-street').innerText = street;
     });
 }
-
-console.log('[HUD] Готово!');
 </script>
 </body>
 </html>
