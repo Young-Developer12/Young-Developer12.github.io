@@ -302,14 +302,14 @@
             letter-spacing: 0.05vh;
         }
 
-        /* ===== LEFT HUD: KEYBINDS & LOCATION ===== */
+        /* ===== LEFT HUD: KEYBINDS & LOCATION (СПРАВА ОТ КАРТЫ) ===== */
         .left-panel {
             position: absolute;
             bottom: 3vh;
-            left: 3vh;
+            left: 28vh; /* Смещено вправо, чтобы стоять справа от круглой карты */
             display: flex;
             flex-direction: column;
-            gap: 1.5vh;
+            gap: 1.2vh;
             z-index: 10;
         }
 
@@ -317,10 +317,10 @@
         .keybinds-container {
             display: flex;
             flex-direction: column;
-            gap: 0.6vh;
+            gap: 0.5vh;
             background: rgba(0, 0, 0, 0.4);
-            padding: 1.2vh;
-            border-radius: 1vh;
+            padding: 1vh 1.2vh;
+            border-radius: 0.8vh;
             backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.05);
             width: fit-content;
@@ -328,16 +328,16 @@
         .keybind-row {
             display: flex;
             align-items: center;
-            gap: 1vh;
+            gap: 0.8vh;
         }
         .keybind-btn {
             background: rgba(255, 255, 255, 0.12);
             color: #fff;
-            font-size: 1.1vh;
+            font-size: 1vh;
             font-weight: 800;
-            padding: 0.3vh 0.7vh;
+            padding: 0.2vh 0.6vh;
             border-radius: 0.4vh;
-            min-width: 2.4vh;
+            min-width: 2.2vh;
             text-align: center;
             box-shadow: 0 2px 5px rgba(0,0,0,0.3);
             border: 1px solid rgba(255,255,255,0.15);
@@ -345,7 +345,7 @@
         }
         .keybind-label {
             color: rgba(255, 255, 255, 0.85);
-            font-size: 1.2vh;
+            font-size: 1.1vh;
             font-weight: 600;
             text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
@@ -354,16 +354,16 @@
         .location-block {
             display: flex;
             align-items: center;
-            gap: 1vh;
+            gap: 0.8vh;
             background: rgba(0, 0, 0, 0.55);
-            padding: 0.8vh 1.4vh;
+            padding: 0.6vh 1.2vh;
             border-radius: 0.8vh;
             backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.06);
             width: fit-content;
         }
         .location-icon {
-            width: 2vh;
+            width: 1.8vh;
             height: auto;
             fill: #e74c3c;
             filter: drop-shadow(0 0 6px rgba(231, 76, 60, 0.5));
@@ -374,13 +374,13 @@
         }
         .location-city {
             color: #fff;
-            font-size: 1.4vh;
+            font-size: 1.3vh;
             font-weight: 800;
             line-height: 1.1;
         }
         .location-street {
             color: rgba(255, 255, 255, 0.5);
-            font-size: 1.1vh;
+            font-size: 1vh;
             font-weight: 500;
         }
 
@@ -397,7 +397,7 @@
             .speed-bg { width: 17vh; height: 17vh; }
             .speed-count { font-size: 3.2vh; }
             .server-name { font-size: 1.8vh; }
-            .left-panel { bottom: 2vh; left: 2vh; }
+            .left-panel { bottom: 2vh; left: 22vh; }
             .keybind-btn { font-size: 0.9vh; }
             .keybind-label { font-size: 1vh; }
         }
@@ -405,7 +405,7 @@
 </head>
 <body>
 
-<!-- ===== LEFT PANEL (KEYBINDS & LOCATION) ===== -->
+<!-- ===== LEFT PANEL (KEYBINDS & LOCATION - СПРАВА ОТ КАРТЫ) ===== -->
 <div class="left-panel">
     <!-- KEYBINDS -->
     <div class="keybinds-container">
@@ -551,7 +551,6 @@ document.onselectstart = test;
 document.oncontextmenu = test;
 function test() { return false; }
 
-// Эмуляция CEF в тестовом режиме
 if (typeof cef === 'undefined') {
     window.cef = {
         emit: function() { console.log('[CEF] emit', arguments); },
@@ -576,7 +575,6 @@ if (typeof cef === 'undefined') {
 var left_arrow = false;
 var right_arrow = false;
 
-// Поворотники Q / E
 document.addEventListener('keyup', function (event) {
     if (event.keyCode === 81) { // Q
         left_arrow = !left_arrow;
@@ -636,7 +634,6 @@ if (typeof cef !== 'undefined' && cef !== null) {
     });
 
     cef.on("game:data:playerStats", (hp, max_hp, arm, breath, wanted, weapon, ammo, max_ammo, money, speed) => {
-        // HP & Armour
         var hpPercent = Math.min(100, Math.max(0, (hp / (max_hp || 100)) * 100));
         var armPercent = Math.min(100, Math.max(0, arm));
         
@@ -646,24 +643,20 @@ if (typeof cef !== 'undefined' && cef !== null) {
         document.getElementById('b3').innerText = Math.round(arm);
         document.getElementById('bar-armour').style.width = armPercent + '%';
 
-        // Money
         document.getElementById('s3').innerHTML = `
             <img src="icon/cash.svg" alt="cash" style="width:2.4vh;height:auto;"> 
             <span>$ ${formatMoney(money)}</span>`;
 
-        // Weapon
         var weaponID = weapon || 0;
         var weaponAmmo = (weaponID !== 0 && weaponID !== '0') ? `${ammo}/${max_ammo - ammo}` : '';
         document.getElementById('weapon_id').src = `icon/weapon/gun_${weaponID}.png`;
         document.getElementById('weapon_ammo').innerText = weaponAmmo;
 
-        // Speedometer
         var speed_count = Math.round(speed * 1.4);
         document.getElementById("speed-count").innerText = speed_count;
 
-        // Circle Meter: Max length ~ 353
         var maxMeter = 353;
-        var speedRatio = Math.min(speed_count / 300, 1); // 300 km/h max
+        var speedRatio = Math.min(speed_count / 300, 1);
         var dashoffset = maxMeter - (maxMeter * speedRatio);
         document.getElementById("speed-meter").style.strokeDashoffset = dashoffset;
     });
