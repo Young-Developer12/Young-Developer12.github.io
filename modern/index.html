@@ -195,7 +195,7 @@
             text-shadow: 0 0 10px rgba(46, 204, 113, 0.3);
         }
 
-        /* ===== SPEEDOMETER (СПРАВА ВНИЗУ) ===== */
+        /* ===== SPEEDOMETER ===== */
         .modern-cefstudio-speed {
             position: absolute;
             bottom: 3vh;
@@ -302,11 +302,11 @@
             letter-spacing: 0.05vh;
         }
 
-        /* ===== LEFT HUD: KEYBINDS & LOCATION (СПРАВА ОТ КАРТЫ) ===== */
+        /* ===== LEFT PANEL ===== */
         .left-panel {
             position: absolute;
             bottom: 3vh;
-            left: 28vh; /* Смещено вправо, чтобы стоять справа от круглой карты */
+            left: 28vh;
             display: flex;
             flex-direction: column;
             gap: 1.2vh;
@@ -405,45 +405,19 @@
 </head>
 <body>
 
-<!-- ===== LEFT PANEL (KEYBINDS & LOCATION - СПРАВА ОТ КАРТЫ) ===== -->
+<!-- ===== LEFT PANEL ===== -->
 <div class="left-panel">
-    <!-- KEYBINDS -->
     <div class="keybinds-container">
-        <div class="keybind-row">
-            <span class="keybind-btn">F1</span>
-            <span class="keybind-label">Помощь</span>
-        </div>
-        <div class="keybind-row">
-            <span class="keybind-btn">G</span>
-            <span class="keybind-label">Сесть пассажиром</span>
-        </div>
-        <div class="keybind-row">
-            <span class="keybind-btn">L</span>
-            <span class="keybind-label">Фары</span>
-        </div>
-        <div class="keybind-row">
-            <span class="keybind-btn">Q/E</span>
-            <span class="keybind-label">Поворотники</span>
-        </div>
-        <div class="keybind-row">
-            <span class="keybind-btn">M</span>
-            <span class="keybind-label">Карта</span>
-        </div>
-        <div class="keybind-row">
-            <span class="keybind-btn">C</span>
-            <span class="keybind-label">Меню транспорта</span>
-        </div>
-        <div class="keybind-row">
-            <span class="keybind-btn">CTRL</span>
-            <span class="keybind-label">Запустить/заглушить</span>
-        </div>
-        <div class="keybind-row">
-            <span class="keybind-btn">ЛКМ</span>
-            <span class="keybind-label">Гудок</span>
-        </div>
+        <div class="keybind-row"><span class="keybind-btn">F1</span><span class="keybind-label">Помощь</span></div>
+        <div class="keybind-row"><span class="keybind-btn">G</span><span class="keybind-label">Сесть пассажиром</span></div>
+        <div class="keybind-row"><span class="keybind-btn">L</span><span class="keybind-label">Фары</span></div>
+        <div class="keybind-row"><span class="keybind-btn">Q/E</span><span class="keybind-label">Поворотники</span></div>
+        <div class="keybind-row"><span class="keybind-btn">M</span><span class="keybind-label">Карта</span></div>
+        <div class="keybind-row"><span class="keybind-btn">C</span><span class="keybind-label">Меню транспорта</span></div>
+        <div class="keybind-row"><span class="keybind-btn">CTRL</span><span class="keybind-label">Запустить/заглушить</span></div>
+        <div class="keybind-row"><span class="keybind-btn">ЛКМ</span><span class="keybind-label">Гудок</span></div>
     </div>
 
-    <!-- LOCATION BLOCK -->
     <div class="location-block">
         <svg class="location-icon" viewBox="0 0 24 24">
             <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
@@ -455,7 +429,7 @@
     </div>
 </div>
 
-<!-- ===== SPEEDOMETER (СПРАВА ВНИЗУ) ===== -->
+<!-- ===== SPEEDOMETER ===== -->
 <div class="modern-cefstudio-speed" id="modern-cefstudio-speed">
     <div class="speed-bg">
         <svg class="speed" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
@@ -489,8 +463,6 @@
 <!-- ===== MAIN HUD ===== -->
 <div id="modern-cefstudio" class="modern-cefstudio">
     <div class="right-panel">
-        
-        <!-- TOP INFO ROW -->
         <div class="top-info-row">
             <div class="top-info-style"><span id="time">00:00</span></div>
             <div class="top-info-style"><span id="data">01.01.26</span></div>
@@ -498,22 +470,19 @@
             <div class="top-info-style top-info-style-id"><span id="s2">0</span></div>
         </div>
 
-        <!-- SERVER NAME -->
         <div class="server-name">
             <span class="white">ELEGANT</span>
             <span class="dark-blue">ROLEPLAY</span>
         </div>
 
-        <!-- WEAPON -->
         <div class="weapon-block">
-            <img id="weapon_id" class="weapon-png" src="icon/weapon/gun_0.png" alt="weapon">
+            <img id="weapon_id" class="weapon-png" src="icon/weapon/gun_0.png" alt="weapon" onerror="this.style.opacity='0'">
             <div id="weapon_ammo" class="weapon-ammo">0/0</div>
         </div>
 
-        <!-- STATS -->
         <div class="stats-block">
             <div class="stat-item">
-                <img class="stat-icon" src="icon/hp.svg" alt="hp">
+                <img class="stat-icon" src="icon/hp.svg" alt="hp" onerror="this.style.opacity='0'">
                 <div class="stat-info">
                     <div id="b1" class="stat-value">100</div>
                     <div class="stat-bar-bg">
@@ -522,7 +491,7 @@
                 </div>
             </div>
             <div class="stat-item">
-                <img class="stat-icon" src="icon/armour.svg" alt="armour">
+                <img class="stat-icon" src="icon/armour.svg" alt="armour" onerror="this.style.opacity='0'">
                 <div class="stat-info">
                     <div id="b3" class="stat-value">0</div>
                     <div class="stat-bar-bg">
@@ -532,49 +501,25 @@
             </div>
         </div>
 
-        <!-- MONEY -->
         <div class="money-block">
             <div id="s3" class="money">
-                <img src="icon/cash.svg" alt="cash" style="width:2.4vh; height:auto;">
+                <img src="icon/cash.svg" alt="cash" style="width:2.4vh; height:auto;" onerror="this.style.opacity='0'">
                 <span>$ 0</span>
             </div>
         </div>
     </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- JAVASCRIPT -->
-<!-- ============================================================ -->
 <script>
-document.ondragstart = test;
-document.onselectstart = test;
-document.oncontextmenu = test;
-function test() { return false; }
-
-if (typeof cef === 'undefined') {
-    window.cef = {
-        emit: function() { console.log('[CEF] emit', arguments); },
-        on: function(event, cb) {
-            console.log('[CEF] on', event);
-            setTimeout(function() {
-                if (event === 'game:data:playerStats') cb(85, 100, 40, 0, 0, 24, 30, 150, 250000, 80);
-                if (event === 'hud:update:playerinfo') cb('Alexander_Green', 142);
-                if (event === 'modern:speed:update') cb(12450, 65);
-                if (event === 'modern:speed:visible') {
-                    document.getElementById('modern-cefstudio-speed').classList.add('visible');
-                }
-            }, 500);
-        }
-    };
-    console.log('[HUD] Тестовый режим');
-    setTimeout(function() {
-        document.getElementById('modern-cefstudio-speed').classList.add('visible');
-    }, 300);
-}
+// Запрет стандарного выделения и контекстного меню
+document.ondragstart = () => false;
+document.onselectstart = () => false;
+document.oncontextmenu = () => false;
 
 var left_arrow = false;
 var right_arrow = false;
 
+// Подворотники с клавиатуры для тестов
 document.addEventListener('keyup', function (event) {
     if (event.keyCode === 81) { // Q
         left_arrow = !left_arrow;
@@ -591,9 +536,8 @@ document.addEventListener('keyup', function (event) {
 function updateArrows() {
     const lArrow = document.getElementById("left-arrow");
     const rArrow = document.getElementById("right-arrow");
-    
-    lArrow.classList.toggle('active', left_arrow);
-    rArrow.classList.toggle('active', right_arrow);
+    if (lArrow) lArrow.classList.toggle('active', left_arrow);
+    if (rArrow) rArrow.classList.toggle('active', right_arrow);
 }
 
 function zero_first_format(value) {
@@ -602,10 +546,11 @@ function zero_first_format(value) {
 
 function updateDateTime() {
     var now = new Date();
-    document.getElementById('data').innerText = `${zero_first_format(now.getDate())}.${zero_first_format(now.getMonth() + 1)}.${now.getFullYear().toString().substr(-2)}`;
-    document.getElementById('time').innerText = `${zero_first_format(now.getHours())}:${zero_first_format(now.getMinutes())}`;
+    var dataEl = document.getElementById('data');
+    var timeEl = document.getElementById('time');
+    if (dataEl) dataEl.innerText = `${zero_first_format(now.getDate())}.${zero_first_format(now.getMonth() + 1)}.${now.getFullYear().toString().substr(-2)}`;
+    if (timeEl) timeEl.innerText = `${zero_first_format(now.getHours())}:${zero_first_format(now.getMinutes())}`;
 }
-
 setInterval(updateDateTime, 1000);
 updateDateTime();
 
@@ -613,9 +558,14 @@ function formatMoney(amount) {
     return new Intl.NumberFormat('ru-RU').format(amount);
 }
 
-if (typeof cef !== 'undefined' && cef !== null) {
-    cef.emit("game:hud:setComponentVisible", "interface", false);
-    cef.emit("game:data:pollPlayerStats", true, 50);
+// РЕГИСТРАЦИЯ СОБЫТИЙ СЕРВЕРА/ИГРЫ
+function initHudListeners() {
+    if (typeof cef === 'undefined' || !cef) return;
+
+    try {
+        cef.emit("game:hud:setComponentVisible", "interface", false);
+        cef.emit("game:data:pollPlayerStats", true, 50);
+    } catch(e) {}
 
     cef.on("modern:speed:arrow", (type) => {
         left_arrow = (type === 1 || type === 3);
@@ -624,55 +574,114 @@ if (typeof cef !== 'undefined' && cef !== null) {
     });
 
     cef.on("modern:speed:update", (odometer_val, gas_val) => {
-        document.getElementById('speed-odometer').innerText = Math.round(odometer_val).toString().padStart(6, '0');
-        document.getElementById('speed-fuel').innerText = `${Math.round(gas_val)} л`;
+        const odo = document.getElementById('speed-odometer');
+        const fuel = document.getElementById('speed-fuel');
+        if (odo) odo.innerText = Math.round(odometer_val).toString().padStart(6, '0');
+        if (fuel) fuel.innerText = `${Math.round(gas_val)} л`;
     });
 
     cef.on('hud:update:playerinfo', (playername, playerid) => {
-        if (document.getElementById('s1')) document.getElementById('s1').innerText = playername;
-        if (document.getElementById('s2')) document.getElementById('s2').innerText = playerid;
+        const s1 = document.getElementById('s1');
+        const s2 = document.getElementById('s2');
+        if (s1) s1.innerText = playername;
+        if (s2) s2.innerText = playerid;
     });
 
     cef.on("game:data:playerStats", (hp, max_hp, arm, breath, wanted, weapon, ammo, max_ammo, money, speed) => {
         var hpPercent = Math.min(100, Math.max(0, (hp / (max_hp || 100)) * 100));
         var armPercent = Math.min(100, Math.max(0, arm));
         
-        document.getElementById('b1').innerText = Math.round(hp);
-        document.getElementById('bar-hp').style.width = hpPercent + '%';
+        const b1 = document.getElementById('b1');
+        const barHp = document.getElementById('bar-hp');
+        const b3 = document.getElementById('b3');
+        const barArmour = document.getElementById('bar-armour');
+        const s3 = document.getElementById('s3');
 
-        document.getElementById('b3').innerText = Math.round(arm);
-        document.getElementById('bar-armour').style.width = armPercent + '%';
+        if (b1) b1.innerText = Math.round(hp);
+        if (barHp) barHp.style.width = hpPercent + '%';
 
-        document.getElementById('s3').innerHTML = `
-            <img src="icon/cash.svg" alt="cash" style="width:2.4vh;height:auto;"> 
-            <span>$ ${formatMoney(money)}</span>`;
+        if (b3) b3.innerText = Math.round(arm);
+        if (barArmour) barArmour.style.width = armPercent + '%';
+
+        if (s3) {
+            s3.innerHTML = `
+                <img src="icon/cash.svg" alt="cash" style="width:2.4vh;height:auto;" onerror="this.style.opacity='0'"> 
+                <span>$ ${formatMoney(money)}</span>`;
+        }
 
         var weaponID = weapon || 0;
         var weaponAmmo = (weaponID !== 0 && weaponID !== '0') ? `${ammo}/${max_ammo - ammo}` : '';
-        document.getElementById('weapon_id').src = `icon/weapon/gun_${weaponID}.png`;
-        document.getElementById('weapon_ammo').innerText = weaponAmmo;
+        const wImg = document.getElementById('weapon_id');
+        const wAmmo = document.getElementById('weapon_ammo');
+        
+        if (wImg) wImg.src = `icon/weapon/gun_${weaponID}.png`;
+        if (wAmmo) wAmmo.innerText = weaponAmmo;
 
         var speed_count = Math.round(speed * 1.4);
-        document.getElementById("speed-count").innerText = speed_count;
+        const spCount = document.getElementById("speed-count");
+        if (spCount) spCount.innerText = speed_count;
 
         var maxMeter = 353;
         var speedRatio = Math.min(speed_count / 300, 1);
         var dashoffset = maxMeter - (maxMeter * speedRatio);
-        document.getElementById("speed-meter").style.strokeDashoffset = dashoffset;
+        const spMeter = document.getElementById("speed-meter");
+        if (spMeter) spMeter.style.strokeDashoffset = dashoffset;
     });
 
     cef.on("modern:speed:visible", () => {
-        document.getElementById('modern-cefstudio-speed').classList.add('visible');
+        const spEl = document.getElementById('modern-cefstudio-speed');
+        if (spEl) spEl.classList.add('visible');
     });
 
     cef.on("modern:speed:hidden", () => {
-        document.getElementById('modern-cefstudio-speed').classList.remove('visible');
+        const spEl = document.getElementById('modern-cefstudio-speed');
+        if (spEl) spEl.classList.remove('visible');
     });
 
     cef.on("hud:update:location", (city, street) => {
-        if (city) document.getElementById('loc-city').innerText = city;
-        if (street) document.getElementById('loc-street').innerText = street;
+        const cEl = document.getElementById('loc-city');
+        const sEl = document.getElementById('loc-street');
+        if (cEl && city) cEl.innerText = city;
+        if (sEl && street) sEl.innerText = street;
     });
+}
+
+// ТЕСТОВЫЙ РЕЖИМ (Если открыто в обычном браузере без CEF)
+if (typeof cef === 'undefined' || !window.cef) {
+    console.log('[HUD] Запуск Эмулятора CEF');
+    
+    let eventHandlers = {};
+    
+    window.cef = {
+        emit: function(name, ...args) {
+            console.log('[CEF Emit]:', name, args);
+        },
+        on: function(event, callback) {
+            eventHandlers[event] = callback;
+            console.log('[CEF Subscribed]:', event);
+        },
+        // Метод для эмуляции отправки событий из игры
+        trigger: function(event, ...args) {
+            if (eventHandlers[event]) {
+                eventHandlers[event](...args);
+            }
+        }
+    };
+
+    initHudListeners();
+
+    // Заполнение тестовыми данными через 300мс
+    setTimeout(() => {
+        window.cef.trigger('hud:update:playerinfo', 'Alexander_Green', 142);
+        window.cef.trigger('game:data:playerStats', 85, 100, 40, 0, 0, 24, 30, 150, 250000, 80);
+        window.cef.trigger('modern:speed:update', 12450, 65);
+        window.cef.trigger('hud:update:location', 'г. Арзамас', 'Проспект Ленина, 12');
+        window.cef.trigger('modern:speed:visible');
+    }, 300);
+
+} else {
+    // Боевой режим (внутри игры)
+    initHudListeners();
 }
 </script>
 </body>
